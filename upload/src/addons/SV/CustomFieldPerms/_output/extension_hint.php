@@ -3,29 +3,29 @@
 // ################## THIS IS A GENERATED FILE ##################
 // DO NOT EDIT DIRECTLY. EDIT THE CLASS EXTENSIONS IN THE CONTROL PANEL.
 
-namespace SV\CustomFieldPerms\XenForo\Admin\View\UserField
+namespace SV\CustomFieldPerms\XF\Admin\View\UserField
 {
-	class XFCP_Edit extends \XenForo\Admin\View\UserField\Edit {}
+	class XFCP_Edit extends \XF\Admin\View\UserField\Edit {}
 }
 
-namespace SV\CustomFieldPerms\XenForo\Entity
+namespace SV\CustomFieldPerms\XF\Entity
 {
-	class XFCP_UserField extends \XenForo\Entity\UserField {}
+	class XFCP_UserField extends \XF\Entity\UserField {}
 }
 
-namespace SV\CustomFieldPerms\XenForo\Public\View\Account
+namespace SV\CustomFieldPerms\XF\Public\View\Account
 {
-	class XFCP_ContactPreferences extends \XenForo\Public\View\Account\ContactPreferences {}
-	class XFCP_PersonalDetails extends \XenForo\Public\View\Account\PersonalDetails {}
-	class XFCP_Preferences extends \XenForo\Public\View\Account\Preferences {}
+	class XFCP_ContactPreferences extends \XF\Public\View\Account\ContactPreferences {}
+	class XFCP_PersonalDetails extends \XF\Public\View\Account\PersonalDetails {}
+	class XFCP_Preferences extends \XF\Public\View\Account\Preferences {}
 }
 
-namespace SV\CustomFieldPerms\XenForo\Public\View\Member
+namespace SV\CustomFieldPerms\XF\Public\View\Member
 {
-	class XFCP_View extends \XenForo\Public\View\Member\View {}
+	class XFCP_View extends \XF\Public\View\Member\View {}
 }
 
-namespace SV\CustomFieldPerms\XenForo\Repository
+namespace SV\CustomFieldPerms\XF\Repository
 {
-	class XFCP_UserField extends \XenForo\Repository\UserField {}
+	class XFCP_UserField extends \XF\Repository\UserField {}
 }
