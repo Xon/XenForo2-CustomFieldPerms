@@ -1,0 +1,62 @@
+{
+    "sedo_cuf_perms_enable_perms.txt": {
+        "global_cache": false,
+        "version_id": 1,
+        "version_string": "1.0.0",
+        "hash": "2faec1f9f8cc7f8f40d521c4dd574f49"
+    },
+    "sedo_cuf_perms_enable_perms_desc.txt": {
+        "global_cache": false,
+        "version_id": 1,
+        "version_string": "1.0.0",
+        "hash": "61487642c8d0749fdacf32d67e4fe850"
+    },
+    "sedo_cuf_perms_input.txt": {
+        "global_cache": false,
+        "version_id": 1,
+        "version_string": "1.0.0",
+        "hash": "9a41b3493729d80e97c53d17b24af3d2"
+    },
+    "sedo_cuf_perms_input_desc.txt": {
+        "global_cache": false,
+        "version_id": 1,
+        "version_string": "1.0.0",
+        "hash": "857ee2258f43d88f72e81ef8630c8e8f"
+    },
+    "sedo_cuf_perms_output_pp.txt": {
+        "global_cache": false,
+        "version_id": 1,
+        "version_string": "1.0.0",
+        "hash": "e72f6fe38af16ec0a4e92168cc460ff9"
+    },
+    "sedo_cuf_perms_output_pp_desc.txt": {
+        "global_cache": false,
+        "version_id": 1,
+        "version_string": "1.0.0",
+        "hash": "48520dce3328638b6048df6f51594ae5"
+    },
+    "sedo_cuf_perms_output_ui.txt": {
+        "global_cache": false,
+        "version_id": 1,
+        "version_string": "1.0.0",
+        "hash": "5cb20e0a949c33f69c87327284c11f6c"
+    },
+    "sedo_cuf_perms_output_ui_desc.txt": {
+        "global_cache": false,
+        "version_id": 1,
+        "version_string": "1.0.0",
+        "hash": "aa45f1a5581f31cffede6c36da9b6dcc"
+    },
+    "sedo_cuf_perms_select_usergroups.txt": {
+        "global_cache": false,
+        "version_id": 1,
+        "version_string": "1.0.0",
+        "hash": "981bedee66ca7c5426c521568ed10d45"
+    },
+    "sedo_cuf_perms_select_usergroups_desc.txt": {
+        "global_cache": false,
+        "version_id": 1,
+        "version_string": "1.0.0",
+        "hash": "81273d2455be807280274714ea77373c"
+    }
+}

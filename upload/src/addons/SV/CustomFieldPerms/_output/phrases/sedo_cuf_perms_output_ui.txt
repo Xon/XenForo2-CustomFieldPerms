@@ -1,0 +1,2 @@
+Output permissions in message user info
+

@@ -1,0 +1,23 @@
+{
+    "XenForo-Admin-View-UserField-Edit_SV-CustomFieldPerms-XenForo-Admin-View-UserField-Edit.json": {
+        "hash": "f368ff6c3202157062d31d16fabf91f1"
+    },
+    "XenForo-Entity-UserField_SV-CustomFieldPerms-XenForo-Entity-UserField.json": {
+        "hash": "e1b30a170fa7f6278c383b3971f0f107"
+    },
+    "XenForo-Public-View-Account-ContactPreferences_SV-CustomFieldPerms-XenForo-Public-View-Account-ContactPreferences.json": {
+        "hash": "5785675035318038a7cc8cf12682497c"
+    },
+    "XenForo-Public-View-Account-PersonalDetails_SV-CustomFieldPerms-XenForo-Public-View-Account-PersonalDetails.json": {
+        "hash": "f610662093378ad902e80911b4aee17d"
+    },
+    "XenForo-Public-View-Account-Preferences_SV-CustomFieldPerms-XenForo-Public-View-Account-Preferences.json": {
+        "hash": "ee0f9c4056d06bb2c605b547dbe946fe"
+    },
+    "XenForo-Public-View-Member-View_SV-CustomFieldPerms-XenForo-Public-View-Member-View.json": {
+        "hash": "d3da2a25718acc69eafacb355b444fd5"
+    },
+    "XenForo-Repository-UserField_SV-CustomFieldPerms-XenForo-Repository-UserField.json": {
+        "hash": "5783921b174a9c6bff90d460e104b056"
+    }
+}

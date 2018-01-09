@@ -1,0 +1,6 @@
+{
+    "from_class": "XenForo\\Admin\\View\\UserField\\Edit",
+    "to_class": "SV\\CustomFieldPerms\\XenForo\\Admin\\View\\UserField\\Edit",
+    "execute_order": 10,
+    "active": true
+}

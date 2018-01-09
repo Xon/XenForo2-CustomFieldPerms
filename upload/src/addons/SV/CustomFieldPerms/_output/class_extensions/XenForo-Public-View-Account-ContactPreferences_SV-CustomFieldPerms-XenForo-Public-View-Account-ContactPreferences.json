@@ -1,0 +1,6 @@
+{
+    "from_class": "XenForo\\Public\\View\\Account\\ContactPreferences",
+    "to_class": "SV\\CustomFieldPerms\\XenForo\\Public\\View\\Account\\ContactPreferences",
+    "execute_order": 10,
+    "active": true
+}

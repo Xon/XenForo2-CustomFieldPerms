@@ -1,0 +1,58 @@
+<li>
+	<fieldset>
+	<xen:controlunit label="{xen:phrase sedo_cuf_perms_input}">
+		<xen:html>
+			<xen:selectunit name="sedo_perms_input_enable" value="{$field.sedo_perms_input_enable}" label="{xen:phrase sedo_cuf_perms_enable_perms}">
+				<xen:option label="{xen:phrase no}" value="0" />
+				<xen:option label="{xen:phrase yes}" value="1" />
+				<xen:explain>{xen:phrase sedo_cuf_perms_enable_perms_desc}</xen:explain>
+			</xen:selectunit>
+			<xen:checkboxunit label="{xen:phrase sedo_cuf_perms_select_usergroups}:">
+				<xen:foreach loop="$field.sedo_perms_input_val" value="$list">
+					<xen:option name="sedo_perms_input_val[]" value="{$list.value}" selected="{$list.selected}">{$list.label}</xen:option>
+				</xen:foreach>
+				<xen:explain>{xen:phrase sedo_cuf_perms_select_usergroups_desc}</xen:explain>
+			</xen:checkboxunit>			
+		</xen:html>
+		<xen:explain>{xen:phrase sedo_cuf_perms_input_desc}</xen:explain>
+	</xen:controlunit>
+	</fieldset>
+
+	<fieldset>
+	<xen:controlunit label="{xen:phrase sedo_cuf_perms_output_pp}">
+		<xen:html>
+			<xen:selectunit name="sedo_perms_output_pp_enable" value="{$field.sedo_perms_output_pp_enable}" label="{xen:phrase sedo_cuf_perms_enable_perms}">
+				<xen:option label="{xen:phrase no}" value="0" />
+				<xen:option label="{xen:phrase yes}" value="1" />
+				<xen:explain>{xen:phrase sedo_cuf_perms_enable_perms_desc}</xen:explain>
+			</xen:selectunit>
+			<xen:checkboxunit label="{xen:phrase sedo_cuf_perms_select_usergroups}:">
+				<xen:foreach loop="$field.sedo_perms_output_pp_val" value="$list">
+					<xen:option name="sedo_perms_output_pp_val[]" value="{$list.value}" selected="{$list.selected}">{$list.label}</xen:option>
+				</xen:foreach>
+				<xen:explain>{xen:phrase sedo_cuf_perms_select_usergroups_desc}</xen:explain>
+			</xen:checkboxunit>			
+		</xen:html>
+		<xen:explain>{xen:phrase sedo_cuf_perms_output_pp_desc}</xen:explain>
+	</xen:controlunit>
+	</fieldset>
+
+	<fieldset>
+	<xen:controlunit label="{xen:phrase sedo_cuf_perms_output_ui}">
+		<xen:html>
+			<xen:selectunit name="sedo_perms_output_ui_enable" value="{$field.sedo_perms_output_ui_enable}" label="{xen:phrase sedo_cuf_perms_enable_perms}">
+				<xen:option label="{xen:phrase no}" value="0" />
+				<xen:option label="{xen:phrase yes}" value="1" />
+				<xen:explain>{xen:phrase sedo_cuf_perms_enable_perms_desc}</xen:explain>
+			</xen:selectunit>
+			<xen:checkboxunit label="{xen:phrase sedo_cuf_perms_select_usergroups}:">
+				<xen:foreach loop="$field.sedo_perms_output_ui_val" value="$list">
+					<xen:option name="sedo_perms_output_ui_val[]" value="{$list.value}" selected="{$list.selected}">{$list.label}</xen:option>
+				</xen:foreach>
+				<xen:explain>{xen:phrase sedo_cuf_perms_select_usergroups_desc}</xen:explain>
+			</xen:checkboxunit>			
+		</xen:html>
+		<xen:explain>{xen:phrase sedo_cuf_perms_output_ui_desc}</xen:explain>
+	</xen:controlunit>
+	</fieldset>
+</li>

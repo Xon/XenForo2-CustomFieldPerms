@@ -1,0 +1,6 @@
+{
+    "from_class": "XenForo\\Repository\\UserField",
+    "to_class": "SV\\CustomFieldPerms\\XenForo\\Repository\\UserField",
+    "execute_order": 10,
+    "active": true
+}
