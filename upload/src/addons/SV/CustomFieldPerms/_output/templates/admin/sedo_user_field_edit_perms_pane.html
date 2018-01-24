@@ -1,58 +1,89 @@
-<li>
-	<fieldset>
-	<xen:controlunit label="{xen:phrase sedo_cuf_perms_input}">
-		<xen:html>
-			<xen:selectunit name="sedo_perms_input_enable" value="{$field.sedo_perms_input_enable}" label="{xen:phrase sedo_cuf_perms_enable_perms}">
-				<xen:option label="{xen:phrase no}" value="0" />
-				<xen:option label="{xen:phrase yes}" value="1" />
-				<xen:explain>{xen:phrase sedo_cuf_perms_enable_perms_desc}</xen:explain>
-			</xen:selectunit>
-			<xen:checkboxunit label="{xen:phrase sedo_cuf_perms_select_usergroups}:">
-				<xen:foreach loop="$field.sedo_perms_input_val" value="$list">
-					<xen:option name="sedo_perms_input_val[]" value="{$list.value}" selected="{$list.selected}">{$list.label}</xen:option>
-				</xen:foreach>
-				<xen:explain>{xen:phrase sedo_cuf_perms_select_usergroups_desc}</xen:explain>
-			</xen:checkboxunit>			
-		</xen:html>
-		<xen:explain>{xen:phrase sedo_cuf_perms_input_desc}</xen:explain>
-	</xen:controlunit>
+<h3 class="block-formSectionHeader">
+	<span class="collapseTrigger collapseTrigger--block" data-xf-click="toggle" data-target="< :up:next">
+		<span class="block-formSectionHeader-aligner">{{ phrase('sedo_cuf_perms') }}</span>
+	</span>
+</h3>
+
+<div class="block-body block-body--collapsible">
+    <fieldset>
+        <h4 class="block-formSectionHeader">{{ phrase('sedo_cuf_perms_input') }}</h4>
+        <p class="explain">{{ phrase('sedo_cuf_perms_input_desc') }}</p>
+
+        <xf:selectrow name="sedo_perms_input_enable"
+                      value="{$field.sedo_perms_input_enable}"
+                      label="{{ phrase('sedo_cuf_perms_enable_perms') }}"
+                      explain="{{ phrase('sedo_cuf_perms_enable_perms_desc') }}"
+        >
+				<xf:option label="{{ phrase('no') }}" value="0" />
+				<xf:option label="{{ phrase('yes') }}" value="1" />
+        </xf:selectrow>
+
+        <xf:checkboxrow
+                label="{{ phrase('sedo_cuf_perms_select_usergroups') }}"
+                explain="{{ phrase('sedo_cuf_perms_select_usergroups_desc') }}"
+        >
+            <xf:foreach loop="$field.sedo_perms_input_val" value="$list">
+                <xf:option name="sedo_perms_input_val[]"
+                           value="{$list.value}"
+                           selected="{$list.selected}"
+                           label="{$list.label}"
+                           hint="" />
+            </xf:foreach>
+        </xf:checkboxrow>
 	</fieldset>
 
 	<fieldset>
-	<xen:controlunit label="{xen:phrase sedo_cuf_perms_output_pp}">
-		<xen:html>
-			<xen:selectunit name="sedo_perms_output_pp_enable" value="{$field.sedo_perms_output_pp_enable}" label="{xen:phrase sedo_cuf_perms_enable_perms}">
-				<xen:option label="{xen:phrase no}" value="0" />
-				<xen:option label="{xen:phrase yes}" value="1" />
-				<xen:explain>{xen:phrase sedo_cuf_perms_enable_perms_desc}</xen:explain>
-			</xen:selectunit>
-			<xen:checkboxunit label="{xen:phrase sedo_cuf_perms_select_usergroups}:">
-				<xen:foreach loop="$field.sedo_perms_output_pp_val" value="$list">
-					<xen:option name="sedo_perms_output_pp_val[]" value="{$list.value}" selected="{$list.selected}">{$list.label}</xen:option>
-				</xen:foreach>
-				<xen:explain>{xen:phrase sedo_cuf_perms_select_usergroups_desc}</xen:explain>
-			</xen:checkboxunit>			
-		</xen:html>
-		<xen:explain>{xen:phrase sedo_cuf_perms_output_pp_desc}</xen:explain>
-	</xen:controlunit>
+        <h4 class="block-formSectionHeader">{{ phrase('sedo_cuf_perms_output_pp') }}</h4>
+        <p class="explain">{{ phrase('sedo_cuf_perms_output_pp_desc') }}</p>
+
+        <xf:selectrow name="sedo_perms_output_pp_enable"
+                      value="{$field.sedo_perms_output_pp_enable}"
+                      label="{{ phrase('sedo_cuf_perms_enable_perms') }}"
+                      explain="{{ phrase('sedo_cuf_perms_enable_perms_desc') }}"
+        >
+            <xf:option label="{{ phrase('no') }}" value="0" />
+            <xf:option label="{{ phrase('yes') }}" value="1" />
+        </xf:selectrow>
+
+        <xf:checkboxrow
+                label="{{ phrase('sedo_cuf_perms_select_usergroups') }}"
+                explain="{{ phrase('sedo_cuf_perms_select_usergroups_desc') }}"
+        >
+            <xf:foreach loop="$field.sedo_perms_output_pp_val" value="$list">
+                <xf:option name="sedo_perms_output_pp_val[]"
+                           value="{$list.value}"
+                           selected="{$list.selected}"
+                           label="{$list.label}"
+                           hint="" />
+            </xf:foreach>
+        </xf:checkboxrow>
 	</fieldset>
 
 	<fieldset>
-	<xen:controlunit label="{xen:phrase sedo_cuf_perms_output_ui}">
-		<xen:html>
-			<xen:selectunit name="sedo_perms_output_ui_enable" value="{$field.sedo_perms_output_ui_enable}" label="{xen:phrase sedo_cuf_perms_enable_perms}">
-				<xen:option label="{xen:phrase no}" value="0" />
-				<xen:option label="{xen:phrase yes}" value="1" />
-				<xen:explain>{xen:phrase sedo_cuf_perms_enable_perms_desc}</xen:explain>
-			</xen:selectunit>
-			<xen:checkboxunit label="{xen:phrase sedo_cuf_perms_select_usergroups}:">
-				<xen:foreach loop="$field.sedo_perms_output_ui_val" value="$list">
-					<xen:option name="sedo_perms_output_ui_val[]" value="{$list.value}" selected="{$list.selected}">{$list.label}</xen:option>
-				</xen:foreach>
-				<xen:explain>{xen:phrase sedo_cuf_perms_select_usergroups_desc}</xen:explain>
-			</xen:checkboxunit>			
-		</xen:html>
-		<xen:explain>{xen:phrase sedo_cuf_perms_output_ui_desc}</xen:explain>
-	</xen:controlunit>
-	</fieldset>
-</li>
+        <h4 class="block-formSectionHeader">{{ phrase('sedo_cuf_perms_output_ui') }}</h4>
+        <p class="explain">{{ phrase('sedo_cuf_perms_output_ui_desc') }}</p>
+
+        <xf:selectrow name="sedo_perms_output_ui_enable"
+                      value="{$field.sedo_perms_output_ui_enable}"
+                      label="{{ phrase('sedo_cuf_perms_enable_perms') }}"
+                      explain="{{ phrase('sedo_cuf_perms_enable_perms_desc') }}"
+        >
+            <xf:option label="{{ phrase('no') }}" value="0" />
+            <xf:option label="{{ phrase('yes') }}" value="1" />
+        </xf:selectrow>
+
+        <xf:checkboxrow
+                label="{{ phrase('sedo_cuf_perms_select_usergroups') }}"
+                explain="{{ phrase('sedo_cuf_perms_select_usergroups_desc') }}"
+        >
+            <xf:foreach loop="$field.sedo_perms_output_ui_val" value="$list">
+                <xf:option name="sedo_perms_output_ui_val[]"
+                           value="{$list.value}"
+                           selected="{$list.selected}"
+                           label="{$list.label}"
+                           hint="" />
+            </xf:foreach>
+        </xf:checkboxrow>
+    </fieldset>
+
+</div>

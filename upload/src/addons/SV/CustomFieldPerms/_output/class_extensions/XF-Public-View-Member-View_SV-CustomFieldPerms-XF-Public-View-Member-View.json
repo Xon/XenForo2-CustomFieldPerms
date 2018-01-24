@@ -1,6 +1,0 @@
-{
-    "from_class": "XenForo\\Public\\View\\Member\\View",
-    "to_class": "SV\\CustomFieldPerms\\XenForo\\Public\\View\\Member\\View",
-    "execute_order": 10,
-    "active": true
-}

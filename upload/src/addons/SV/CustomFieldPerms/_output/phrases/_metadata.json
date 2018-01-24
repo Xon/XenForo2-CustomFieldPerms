@@ -1,4 +1,10 @@
 {
+    "sedo_cuf_perms.txt": {
+        "global_cache": false,
+        "version_id": 2000000,
+        "version_string": "2.0.0",
+        "hash": "ea3e9bcffbab22a5428583ddb2753167"
+    },
     "sedo_cuf_perms_enable_perms.txt": {
         "global_cache": false,
         "version_id": 1,

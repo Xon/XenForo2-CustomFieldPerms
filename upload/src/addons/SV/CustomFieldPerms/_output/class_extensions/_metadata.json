@@ -1,0 +1,23 @@
+{
+    "XF-Admin-Controller-UserField_SV-CustomFieldPerms-XF-Admin-Controller-UserField.json": {
+        "hash": "a88a2fa5e070cfdff3a691ebd8bed3d8"
+    },
+    "XF-Entity-UserField_SV-CustomFieldPerms-XF-Entity-UserField.json": {
+        "hash": "9c04293479e2db354d0c9063a21fa644"
+    },
+    "XF-Entity-UserProfile_SV-CustomFieldPerms-XF-Entity-UserProfile.json": {
+        "hash": "845b28a8a29d0583638de8359899dc5c"
+    },
+    "XF-Pub-Controller-Account_SV-CustomFieldPerms-XF-Pub-Controller-Account.json": {
+        "hash": "b810b90bbc22df1a9a9982732a259ca0"
+    },
+    "XF-Pub-Controller-Member_SV-CustomFieldPerms-XF-Pub-Controller-Member.json": {
+        "hash": "d36530e67b705eb6bc61519deed67b2e"
+    },
+    "XF-Pub-Controller-Thread_SV-CustomFieldPerms-XF-Pub-Controller-Thread.json": {
+        "hash": "16d45d610a7e6599cfb25f84fa158cd7"
+    },
+    "XF-Repository-UserField_SV-CustomFieldPerms-XF-Repository-UserField.json": {
+        "hash": "261864a3f1aa11393f7005e96c2ea5e4"
+    }
+}

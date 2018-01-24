@@ -3,26 +3,22 @@
 // ################## THIS IS A GENERATED FILE ##################
 // DO NOT EDIT DIRECTLY. EDIT THE CLASS EXTENSIONS IN THE CONTROL PANEL.
 
-namespace SV\CustomFieldPerms\XF\Admin\View\UserField
+namespace SV\CustomFieldPerms\XF\Admin\Controller
 {
-	class XFCP_Edit extends \XF\Admin\View\UserField\Edit {}
+	class XFCP_UserField extends \XF\Admin\Controller\UserField {}
 }
 
 namespace SV\CustomFieldPerms\XF\Entity
 {
 	class XFCP_UserField extends \XF\Entity\UserField {}
+	class XFCP_UserProfile extends \XF\Entity\UserProfile {}
 }
 
-namespace SV\CustomFieldPerms\XF\Public\View\Account
+namespace SV\CustomFieldPerms\XF\Pub\Controller
 {
-	class XFCP_ContactPreferences extends \XF\Public\View\Account\ContactPreferences {}
-	class XFCP_PersonalDetails extends \XF\Public\View\Account\PersonalDetails {}
-	class XFCP_Preferences extends \XF\Public\View\Account\Preferences {}
-}
-
-namespace SV\CustomFieldPerms\XF\Public\View\Member
-{
-	class XFCP_View extends \XF\Public\View\Member\View {}
+	class XFCP_Account extends \XF\Pub\Controller\Account {}
+	class XFCP_Member extends \XF\Pub\Controller\Member {}
+	class XFCP_Thread extends \XF\Pub\Controller\Thread {}
 }
 
 namespace SV\CustomFieldPerms\XF\Repository

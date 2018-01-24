@@ -1,0 +1,9 @@
+{
+    "template": "base_custom_field_edit",
+    "description": "",
+    "execution_order": 10,
+    "enabled": true,
+    "action": "str_replace",
+    "find": "<xf:submitrow",
+    "replace": "<xf:include template=\"sedo_user_field_edit_perms_pane\"/>\n\n$0"
+}

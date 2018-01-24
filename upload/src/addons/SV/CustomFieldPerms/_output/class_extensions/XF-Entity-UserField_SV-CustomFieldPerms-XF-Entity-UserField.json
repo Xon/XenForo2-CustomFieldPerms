@@ -1,6 +1,6 @@
 {
-    "from_class": "XenForo\\Entity\\UserField",
-    "to_class": "SV\\CustomFieldPerms\\XenForo\\Entity\\UserField",
+    "from_class": "XF\\Entity\\UserField",
+    "to_class": "SV\\CustomFieldPerms\\XF\\Entity\\UserField",
     "execute_order": 10,
     "active": true
 }

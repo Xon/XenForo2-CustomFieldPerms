@@ -1,0 +1,9 @@
+{
+    "template": "member_about",
+    "description": "",
+    "execution_order": 10,
+    "enabled": true,
+    "action": "str_replace",
+    "find": "arg-additionalFilters=\"{{ ['profile'] }}\"",
+    "replace": "arg-additionalFilters=\"{{ $additionalFilters ? $additionalFilters : ['profile'] }}\"\n"
+}
