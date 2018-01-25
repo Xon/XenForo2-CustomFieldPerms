@@ -12,7 +12,9 @@ class Account extends XFCP_Account {
 	{
 		$reply = parent::actionPreferences();
 
-		Common::applyUsergroupCustomFieldPermissionFilters($reply, 'sedo_perms_input');
+		/** @var \SV\CustomFieldPerms\XF\Repository\UserField $repo */
+		$repo = \XF::repository('XF:UserField');
+		$repo->applyUsergroupCustomFieldPermissionFilters($reply, 'sedo_perms_input');
 
 		return $reply;
 	}
@@ -25,7 +27,9 @@ class Account extends XFCP_Account {
 	{
 		$reply = parent::actionAccountDetails();
 
-		Common::applyUsergroupCustomFieldPermissionFilters($reply, 'sedo_perms_input');
+		/** @var \SV\CustomFieldPerms\XF\Repository\UserField $repo */
+		$repo = \XF::repository('XF:UserField');
+		$repo->applyUsergroupCustomFieldPermissionFilters($reply, 'sedo_perms_input');
 
 		return $reply;
 	}

@@ -23,4 +23,31 @@ class UserField extends XFCP_UserField {
 		return $result;
 	}
 
+	/**
+	 * Insert additionalFilters into a reply.
+	 * These are then passed in to the custom_fields_macro via a template modification.
+	 *
+	 * @param $reply
+	 * @param $key
+	 */
+	public function applyUsergroupCustomFieldPermissionFilters(&$reply, $key, $supplementaryFilters=[]) {
+		if ($reply instanceof \XF\Mvc\Reply\View) {
+			$visitorUserGroups = array_merge(
+				array(\XF::visitor()->user_group_id),
+				\XF::visitor()->secondary_group_ids
+			);
+			$reply->setParam(
+				'additionalFilters',
+				array_merge(
+					array(
+						'check_usergroup_perms' => array(
+							$visitorUserGroups, $key
+						)
+					),
+					$supplementaryFilters
+				)
+			);
+		}
+	}
+
 }

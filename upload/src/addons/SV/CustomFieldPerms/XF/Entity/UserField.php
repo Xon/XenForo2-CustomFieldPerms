@@ -21,7 +21,7 @@ class UserField extends XFCP_UserField
 		$structure = parent::getStructure($structure);
 
 		foreach (Setup::$tables1['xf_user_field'] as $column => $details) {
-			$structure->columns += [$column => ['type'=>$details['entity_type'], 'default' => $details['entity_default']]];
+			$structure->columns[ $column ] = ['type'=>$details['entity_type'], 'default' => $details['entity_default']];
 		}
 
 		return $structure;

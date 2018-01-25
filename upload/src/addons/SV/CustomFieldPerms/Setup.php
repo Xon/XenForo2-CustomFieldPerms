@@ -33,7 +33,7 @@ class Setup extends AbstractSetup
 			{
 				foreach ($columns as $column => $details) {
 					$col = $table->addColumn($column, $details['type']);
-					if (isset($details['default'])) {
+					if (array_key_exists('default', $details)) {
 						$col->setDefault($details['default']);
 					}
 				}

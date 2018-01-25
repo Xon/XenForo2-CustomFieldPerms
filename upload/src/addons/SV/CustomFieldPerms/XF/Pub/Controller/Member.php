@@ -2,6 +2,7 @@
 
 namespace SV\CustomFieldPerms\XF\Pub\Controller;
 
+use SV\CustomFieldPerms\XF\Repository\UserField;
 use XF\Mvc\ParameterBag;
 
 class Member extends XFCP_Member {
@@ -9,7 +10,13 @@ class Member extends XFCP_Member {
 	{
 		$reply = parent::actionAbout($params);
 
-		Common::applyUsergroupCustomFieldPermissionFilters($reply, 'sedo_perms_output_pp', ['profile']);
+		/** @var \SV\CustomFieldPerms\XF\Repository\UserField $repo */
+		$repo = \XF::repository('XF:UserField');
+		$repo->applyUsergroupCustomFieldPermissionFilters(
+			$reply,
+			'sedo_perms_output_pp',
+			['profile']
+		);
 
 		return $reply;
 	}
