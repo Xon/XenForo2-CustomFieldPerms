@@ -20,9 +20,9 @@ class Setup extends AbstractSetup
 			'sedo_perms_input_enable'		=> array('type'=>'tinyint unsigned', 'default'=>0, 'entity_type'=>\XF\Mvc\Entity\Entity::UINT, 'entity_default'=>0, 'field_type'=>'uint'),
 			'sedo_perms_output_pp_enable'	=> array('type'=>'tinyint unsigned', 'default'=>0, 'entity_type'=>\XF\Mvc\Entity\Entity::UINT, 'entity_default'=>0, 'field_type'=>'uint'),
 			'sedo_perms_output_ui_enable'	=> array('type'=>'tinyint unsigned', 'default'=>0, 'entity_type'=>\XF\Mvc\Entity\Entity::UINT, 'entity_default'=>0, 'field_type'=>'uint'),
-			'sedo_perms_input_val'			=> array('type'=>'blob', 'entity_type'=>\XF\Mvc\Entity\Entity::SERIALIZED, 'entity_default'=>'', 'field_type'=>'array'),
-			'sedo_perms_output_pp_val'		=> array('type'=>'blob', 'entity_type'=>\XF\Mvc\Entity\Entity::SERIALIZED, 'entity_default'=>'', 'field_type'=>'array'),
-			'sedo_perms_output_ui_val'		=> array('type'=>'blob', 'entity_type'=>\XF\Mvc\Entity\Entity::SERIALIZED, 'entity_default'=>'', 'field_type'=>'array'),
+			'sedo_perms_input_val'			=> array('type'=>'blob', 'default'=>null, 'nullable'=>true, 'entity_type'=>\XF\Mvc\Entity\Entity::SERIALIZED, 'entity_default'=>'', 'field_type'=>'array'),
+			'sedo_perms_output_pp_val'		=> array('type'=>'blob', 'default'=>null, 'nullable'=>true, 'entity_type'=>\XF\Mvc\Entity\Entity::SERIALIZED, 'entity_default'=>'', 'field_type'=>'array'),
+			'sedo_perms_output_ui_val'		=> array('type'=>'blob', 'default'=>null, 'nullable'=>true, 'entity_type'=>\XF\Mvc\Entity\Entity::SERIALIZED, 'entity_default'=>'', 'field_type'=>'array'),
 		),
 	);
 
@@ -33,6 +33,9 @@ class Setup extends AbstractSetup
 			{
 				foreach ($columns as $column => $details) {
 					$col = $table->addColumn($column, $details['type']);
+					if (isset($details['nullable'])) {
+					    $col->nullable($details['nullable']);
+                    }
 					if (array_key_exists('default', $details)) {
 						$col->setDefault($details['default']);
 					}
