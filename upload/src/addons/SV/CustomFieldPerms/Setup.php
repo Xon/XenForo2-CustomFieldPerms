@@ -49,6 +49,11 @@ class Setup extends AbstractSetup
         }
     }
 
+    public function upgrade2000000Step1()
+    {
+        $this->installStep1();
+    }
+
     public function uninstallStep1()
     {
         foreach (self::$tables1 as $table => $columns)
@@ -59,5 +64,27 @@ class Setup extends AbstractSetup
             }
             );
         }
+    }
+
+    public function uninstallStep2()
+    {
+        $this->rebuildCache();
+    }
+
+    public function postInstall(array &$stateChanges)
+    {
+        $this->rebuildCache();
+    }
+
+    public function postUpgrade($previousVersion, array &$stateChanges)
+    {
+        $this->rebuildCache();
+    }
+
+    public function rebuildCache()
+    {
+        /** @var \XF\Repository\UserField $userFieldRepo */
+        $userFieldRepo = \XF::app()->repository('XF:UserField');
+        $userFieldRepo->rebuildFieldCache();
     }
 }
