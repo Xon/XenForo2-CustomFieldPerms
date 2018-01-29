@@ -1,9 +1,0 @@
-{
-    "template": "account_details",
-    "description": "",
-    "execution_order": 10,
-    "enabled": true,
-    "action": "str_replace",
-    "find": "<xf:macro template=\"custom_fields_macros\" name=\"custom_fields_edit\"",
-    "replace": "$0 arg-additionalFilters=\"{$additionalFilters}\" "
-}

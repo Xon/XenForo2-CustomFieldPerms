@@ -1,14 +1,5 @@
 {
     "admin/sedo_user_field_edit_perms_pane.json": {
         "hash": "9458afaee7a61b8499201d82c38aa837"
-    },
-    "public/account_pref_custom_fields_permissions_macros.json": {
-        "hash": "fe46ec28cb793e9ab89fafe7bc0b7282"
-    },
-    "public/custom_fields_permissions_macros.json": {
-        "hash": "e195a201c071d6248337d9a30db6a374"
-    },
-    "public/member_about_additional_filter_custom_fields.json": {
-        "hash": "af464277db19573538f1eeccfcf3dd42"
     }
 }

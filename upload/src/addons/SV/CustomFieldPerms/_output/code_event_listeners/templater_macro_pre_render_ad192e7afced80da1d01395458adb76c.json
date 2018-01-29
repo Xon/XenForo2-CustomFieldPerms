@@ -1,0 +1,9 @@
+{
+    "event_id": "templater_macro_pre_render",
+    "execute_order": 10,
+    "callback_class": "SV\\CustomFieldPerms\\Listener",
+    "callback_method": "customFieldsEdit",
+    "active": true,
+    "hint": "public:custom_fields_macros:custom_fields_edit",
+    "description": "public:custom_fields_macros:custom_fields_edit"
+}
