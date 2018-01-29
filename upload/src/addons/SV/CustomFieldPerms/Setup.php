@@ -8,6 +8,7 @@ use XF\AddOn\StepRunnerUninstallTrait;
 use XF\AddOn\StepRunnerUpgradeTrait;
 use XF\Db\Schema\Alter;
 use XF\Db\Schema\Create;
+use XF\Mvc\Entity\Entity;
 
 class Setup extends AbstractSetup
 {
@@ -17,12 +18,12 @@ class Setup extends AbstractSetup
 
     public static $tables1 = [
         'xf_user_field' => [
-            'sedo_perms_input_enable'     => ['type' => 'tinyint unsigned', 'default' => 0, 'entity_type' => \XF\Mvc\Entity\Entity::UINT, 'entity_default' => 0, 'field_type' => 'uint'],
-            'sedo_perms_output_pp_enable' => ['type' => 'tinyint unsigned', 'default' => 0, 'entity_type' => \XF\Mvc\Entity\Entity::UINT, 'entity_default' => 0, 'field_type' => 'uint'],
-            'sedo_perms_output_ui_enable' => ['type' => 'tinyint unsigned', 'default' => 0, 'entity_type' => \XF\Mvc\Entity\Entity::UINT, 'entity_default' => 0, 'field_type' => 'uint'],
-            'sedo_perms_input_val'        => ['type' => 'blob', 'default' => null, 'nullable' => true, 'entity_type' => \XF\Mvc\Entity\Entity::SERIALIZED, 'entity_default' => '', 'field_type' => 'array'],
-            'sedo_perms_output_pp_val'    => ['type' => 'blob', 'default' => null, 'nullable' => true, 'entity_type' => \XF\Mvc\Entity\Entity::SERIALIZED, 'entity_default' => '', 'field_type' => 'array'],
-            'sedo_perms_output_ui_val'    => ['type' => 'blob', 'default' => null, 'nullable' => true, 'entity_type' => \XF\Mvc\Entity\Entity::SERIALIZED, 'entity_default' => '', 'field_type' => 'array'],
+            'sedo_perms_input_enable'     => ['type' => 'tinyint unsigned', 'default' => 0, 'entity_type' => Entity::UINT, 'entity_default' => 0, 'field_type' => 'uint'],
+            'sedo_perms_output_pp_enable' => ['type' => 'tinyint unsigned', 'default' => 0, 'entity_type' => Entity::UINT, 'entity_default' => 0, 'field_type' => 'uint'],
+            'sedo_perms_output_ui_enable' => ['type' => 'tinyint unsigned', 'default' => 0, 'entity_type' => Entity::UINT, 'entity_default' => 0, 'field_type' => 'uint'],
+            'sedo_perms_input_val'        => ['type' => 'blob', 'default' => null, 'nullable' => true, 'entity_type' => Entity::SERIALIZED, 'entity_default' => '', 'field_type' => 'array'],
+            'sedo_perms_output_pp_val'    => ['type' => 'blob', 'default' => null, 'nullable' => true, 'entity_type' => Entity::SERIALIZED, 'entity_default' => '', 'field_type' => 'array'],
+            'sedo_perms_output_ui_val'    => ['type' => 'blob', 'default' => null, 'nullable' => true, 'entity_type' => Entity::SERIALIZED, 'entity_default' => '', 'field_type' => 'array'],
         ],
     ];
 

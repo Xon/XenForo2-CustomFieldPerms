@@ -17,7 +17,7 @@ class UserProfile extends XFCP_UserProfile
 
         $set->getDefinitionSet()->addFilter(
             'check_usergroup_perms', function (array $field, $usergroups, $keyWithPerms) {
-            if (isset($field[$keyWithPerms . '_enable']) && $field[$keyWithPerms . '_enable'])
+            if (!empty($field[$keyWithPerms . '_enable']))
             {
                 $permittedUsergroups = $field[$keyWithPerms . '_val'];
 
