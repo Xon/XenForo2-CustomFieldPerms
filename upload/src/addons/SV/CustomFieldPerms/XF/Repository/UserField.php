@@ -2,13 +2,12 @@
 
 namespace SV\CustomFieldPerms\XF\Repository;
 
-use XF\Mvc\Reply\View;
-
 class UserField extends XFCP_UserField
 {
+    protected $svVisitorGroupIds = [];
+
     /**
-     * Insert additionalFilters into a reply.
-     * These are then passed in to the custom_fields_macro via a template modification.
+     * Insert additionalFilters for various custom_fields_macro arguments
      *
      * @param array  $arguments
      * @param string $key
@@ -20,10 +19,14 @@ class UserField extends XFCP_UserField
             return;
         }
 
-        $visitorUserGroups = array_merge(
-            [\XF::visitor()->user_group_id],
-            \XF::visitor()->secondary_group_ids
-        );
+        $user = \XF::visitor();
+        if (!isset($this->visitorGroupIds[$user->user_id]))
+        {
+            $this->svVisitorGroupIds[$user->user_id] = array_merge(
+                [$user->user_group_id],
+                array_map('intval', $user->secondary_group_ids)
+            );
+        }
 
         if (!isset($arguments['additionalFilters']))
         {
@@ -35,7 +38,7 @@ class UserField extends XFCP_UserField
                 $arguments['additionalFilters'],
                 [
                     'check_usergroup_perms' => [
-                        $visitorUserGroups, $key
+                        $this->svVisitorGroupIds[$user->user_id], $key
                     ]
                 ]
             );
