@@ -1,1 +1,1 @@
-Select which usergroups can access this custom user field
+Select which usergroups can access this custom field
