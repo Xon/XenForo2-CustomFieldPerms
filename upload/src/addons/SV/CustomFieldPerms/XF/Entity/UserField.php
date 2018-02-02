@@ -3,12 +3,13 @@
 namespace SV\CustomFieldPerms\XF\Entity;
 
 use SV\CustomFieldPerms\Setup;
+use SV\CustomFieldPerms\IFieldPerm;
 use XF\Mvc\Entity\Structure;
 
 /*
  * Extends \XF\Entity\UserField
  */
-class UserField extends XFCP_UserField
+class UserField extends XFCP_UserField implements IFieldPerm
 {
     /**
      * Insert additional columns into UserField
