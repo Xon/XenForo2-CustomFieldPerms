@@ -13,8 +13,3 @@ namespace SV\CustomFieldPerms\XF\Entity
 	class XFCP_UserField extends \XF\Entity\UserField {}
 	class XFCP_UserProfile extends \XF\Entity\UserProfile {}
 }
-
-namespace SV\CustomFieldPerms\XF\Repository
-{
-	class XFCP_UserField extends \XF\Repository\UserField {}
-}

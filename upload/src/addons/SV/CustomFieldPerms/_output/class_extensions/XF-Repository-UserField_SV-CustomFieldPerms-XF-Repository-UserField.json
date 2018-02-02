@@ -1,6 +1,0 @@
-{
-    "from_class": "XF\\Repository\\UserField",
-    "to_class": "SV\\CustomFieldPerms\\XF\\Repository\\UserField",
-    "execute_order": 10,
-    "active": true
-}
