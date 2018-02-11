@@ -1,6 +1,6 @@
 {
     "event_id": "templater_macro_pre_render",
-    "execute_order": 10,
+    "execute_order": 6108,
     "callback_class": "SV\\CustomFieldPerms\\Listener",
     "callback_method": "customFieldsViewValues",
     "active": true,

@@ -1,7 +1,7 @@
 {
     "template": "base_custom_field_edit",
     "description": "",
-    "execution_order": 10,
+    "execution_order": 6108,
     "enabled": true,
     "action": "str_replace",
     "find": "<xf:submitrow",

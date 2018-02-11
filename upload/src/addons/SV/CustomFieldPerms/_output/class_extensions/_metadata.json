@@ -1,11 +1,11 @@
 {
     "XF-Admin-Controller-UserField_SV-CustomFieldPerms-XF-Admin-Controller-UserField.json": {
-        "hash": "a88a2fa5e070cfdff3a691ebd8bed3d8"
+        "hash": "8bd65579d07e2814428e29f08974591d"
     },
     "XF-Entity-UserField_SV-CustomFieldPerms-XF-Entity-UserField.json": {
-        "hash": "9c04293479e2db354d0c9063a21fa644"
+        "hash": "c39203fd19b2ae301a518418fe3bec14"
     },
     "XF-Entity-UserProfile_SV-CustomFieldPerms-XF-Entity-UserProfile.json": {
-        "hash": "845b28a8a29d0583638de8359899dc5c"
+        "hash": "7e525e25fe37a54cb0b91eb666ae69fb"
     }
 }

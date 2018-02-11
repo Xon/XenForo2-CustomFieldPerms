@@ -1,6 +1,6 @@
 {
     "from_class": "XF\\Entity\\UserField",
     "to_class": "SV\\CustomFieldPerms\\XF\\Entity\\UserField",
-    "execute_order": 10,
+    "execute_order": 6108,
     "active": true
 }
