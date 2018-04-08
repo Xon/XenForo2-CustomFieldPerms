@@ -17,14 +17,22 @@ class Setup extends AbstractSetup
     use StepRunnerUninstallTrait;
 
     public static $tables1 = [
-        'xf_user_field' => [
-            'sedo_perms_input_enable'     => ['type' => 'tinyint unsigned', 'default' => 0, 'entity_type' => Entity::UINT, 'entity_default' => 0, 'field_type' => 'uint'],
-            'sedo_perms_output_pp_enable' => ['type' => 'tinyint unsigned', 'default' => 0, 'entity_type' => Entity::UINT, 'entity_default' => 0, 'field_type' => 'uint'],
-            'sedo_perms_output_ui_enable' => ['type' => 'tinyint unsigned', 'default' => 0, 'entity_type' => Entity::UINT, 'entity_default' => 0, 'field_type' => 'uint'],
-            'sedo_perms_input_val'        => ['type' => 'blob', 'default' => null, 'nullable' => true, 'entity_type' => Entity::SERIALIZED, 'entity_default' => '', 'field_type' => 'array'],
-            'sedo_perms_output_pp_val'    => ['type' => 'blob', 'default' => null, 'nullable' => true, 'entity_type' => Entity::SERIALIZED, 'entity_default' => '', 'field_type' => 'array'],
-            'sedo_perms_output_ui_val'    => ['type' => 'blob', 'default' => null, 'nullable' => true, 'entity_type' => Entity::SERIALIZED, 'entity_default' => '', 'field_type' => 'array'],
-        ],
+		'xf_user_field' => [
+			'sedo_perms_input_enable'     => ['type' => 'tinyint unsigned', 'default' => 0, 'entity_type' => Entity::UINT, 'entity_default' => 0, 'field_type' => 'uint'],
+			'sedo_perms_output_pp_enable' => ['type' => 'tinyint unsigned', 'default' => 0, 'entity_type' => Entity::UINT, 'entity_default' => 0, 'field_type' => 'uint'],
+			'sedo_perms_output_ui_enable' => ['type' => 'tinyint unsigned', 'default' => 0, 'entity_type' => Entity::UINT, 'entity_default' => 0, 'field_type' => 'uint'],
+			'sedo_perms_input_val'        => ['type' => 'blob', 'default' => null, 'nullable' => true, 'entity_type' => Entity::SERIALIZED, 'entity_default' => '', 'field_type' => 'array'],
+			'sedo_perms_output_pp_val'    => ['type' => 'blob', 'default' => null, 'nullable' => true, 'entity_type' => Entity::SERIALIZED, 'entity_default' => '', 'field_type' => 'array'],
+			'sedo_perms_output_ui_val'    => ['type' => 'blob', 'default' => null, 'nullable' => true, 'entity_type' => Entity::SERIALIZED, 'entity_default' => '', 'field_type' => 'array'],
+		],
+		'xf_thread_field' => [
+			'sedo_perms_input_enable'     => ['type' => 'tinyint unsigned', 'default' => 0, 'entity_type' => Entity::UINT, 'entity_default' => 0, 'field_type' => 'uint'],
+			'sedo_perms_output_pp_enable' => ['type' => 'tinyint unsigned', 'default' => 0, 'entity_type' => Entity::UINT, 'entity_default' => 0, 'field_type' => 'uint'],
+			'sedo_perms_output_ui_enable' => ['type' => 'tinyint unsigned', 'default' => 0, 'entity_type' => Entity::UINT, 'entity_default' => 0, 'field_type' => 'uint'],
+			'sedo_perms_input_val'        => ['type' => 'blob', 'default' => null, 'nullable' => true, 'entity_type' => Entity::SERIALIZED, 'entity_default' => '', 'field_type' => 'array'],
+			'sedo_perms_output_pp_val'    => ['type' => 'blob', 'default' => null, 'nullable' => true, 'entity_type' => Entity::SERIALIZED, 'entity_default' => '', 'field_type' => 'array'],
+			'sedo_perms_output_ui_val'    => ['type' => 'blob', 'default' => null, 'nullable' => true, 'entity_type' => Entity::SERIALIZED, 'entity_default' => '', 'field_type' => 'array'],
+		],
     ];
 
     public function installStep1()
@@ -61,8 +69,8 @@ class Setup extends AbstractSetup
         {
             $this->schemaManager()->alterTable(
                 $table, function (Alter $table) use ($columns) {
-                $table->dropColumns(array_keys($columns));
-            }
+					$table->dropColumns(array_keys($columns));
+				}
             );
         }
     }
@@ -84,8 +92,12 @@ class Setup extends AbstractSetup
 
     public function rebuildCache()
     {
-        /** @var \XF\Repository\UserField $userFieldRepo */
-        $userFieldRepo = \XF::app()->repository('XF:UserField');
-        $userFieldRepo->rebuildFieldCache();
+		/** @var \XF\Repository\UserField $userFieldRepo */
+		$userFieldRepo = \XF::app()->repository('XF:UserField');
+		$userFieldRepo->rebuildFieldCache();
+		
+		/** @var \XF\Repository\UserField $threadFieldRepo */
+		$threadFieldRepo = \XF::app()->repository('XF:ThreadField');
+		$threadFieldRepo->rebuildFieldCache();
     }
 }
