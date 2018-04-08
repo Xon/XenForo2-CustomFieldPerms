@@ -29,11 +29,17 @@
         "version_string": "1.0.0",
         "hash": "857ee2258f43d88f72e81ef8630c8e8f"
     },
+    "sedo_cuf_perms_output.txt": {
+        "global_cache": false,
+        "version_id": 2000200,
+        "version_string": "2.0.2",
+        "hash": "b39b1a6d276e79f6aec630e9c7d5d69d"
+    },
     "sedo_cuf_perms_output_pp.txt": {
         "global_cache": false,
-        "version_id": 1,
-        "version_string": "1.0.0",
-        "hash": "e72f6fe38af16ec0a4e92168cc460ff9"
+        "version_id": 2000200,
+        "version_string": "2.0.2",
+        "hash": "9b88c5bc412344dab72e97f3de29c2be"
     },
     "sedo_cuf_perms_output_pp_desc.txt": {
         "global_cache": false,
@@ -43,9 +49,9 @@
     },
     "sedo_cuf_perms_output_ui.txt": {
         "global_cache": false,
-        "version_id": 1,
-        "version_string": "1.0.0",
-        "hash": "5cb20e0a949c33f69c87327284c11f6c"
+        "version_id": 2000200,
+        "version_string": "2.0.2",
+        "hash": "3dd87704dde36565116296d2f12c19fb"
     },
     "sedo_cuf_perms_output_ui_desc.txt": {
         "global_cache": false,
