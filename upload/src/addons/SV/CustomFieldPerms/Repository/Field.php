@@ -16,7 +16,7 @@ class Field extends Repository
      */
     public function applyUsergroupCustomFieldPermissionFilters(&$arguments, $key)
     {
-        if (empty($arguments['type']) || $arguments['type'] !== 'users')
+        if (empty($arguments['type']) || !in_array($arguments['type'], ['users', 'threads']))
         {
             return;
         }

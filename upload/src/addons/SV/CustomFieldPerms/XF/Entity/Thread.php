@@ -4,7 +4,7 @@ namespace SV\CustomFieldPerms\XF\Entity;
 
 use XF\CustomField\Set;
 
-class UserProfile extends XFCP_UserProfile
+class Thread extends XFCP_Thread
 {
     /**
      * Insert a new filter type into the DefinitionSet.

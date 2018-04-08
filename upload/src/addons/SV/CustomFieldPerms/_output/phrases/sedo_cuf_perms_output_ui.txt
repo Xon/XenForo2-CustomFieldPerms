@@ -1,2 +1,1 @@
-Output permissions in message user info
-
+Output permissions: User info

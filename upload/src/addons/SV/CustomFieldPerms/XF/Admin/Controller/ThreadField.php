@@ -7,7 +7,7 @@ use XF\Entity\AbstractField;
 use XF\Mvc\FormAction;
 use XF\Mvc\Reply\View;
 
-class UserField extends XFCP_UserField
+class ThreadField extends XFCP_ThreadField
 {
     /**
      * Insert additional data into the field regarding permissions.
@@ -29,7 +29,7 @@ class UserField extends XFCP_UserField
 
             // get the permission value keys, and associated permissions
             $permValKeys = array_filter(
-                array_keys(Setup::$tables1['xf_user_field']), function ($a) {
+                array_keys(Setup::$tables1['xf_thread_field']), function ($a) {
                 return preg_match('/^.*val$/', $a);
             }
             );
@@ -77,7 +77,7 @@ class UserField extends XFCP_UserField
         $form = parent::saveAdditionalData($form, $field);
 
         $elements = [];
-        foreach (Setup::$tables1['xf_user_field'] as $column => $details)
+        foreach (Setup::$tables1['xf_thread_field'] as $column => $details)
         {
             $elements[$column] = $details['field_type'];
         }
