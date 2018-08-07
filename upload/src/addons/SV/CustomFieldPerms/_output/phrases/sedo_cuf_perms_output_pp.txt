@@ -1,1 +1,1 @@
-Output permissions: Profile
+Output permissions: Profile (Viewer)

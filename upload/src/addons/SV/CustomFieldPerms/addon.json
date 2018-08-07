@@ -1,9 +1,9 @@
 {
     "legacy_addon_id": "sedo_cuf_perms",
-    "title": "Custom User Fields Permissions",
-    "description": "",
-    "version_id": 2010000,
-    "version_string": "2.1.0",
+    "title": "Custom Fields Permissions",
+    "description": "Input and output permissions for custom fields",
+    "version_id": 2020000,
+    "version_string": "2.2.0",
     "dev": "Xon",
     "dev_url": "https://atelieraphelion.com",
     "faq_url": "",

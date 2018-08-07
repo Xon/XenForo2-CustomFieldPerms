@@ -2,34 +2,20 @@
 
 namespace SV\CustomFieldPerms\XF\Entity;
 
-use XF\CustomField\Set;
+use SV\CustomFieldPerms\CustomFieldFilterTrait;
+use SV\CustomFieldPerms\IFieldEntityPerm;
+use XF\Entity\User;
 
-class UserProfile extends XFCP_UserProfile
+class UserProfile extends XFCP_UserProfile implements IFieldEntityPerm
 {
+    use CustomFieldFilterTrait;
+
     /**
-     * Insert a new filter type into the DefinitionSet.
-     *
-     * @return Set
+     * @return null|User
      */
-    public function getCustomFields()
+    function getContentUser()
     {
-        $set = parent::getCustomFields();
-
-        $set->getDefinitionSet()->addFilter(
-            'check_usergroup_perms', function (array $field, $usergroups, $keyWithPerms) {
-            if (!empty($field[$keyWithPerms . '_enable']))
-            {
-                $permittedUsergroups = $field[$keyWithPerms . '_val'];
-
-                return !empty(array_intersect($usergroups, $permittedUsergroups))
-                       || in_array('all', $permittedUsergroups);
-            }
-
-            return true;
-        }
-        );
-
-        return $set;
+        return $this->User;
     }
 }
 

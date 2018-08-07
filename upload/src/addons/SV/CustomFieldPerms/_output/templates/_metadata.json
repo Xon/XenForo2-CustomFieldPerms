@@ -1,7 +1,7 @@
 {
-    "admin/sedo_user_field_edit_perms_pane.html": {
-        "version_id": 2000200,
-        "version_string": "2.0.2",
-        "hash": "b7fb7fa3524abf78a3bdf0259967ef50"
+    "admin/custom_field_permissions_pane.html": {
+        "version_id": 2020000,
+        "version_string": "2.2.0",
+        "hash": "aeee5679ca7cbaaa673ed89040db0313"
     }
 }
