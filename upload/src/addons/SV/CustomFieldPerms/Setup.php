@@ -37,6 +37,16 @@ class Setup extends AbstractSetup
             'cfp_c_output_ui_enable' => ['type' => 'tinyint unsigned', 'default' => 0, 'entity_type' => Entity::UINT, 'entity_default' => 0, 'field_type' => 'uint'],
             'cfp_c_output_ui_val'    => ['type' => 'blob', 'default' => null, 'nullable' => true, 'entity_type' => Entity::SERIALIZED, 'entity_default' => '', 'field_type' => 'array'],
         ],
+        'xf_mg_media_field' => [
+            'cfp_v_input_enable'       => ['type' => 'tinyint unsigned', 'default' => 0, 'entity_type' => Entity::UINT, 'entity_default' => 0, 'field_type' => 'uint'],
+            'cfp_v_input_val'          => ['type' => 'blob', 'default' => null, 'nullable' => true, 'entity_type' => Entity::SERIALIZED, 'entity_default' => '', 'field_type' => 'array'],
+
+            'cfp_v_output_ui_enable'   => ['type' => 'tinyint unsigned', 'default' => 0, 'entity_type' => Entity::UINT, 'entity_default' => 0, 'field_type' => 'uint'],
+            'cfp_v_output_ui_val'      => ['type' => 'blob', 'default' => null, 'nullable' => true, 'entity_type' => Entity::SERIALIZED, 'entity_default' => '', 'field_type' => 'array'],
+
+            'cfp_c_output_ui_enable' => ['type' => 'tinyint unsigned', 'default' => 0, 'entity_type' => Entity::UINT, 'entity_default' => 0, 'field_type' => 'uint'],
+            'cfp_c_output_ui_val'    => ['type' => 'blob', 'default' => null, 'nullable' => true, 'entity_type' => Entity::SERIALIZED, 'entity_default' => '', 'field_type' => 'array'],
+        ],
     ];
 
     public function installStep1()
@@ -99,6 +109,13 @@ class Setup extends AbstractSetup
             'xf_thread_field', function (Alter $table) {
             $table->dropColumns(['cfp_v_output_pp_enable', 'cfp_v_output_pp_val']);
         });
+        if ($sm->tableExists('xf_mg_media_field'))
+        {
+            $sm->alterTable(
+                'xf_mg_media_field', function (Alter $table) {
+                $table->dropColumns(['cfp_v_output_pp_enable', 'cfp_v_output_pp_val']);
+            });
+        }
     }
 
     public function upgrade2020000Step3()
@@ -145,5 +162,13 @@ class Setup extends AbstractSetup
         /** @var \XF\Repository\UserField $threadFieldRepo */
         $threadFieldRepo = \XF::app()->repository('XF:ThreadField');
         $threadFieldRepo->rebuildFieldCache();
+
+        $addOns = \XF::app()->container('addon.cache');
+        if (isset($addOns['XFMG']))
+        {
+            /** @var \XFMG\Repository\MediaField $mediaFieldRepo */
+            $mediaFieldRepo = \XF::app()->repository('XF:MediaField');
+            $mediaFieldRepo->rebuildFieldCache();
+        }
     }
 }

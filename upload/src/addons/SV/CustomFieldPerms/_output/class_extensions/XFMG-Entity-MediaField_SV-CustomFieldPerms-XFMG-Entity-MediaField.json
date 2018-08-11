@@ -1,0 +1,6 @@
+{
+    "from_class": "XFMG\\Entity\\MediaField",
+    "to_class": "SV\\CustomFieldPerms\\XFMG\\Entity\\MediaField",
+    "execute_order": 10,
+    "active": true
+}
