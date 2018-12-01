@@ -10,6 +10,9 @@ class Thread extends XFCP_Thread implements IFieldEntityPerm
 {
     use CustomFieldFilterTrait;
 
+    protected $customFieldRepo = 'XF:ThreadField';
+    protected $customFieldContainerKey = 'customFields.threads';
+
     /**
      * @return null|User
      */

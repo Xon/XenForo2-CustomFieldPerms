@@ -15,6 +15,24 @@ trait CustomFieldFilterTrait
     {
         $set = parent::getCustomFields();
 
+        if ($this->customFieldRepo)
+        {
+            foreach ($set->getDefinitionSet()->getIterator() as $field)
+            {
+                if (!isset($field['cfp_v_input_enable']))
+                {
+                    $this->repository($this->customFieldRepo)
+                        ->rebuildFieldCache()
+                    ;
+                    \XF::app()->container()->decache($this->customFieldContainerKey);
+
+                    $set = parent::getCustomFields();
+
+                    break;
+                }
+            }
+        }
+
         $set->getDefinitionSet()->addFilter(
             'check_visitor_usergroup_perms', function (array $field, $usergroups, $keyWithPerms) {
             if (!empty($field['cfp_v_' . $keyWithPerms . '_enable']))
