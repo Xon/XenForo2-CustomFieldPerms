@@ -1,0 +1,1 @@
+Activate these permissions to enable viewing this custom field based off content user's usergroups

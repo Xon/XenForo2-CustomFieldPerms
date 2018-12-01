@@ -4,8 +4,8 @@ namespace SV\CustomFieldPerms\XF\Admin\Controller;
 
 use SV\CustomFieldPerms\CustomFieldAdminTrait;
 
-class UserField extends XFCP_UserField
+class ThreadField extends XFCP_ThreadField
 {
-    protected static $tableName = 'xf_user_field';
+    protected static $tableName = 'xf_thread_field';
     use CustomFieldAdminTrait;
 }

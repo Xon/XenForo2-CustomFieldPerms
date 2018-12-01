@@ -5,5 +5,5 @@
     "enabled": true,
     "action": "str_replace",
     "find": "<xf:submitrow",
-    "replace": "<xf:include template=\"sedo_user_field_edit_perms_pane\"/>\n\n$0"
+    "replace": "<xf:include template=\"custom_field_permissions_pane\"/>\n\n$0"
 }
