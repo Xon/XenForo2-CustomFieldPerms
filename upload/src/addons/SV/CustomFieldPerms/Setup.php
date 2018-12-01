@@ -7,7 +7,6 @@ use XF\AddOn\StepRunnerInstallTrait;
 use XF\AddOn\StepRunnerUninstallTrait;
 use XF\AddOn\StepRunnerUpgradeTrait;
 use XF\Db\Schema\Alter;
-use XF\Db\Schema\Create;
 use XF\Mvc\Entity\Entity;
 
 class Setup extends AbstractSetup
@@ -16,6 +15,7 @@ class Setup extends AbstractSetup
     use StepRunnerUpgradeTrait;
     use StepRunnerUninstallTrait;
 
+    // note; CustomFieldFilterTrait expected that cfp_v_input_enable is always in each entity
     public static $tables1 = [
         'xf_user_field'     => [
             'cfp_v_input_enable'     => ['type' => 'tinyint unsigned', 'default' => 0, 'entity_type' => Entity::UINT, 'entity_default' => 0, 'field_type' => 'uint'],

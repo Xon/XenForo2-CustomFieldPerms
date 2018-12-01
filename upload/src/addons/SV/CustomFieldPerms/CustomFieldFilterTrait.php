@@ -13,19 +13,22 @@ trait CustomFieldFilterTrait
      */
     public function getCustomFields()
     {
+        /** @noinspection PhpUndefinedClassInspection */
         $set = parent::getCustomFields();
 
-        if ($this->customFieldRepo)
+        if (isset($this->customFieldRepo) && isset($this->customFieldContainerKey))
         {
             foreach ($set->getDefinitionSet()->getIterator() as $field)
             {
                 if (!isset($field['cfp_v_input_enable']))
                 {
+                    /** @noinspection PhpUndefinedMethodInspection */
                     $this->repository($this->customFieldRepo)
-                        ->rebuildFieldCache()
+                         ->rebuildFieldCache()
                     ;
                     \XF::app()->container()->decache($this->customFieldContainerKey);
 
+                    /** @noinspection PhpUndefinedClassInspection */
                     $set = parent::getCustomFields();
 
                     break;
