@@ -10,6 +10,9 @@ class UserProfile extends XFCP_UserProfile implements IFieldEntityPerm
 {
     use CustomFieldFilterTrait;
 
+    protected $customFieldRepo = 'XF:UserField';
+    protected $customFieldContainerKey = 'customFields.users';
+
     /**
      * @return null|User
      */
