@@ -5,5 +5,5 @@
     "enabled": true,
     "action": "preg_replace",
     "find": "#(<xf:macro name=\"custom_fields_values\"[^/]*?>.*?<xf:if is=\")(.*?</xf:macro>.*?<xf:macro name=\"custom_field_value\"[^/]*?>)(.*?)(</xf:macro>.*?<xf:macro name=\"custom_fields_edit\"[^/]*?>.*?<xf:foreach[^/]*?>)(.*?)(\\s*</xf:foreach>.*?</xf:macro>)#msi",
-    "replace": "$1 $fieldDefinition.cfp_v_input_enable !== null && $2\n<xf:if is=\"$definition.cfp_v_input_enable !== null\">\n$3\n</xf:if>\n$4\n<xf:if is=\"$definition.cfp_v_input_enable !== null\">\n$5\n</xf:if>\n$6"
+    "replace": "$1 $fieldDefinition.cfp_v_input_enable !== null && $2\n<xf:if is=\"$definition.cfp_v_input_enable !== null\">\n$3\n</xf:if>\n$4\n<xf:if is=\"$fieldDefinition.cfp_v_input_enable !== null\">\n$5\n</xf:if>\n$6"
 }
