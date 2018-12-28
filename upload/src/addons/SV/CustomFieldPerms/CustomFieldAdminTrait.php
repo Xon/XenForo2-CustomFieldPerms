@@ -27,8 +27,10 @@ trait CustomFieldAdminTrait
             array_unshift($userGroups, ['title' => 'all', 'user_group_id' => 'all']);
 
             // get the permission value keys, and associated permissions
+            $entityClassName = $this->getClassIdentifier();
+            $structure = \XF::em()->getEntityStructure($entityClassName);
             $permValKeys = array_filter(
-                array_keys(Setup::$tables1[self::$tableName]), function ($a) {
+                array_keys(Setup::$tables1[$structure->table]), function ($a) {
                 return preg_match('/^cfp_.*_val$/', $a);
             }
             );
@@ -76,7 +78,9 @@ trait CustomFieldAdminTrait
         $form = parent::saveAdditionalData($form, $field);
 
         $elements = [];
-        foreach (Setup::$tables1[self::$tableName] as $column => $details)
+        $entityClassName = $this->getClassIdentifier();
+        $structure = \XF::em()->getEntityStructure($entityClassName);
+        foreach (Setup::$tables1[$structure->table] as $column => $details)
         {
             $elements[$column] = $details['field_type'];
         }

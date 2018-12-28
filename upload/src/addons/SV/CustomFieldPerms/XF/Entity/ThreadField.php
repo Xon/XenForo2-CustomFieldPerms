@@ -7,6 +7,5 @@ use SV\CustomFieldPerms\IFieldPerm;
 
 class ThreadField extends XFCP_ThreadField implements IFieldPerm
 {
-    protected static $tableName = 'xf_thread_field';
     use CustomFieldEntityTrait;
 }

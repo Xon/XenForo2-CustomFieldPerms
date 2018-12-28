@@ -7,6 +7,5 @@ use SV\CustomFieldPerms\IFieldPerm;
 
 class UserField extends XFCP_UserField implements IFieldPerm
 {
-    protected static $tableName = 'xf_user_field';
     use CustomFieldEntityTrait;
 }

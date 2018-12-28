@@ -24,7 +24,7 @@ trait CustomFieldEntityTrait
     {
         $structure = parent::getStructure($structure);
 
-        foreach (Setup::$tables1[self::$tableName] as $column => $details)
+        foreach (Setup::$tables1[$structure->table] as $column => $details)
         {
             $structure->columns[$column] = ['type' => $details['entity_type'], 'default' => $details['entity_default']];
         }
