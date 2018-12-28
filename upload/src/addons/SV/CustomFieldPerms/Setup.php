@@ -15,6 +15,12 @@ class Setup extends AbstractSetup
     use StepRunnerUpgradeTrait;
     use StepRunnerUninstallTrait;
 
+    public static $repos = [
+        'XF:UserField'   => 'XF',
+        'XF:ThreadField' => 'XF',
+        'XF:MediaField'  => 'XFMG',
+    ];
+
     // note; CustomFieldFilterTrait expected that cfp_v_input_enable is always in each entity
     public static $tables1 = [
         'xf_user_field'     => [
@@ -51,28 +57,9 @@ class Setup extends AbstractSetup
 
     public function installStep1()
     {
-        $sm = $this->schemaManager();
-        foreach (self::$tables1 as $table => $columns)
-        {
-            if ($sm->tableExists($table))
-            {
-                $sm->alterTable(
-                    $table, function (Alter $table) use ($columns) {
-                    foreach ($columns as $column => $details)
-                    {
-                        $col = $table->addColumn($column, $details['type']);
-                        if (isset($details['nullable']))
-                        {
-                            $col->nullable($details['nullable']);
-                        }
-                        if (array_key_exists('default', $details))
-                        {
-                            $col->setDefault($details['default']);
-                        }
-                    }
-                });
-            }
-        }
+        /** @var \SV\CustomFieldPerms\Repository\Field $repo */
+        $repo = \XF::repository('SV\CustomFieldPerms:Field');
+        $repo->applyCustomFieldSchemaChanges();
     }
 
     public function upgrade2020000Step1()
@@ -138,37 +125,17 @@ class Setup extends AbstractSetup
         }
     }
 
-    public function uninstallStep2()
-    {
-        $this->rebuildCache();
-    }
-
     public function postInstall(array &$stateChanges)
     {
-        $this->rebuildCache();
+        /** @var \SV\CustomFieldPerms\Repository\Field $repo */
+        $repo = \XF::repository('SV\CustomFieldPerms:Field');
+        $repo->rebuildCaches();
     }
 
     public function postUpgrade($previousVersion, array &$stateChanges)
     {
-        $this->rebuildCache();
-    }
-
-    public function rebuildCache()
-    {
-        /** @var \XF\Repository\UserField $userFieldRepo */
-        $userFieldRepo = \XF::app()->repository('XF:UserField');
-        $userFieldRepo->rebuildFieldCache();
-
-        /** @var \XF\Repository\UserField $threadFieldRepo */
-        $threadFieldRepo = \XF::app()->repository('XF:ThreadField');
-        $threadFieldRepo->rebuildFieldCache();
-
-        $addOns = \XF::app()->container('addon.cache');
-        if (isset($addOns['XFMG']))
-        {
-            /** @var \XFMG\Repository\MediaField $mediaFieldRepo */
-            $mediaFieldRepo = \XF::app()->repository('XF:MediaField');
-            $mediaFieldRepo->rebuildFieldCache();
-        }
+        /** @var \SV\CustomFieldPerms\Repository\Field $repo */
+        $repo = \XF::repository('SV\CustomFieldPerms:Field');
+        $repo->rebuildCaches();
     }
 }
