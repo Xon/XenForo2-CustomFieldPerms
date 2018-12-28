@@ -22,10 +22,9 @@ trait CustomFieldFilterTrait
             {
                 if (!isset($field['cfp_v_input_enable']))
                 {
-                    /** @noinspection PhpUndefinedMethodInspection */
-                    $this->repository($this->customFieldRepo)
-                         ->rebuildFieldCache()
-                    ;
+                    /** @var \XF\Repository\AbstractField $customFieldRepo */
+                    $customFieldRepo = $this->repository($this->customFieldRepo);
+                    $customFieldRepo->rebuildFieldCache();
                     \XF::app()->container()->decache($this->customFieldContainerKey);
 
                     /** @noinspection PhpUndefinedClassInspection */
