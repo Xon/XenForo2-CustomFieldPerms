@@ -11,7 +11,6 @@ class MediaItem extends XFCP_MediaItem implements IFieldEntityPerm
     use CustomFieldFilterTrait;
 
     protected $customFieldRepo = 'XF:MediaField';
-    protected $customFieldContainerKey = 'customFields.xfmgMediaFields';
 
     /**
      * @return null|User
