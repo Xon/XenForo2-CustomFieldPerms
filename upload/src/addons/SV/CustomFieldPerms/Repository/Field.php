@@ -74,6 +74,14 @@ class Field extends Repository
     public function applyCustomFieldSchemaChanges(/** @noinspection PhpUnusedParameterInspection */
         $addonId = null)
     {
+        if ($addonId)
+        {
+            $addOns = \array_fill_keys(\array_values(Setup::$repos), true);
+            if (empty($addOns[$addonId]))
+            {
+                return;
+            }
+        }
         $sm = \XF::db()->getSchemaManager();
         foreach (Setup::$tables1 as $table => $columns)
         {
