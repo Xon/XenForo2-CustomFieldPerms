@@ -2,6 +2,7 @@
 
 namespace SV\CustomFieldPerms\Repository;
 
+use SV\CustomFieldPerms\Globals;
 use SV\CustomFieldPerms\IFieldEntityPerm;
 use SV\CustomFieldPerms\SetEntity;
 use SV\CustomFieldPerms\Setup;
@@ -76,14 +77,14 @@ class Field extends Repository
     {
         if ($addonId)
         {
-            $addOns = \array_fill_keys(\array_values(Setup::$repos), true);
+            $addOns = \array_fill_keys(\array_values(Globals::$repos), true);
             if (empty($addOns[$addonId]))
             {
                 return;
             }
         }
         $sm = \XF::db()->getSchemaManager();
-        foreach (Setup::$tables1 as $table => $columns)
+        foreach (Globals::$tables as $table => $columns)
         {
             if ($sm->tableExists($table))
             {
@@ -120,7 +121,7 @@ class Field extends Repository
         $addonId = null)
     {
         $addOns = \XF::app()->container('addon.cache');
-        foreach(Setup::$repos as $repoName => $addOn)
+        foreach(Globals::$repos as $repoName => $addOn)
         {
             if (isset($addOns[$addOn]))
             {

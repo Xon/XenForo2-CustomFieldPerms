@@ -16,6 +16,7 @@ trait CustomFieldAdminTrait
      */
     protected function fieldAddEditResponse(AbstractField $field)
     {
+        /** @noinspection PhpUndefinedClassInspection */
         $reply = parent::fieldAddEditResponse($field);
 
         if ($reply instanceof View)
@@ -29,38 +30,41 @@ trait CustomFieldAdminTrait
             // get the permission value keys, and associated permissions
             $entityClassName = $this->getClassIdentifier();
             $structure = \XF::em()->getEntityStructure($entityClassName);
-            $permValKeys = array_filter(
-                array_keys(Setup::$tables1[$structure->table]), function ($a) {
-                return preg_match('/^cfp_.*_val$/', $a);
+            if (isset(Globals::$tables[$structure->table]))
+            {
+                $permValKeys = array_filter(
+                    array_keys(Globals::$tables[$structure->table]), function ($a) {
+                    return preg_match('/^cfp_.*_val$/', $a);
+                }
+                );
+                $permVals = array_map(
+                    function ($key) use ($reply) {
+                        return $reply->getParams()['field'][$key];
+                    }, $permValKeys
+                );
+
+                // insert permission sets into the field
+                array_map(
+                // permission sets
+                    function ($permValKey, $permVal) use ($userGroups, $field) {
+                        // usergroups in those permission sets
+                        $field->set(
+                            $permValKey, array_map(
+                                function ($userGroup) use ($permVal) {
+                                    return [
+                                        'selected' => !empty($permVal) ? in_array($userGroup['user_group_id'], $permVal) : null,
+                                        'value'    => $userGroup['user_group_id'],
+                                        'label'    => filter_var($userGroup['title'], FILTER_SANITIZE_STRING),
+                                    ];
+                                }, $userGroups
+                            )
+                        );
+                    },
+                    $permValKeys, $permVals
+                );
+
+                $reply->setParam('field', $field);
             }
-            );
-            $permVals = array_map(
-                function ($key) use ($reply) {
-                    return $reply->getParams()['field'][$key];
-                }, $permValKeys
-            );
-
-            // insert permission sets into the field
-            array_map(
-            // permission sets
-                function ($permValKey, $permVal) use ($userGroups, $field) {
-                    // usergroups in those permission sets
-                    $field->set(
-                        $permValKey, array_map(
-                            function ($userGroup) use ($permVal) {
-                                return [
-                                    'selected' => !empty($permVal) ? in_array($userGroup['user_group_id'], $permVal) : null,
-                                    'value'    => $userGroup['user_group_id'],
-                                    'label'    => filter_var($userGroup['title'], FILTER_SANITIZE_STRING),
-                                ];
-                            }, $userGroups
-                        )
-                    );
-                },
-                $permValKeys, $permVals
-            );
-
-            $reply->setParam('field', $field);
         }
 
         return $reply;
@@ -75,19 +79,23 @@ trait CustomFieldAdminTrait
      */
     protected function saveAdditionalData(FormAction $form, AbstractField $field)
     {
+        /** @noinspection PhpUndefinedClassInspection */
         $form = parent::saveAdditionalData($form, $field);
 
         $elements = [];
         $entityClassName = $this->getClassIdentifier();
         $structure = \XF::em()->getEntityStructure($entityClassName);
-        foreach (Setup::$tables1[$structure->table] as $column => $details)
+        if (isset(Globals::$tables[$structure->table]))
         {
-            $elements[$column] = $details['field_type'];
+            foreach (Globals::$tables[$structure->table] as $column => $details)
+            {
+                $elements[$column] = $details['field_type'];
+            }
+
+            $input = $this->filter($elements);
+
+            $form->basicEntitySave($field, $input);
         }
-
-        $input = $this->filter($elements);
-
-        $form->basicEntitySave($field, $input);
 
         return $form;
     }

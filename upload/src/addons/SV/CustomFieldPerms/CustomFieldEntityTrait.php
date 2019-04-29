@@ -22,11 +22,15 @@ trait CustomFieldEntityTrait
      */
     public static function getStructure(Structure $structure)
     {
+        /** @noinspection PhpUndefinedClassInspection */
         $structure = parent::getStructure($structure);
 
-        foreach (Setup::$tables1[$structure->table] as $column => $details)
+        if (isset(Globals::$tables[$structure->table]))
         {
-            $structure->columns[$column] = ['type' => $details['entity_type'], 'default' => $details['entity_default']];
+            foreach (Globals::$tables[$structure->table] as $column => $details)
+            {
+                $structure->columns[$column] = ['type' => $details['entity_type'], 'default' => $details['entity_default']];
+            }
         }
 
         return $structure;
