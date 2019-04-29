@@ -1,0 +1,9 @@
+{
+    "template": "xfmg_media_view_macros",
+    "description": "Ensure custom fields fail-closed and do not display during updates",
+    "execution_order": 1,
+    "enabled": true,
+    "action": "str_replace",
+    "find": "$definition.hasValue({$mediaItem.custom_fields.{$fieldId}})",
+    "replace": "$definition.cfp_v_input_enable !== null && $0"
+}

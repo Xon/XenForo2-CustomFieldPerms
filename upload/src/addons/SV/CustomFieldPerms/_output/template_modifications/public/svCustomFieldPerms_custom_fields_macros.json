@@ -1,9 +1,9 @@
 {
     "template": "custom_fields_macros",
     "description": "Ensure custom fields fail-closed and do not display during updates",
-    "execution_order": 10,
+    "execution_order": 1,
     "enabled": true,
     "action": "preg_replace",
-    "find": "#(<xf:macro name=\"custom_fields_values\"[^/]*?>.*?<xf:if is=\")(.*?</xf:macro>.*?<xf:macro name=\"custom_field_value\"[^/]*?>)(.*?)(</xf:macro>.*?<xf:macro name=\"custom_fields_edit\"[^/]*?>.*?<xf:foreach[^/]*?>)(.*?)(\\s*</xf:foreach>.*?</xf:macro>)#msi",
-    "replace": "$1 $fieldDefinition.cfp_v_input_enable !== null && $2\n<xf:if is=\"$definition.cfp_v_input_enable !== null\">\n$3\n</xf:if>\n$4\n<xf:if is=\"$fieldDefinition.cfp_v_input_enable !== null\">\n$5\n</xf:if>\n$6"
+    "find": "#(<xf:macro name=\"custom_fields_values\"[^/>]+>)(.*?<xf:if is=\")(.*?</xf:macro>.*?<xf:macro name=\"custom_fields_edit\"[^/]*?>)(.*?<xf:foreach[^/]*?>)(.*?)(\\s*</xf:foreach>.*?</xf:macro>)#msi",
+    "replace": "$1\n\n<xf:set var=\"$skipTypeCheck\" value=\"{{ !in_array($type, ['thread','user','xfmgMediaFields'], true) }}\" />\n$2 ($skipTypeCheck || $fieldDefinition.cfp_v_input_enable !== null) && $3\n\n<xf:set var=\"$skipTypeCheck\" value=\"{{ !in_array($type, ['thread','user','xfmgMediaFields'], true) }}\" />\n$4\n<xf:if is=\"$skipTypeCheck || $fieldDefinition.cfp_v_input_enable !== null\">\n$5\n</xf:if>\n$6"
 }
