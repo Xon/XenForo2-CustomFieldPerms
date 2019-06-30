@@ -27,25 +27,28 @@ class Setup extends AbstractSetup
         $sm = $this->schemaManager();
         foreach (Globals::$tables as $table => $columns)
         {
-            $sm->alterTable($table, function (Alter $table) {
-                if ($table->getColumnDefinition('sedo_perms_input_enable'))
-                {
-                    $table->renameColumn('sedo_perms_input_enable', 'cfp_v_input_enable');
-                    $table->renameColumn('sedo_perms_input_val', 'cfp_v_input_val');
-                }
+            if ($sm->tableExists($table))
+            {
+                $sm->alterTable($table, function (Alter $table) {
+                    if ($table->getColumnDefinition('sedo_perms_input_enable'))
+                    {
+                        $table->renameColumn('sedo_perms_input_enable', 'cfp_v_input_enable');
+                        $table->renameColumn('sedo_perms_input_val', 'cfp_v_input_val');
+                    }
 
-                if ($table->getColumnDefinition('sedo_perms_output_ui_enable'))
-                {
-                    $table->renameColumn('sedo_perms_output_ui_enable', 'cfp_v_output_ui_enable');
-                    $table->renameColumn('sedo_perms_output_ui_val', 'cfp_v_output_ui_val');
-                }
+                    if ($table->getColumnDefinition('sedo_perms_output_ui_enable'))
+                    {
+                        $table->renameColumn('sedo_perms_output_ui_enable', 'cfp_v_output_ui_enable');
+                        $table->renameColumn('sedo_perms_output_ui_val', 'cfp_v_output_ui_val');
+                    }
 
-                if ($table->getColumnDefinition('sedo_perms_output_pp_enable'))
-                {
-                    $table->renameColumn('sedo_perms_output_pp_enable', 'cfp_v_output_pp_enable');
-                    $table->renameColumn('sedo_perms_output_pp_val', 'cfp_v_output_pp_val');
-                }
-            });
+                    if ($table->getColumnDefinition('sedo_perms_output_pp_enable'))
+                    {
+                        $table->renameColumn('sedo_perms_output_pp_enable', 'cfp_v_output_pp_enable');
+                        $table->renameColumn('sedo_perms_output_pp_val', 'cfp_v_output_pp_val');
+                    }
+                });
+            }
         }
     }
 
