@@ -73,6 +73,74 @@ class Setup extends AbstractSetup
         $this->installStep1();
     }
 
+    public function upgrade2030200Step1()
+    {
+        $this->installStep1();
+    }
+
+    public function upgrade2030200Step2()
+    {
+        if ($this->schemaManager()->tableExists('xf_nf_tickets_ticket_field'))
+        {
+            $fields = $this->app()->finder('NF\Tickets:TicketField')->fetch();
+
+            if ($fields->count())
+            {
+                /** @var \NF\Tickets\Entity\TicketField $field */
+                foreach ($fields AS $field)
+                {
+                    $updates = [];
+                    if ($field->usable_user_group_ids[0] === '-1')
+                    {
+                        $updates = array_merge($updates, [
+                            'cfp_v_input_enable' => 0,
+                            'cfp_v_input_val' => []
+                        ]);
+                    }
+                    else
+                    {
+                        $updates = array_merge($updates, [
+                            'cfp_v_input_enable' => 1,
+                            'cfp_v_input_val' => $field->usable_user_group_ids_
+                        ]);
+                    }
+
+                    if ($field->viewable_user_group_ids[0] === '-1')
+                    {
+                        $updates = array_merge($updates, [
+                            'cfp_v_output_ui_enable' => 0,
+                            'cfp_v_output_ui_val' => []
+                        ]);
+                    }
+                    else
+                    {
+                        $updates = array_merge($updates, [
+                            'cfp_v_output_ui_enable' => 1,
+                            'cfp_v_output_ui_val' => $field->viewable_user_group_ids_
+                        ]);
+                    }
+
+                    if ($field->viewable_owner_user_group_ids[0] === '-1')
+                    {
+                        $updates = array_merge($updates, [
+                            'cfp_c_output_ui_enable' => 0,
+                            'cfp_c_output_ui_val' => []
+                        ]);
+                    }
+                    else
+                    {
+                        $updates = array_merge($updates, [
+                            'cfp_c_output_ui_enable' => 1,
+                            'cfp_c_output_ui_val' => $field->viewable_owner_user_group_ids_
+                        ]);
+                    }
+
+                    $field->fastUpdate($updates);
+                }
+            }
+        }
+    }
+
     public function uninstallStep1()
     {
         $sm = $this->schemaManager();

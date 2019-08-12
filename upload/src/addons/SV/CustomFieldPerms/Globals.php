@@ -10,6 +10,7 @@ class Globals
         'XF:UserField'   => 'XF',
         'XF:ThreadField' => 'XF',
         'XFMG:MediaField'  => 'XFMG',
+        'NF\Tickets:TicketField' => 'NF\Tickets'
     ];
 
     // note; CustomFieldFilterTrait expected that cfp_v_input_enable is always in each entity
@@ -35,6 +36,16 @@ class Globals
             'cfp_c_output_ui_val'    => ['type' => 'blob', 'default' => null, 'nullable' => true, 'entity_type' => Entity::SERIALIZED, 'entity_default' => '', 'field_type' => 'array'],
         ],
         'xf_mg_media_field' => [
+            'cfp_v_input_enable'       => ['type' => 'tinyint', 'default' => 0, 'entity_type' => Entity::UINT, 'entity_default' => 0, 'field_type' => 'uint'],
+            'cfp_v_input_val'          => ['type' => 'blob', 'default' => null, 'nullable' => true, 'entity_type' => Entity::SERIALIZED, 'entity_default' => '', 'field_type' => 'array'],
+
+            'cfp_v_output_ui_enable'   => ['type' => 'tinyint', 'default' => 0, 'entity_type' => Entity::UINT, 'entity_default' => 0, 'field_type' => 'uint'],
+            'cfp_v_output_ui_val'      => ['type' => 'blob', 'default' => null, 'nullable' => true, 'entity_type' => Entity::SERIALIZED, 'entity_default' => '', 'field_type' => 'array'],
+
+            'cfp_c_output_ui_enable' => ['type' => 'tinyint', 'default' => 0, 'entity_type' => Entity::UINT, 'entity_default' => 0, 'field_type' => 'uint'],
+            'cfp_c_output_ui_val'    => ['type' => 'blob', 'default' => null, 'nullable' => true, 'entity_type' => Entity::SERIALIZED, 'entity_default' => '', 'field_type' => 'array'],
+        ],
+        'xf_nf_tickets_ticket_field' => [
             'cfp_v_input_enable'       => ['type' => 'tinyint', 'default' => 0, 'entity_type' => Entity::UINT, 'entity_default' => 0, 'field_type' => 'uint'],
             'cfp_v_input_val'          => ['type' => 'blob', 'default' => null, 'nullable' => true, 'entity_type' => Entity::SERIALIZED, 'entity_default' => '', 'field_type' => 'array'],
 

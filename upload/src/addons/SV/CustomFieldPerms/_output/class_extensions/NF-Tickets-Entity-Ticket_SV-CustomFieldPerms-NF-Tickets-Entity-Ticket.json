@@ -1,0 +1,6 @@
+{
+    "from_class": "NF\\Tickets\\Entity\\Ticket",
+    "to_class": "SV\\CustomFieldPerms\\NF\\Tickets\\Entity\\Ticket",
+    "execute_order": 10,
+    "active": true
+}

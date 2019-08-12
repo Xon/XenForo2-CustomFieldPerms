@@ -3,6 +3,17 @@
 // ################## THIS IS A GENERATED FILE ##################
 // DO NOT EDIT DIRECTLY. EDIT THE CLASS EXTENSIONS IN THE CONTROL PANEL.
 
+namespace SV\CustomFieldPerms\NF\Tickets\Admin\Controller
+{
+	class XFCP_TicketField extends \NF\Tickets\Admin\Controller\TicketField {}
+}
+
+namespace SV\CustomFieldPerms\NF\Tickets\Entity
+{
+	class XFCP_Ticket extends \NF\Tickets\Entity\Ticket {}
+	class XFCP_TicketField extends \NF\Tickets\Entity\TicketField {}
+}
+
 namespace SV\CustomFieldPerms\XFMG\Admin\Controller
 {
 	class XFCP_MediaField extends \XFMG\Admin\Controller\MediaField {}
