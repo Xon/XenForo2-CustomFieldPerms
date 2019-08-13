@@ -129,7 +129,7 @@ class Field extends Repository
                 foreach ($fields AS $field)
                 {
                     $updates = [];
-                    if ($field->usable_user_group_ids[0] === '-1')
+                    if (isset($field->usable_user_group_ids[0]) && $field->usable_user_group_ids[0] === '-1')
                     {
                         $updates = array_merge($updates, [
                             'cfp_v_input_enable' => 0,
@@ -144,7 +144,7 @@ class Field extends Repository
                         ]);
                     }
 
-                    if ($field->viewable_user_group_ids[0] === '-1')
+                    if (isset($field->viewable_user_group_ids[0]) && $field->viewable_user_group_ids[0] === '-1')
                     {
                         $updates = array_merge($updates, [
                             'cfp_v_output_ui_enable' => 0,
@@ -159,7 +159,7 @@ class Field extends Repository
                         ]);
                     }
 
-                    if ($field->viewable_owner_user_group_ids[0] === '-1')
+                    if (isset($field->viewable_owner_user_group_ids[0]) && $field->viewable_owner_user_group_ids[0] === '-1')
                     {
                         $updates = array_merge($updates, [
                             'cfp_c_output_ui_enable' => 0,
