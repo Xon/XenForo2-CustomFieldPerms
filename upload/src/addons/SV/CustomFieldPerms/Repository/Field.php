@@ -117,6 +117,101 @@ class Field extends Repository
     /**
      * @param string|null $addonId
      */
+    public function applyPostInstallChanges($addonId = null)
+    {
+        if ($addonId === null || $addonId === 'NF/Tickets')
+        {
+            $fields = $this->app()->finder('NF\Tickets:TicketField')->fetch();
+
+            if ($fields->count())
+            {
+                /** @var \NF\Tickets\Entity\TicketField $field */
+                foreach ($fields AS $field)
+                {
+                    $updates = [];
+                    if ($field->usable_user_group_ids[0] === '-1')
+                    {
+                        $updates = array_merge($updates, [
+                            'cfp_v_input_enable' => 0,
+                            'cfp_v_input_val'    => []
+                        ]);
+                    }
+                    else
+                    {
+                        $updates = array_merge($updates, [
+                            'cfp_v_input_enable' => 1,
+                            'cfp_v_input_val'    => $field->usable_user_group_ids_
+                        ]);
+                    }
+
+                    if ($field->viewable_user_group_ids[0] === '-1')
+                    {
+                        $updates = array_merge($updates, [
+                            'cfp_v_output_ui_enable' => 0,
+                            'cfp_v_output_ui_val'    => []
+                        ]);
+                    }
+                    else
+                    {
+                        $updates = array_merge($updates, [
+                            'cfp_v_output_ui_enable' => 1,
+                            'cfp_v_output_ui_val'    => $field->viewable_user_group_ids_
+                        ]);
+                    }
+
+                    if ($field->viewable_owner_user_group_ids[0] === '-1')
+                    {
+                        $updates = array_merge($updates, [
+                            'cfp_c_output_ui_enable' => 0,
+                            'cfp_c_output_ui_val'    => []
+                        ]);
+                    }
+                    else
+                    {
+                        $updates = array_merge($updates, [
+                            'cfp_c_output_ui_enable' => 1,
+                            'cfp_c_output_ui_val'    => $field->viewable_owner_user_group_ids_
+                        ]);
+                    }
+
+                    // do not use entity to update, as this may be running in a process without the entity fully extended yet
+                    $this->updateEntity($field, $updates);
+                }
+            }
+        }
+    }
+
+    protected function updateEntity(\XF\Mvc\Entity\Entity $entity, $updates)
+    {
+        if (!$updates)
+        {
+            return;
+        }
+        $conditions = [];
+        $db = $this->db();
+        foreach ((array)$entity->structure()->primaryKey AS $key)
+        {
+            $value = $entity->getValue($key);
+            if ($value === null)
+            {
+                throw new \LogicException("Found null in primary key for entity. Was this called before saving?");
+            }
+            $conditions[] = "`$key` = " . $db->quote($value);
+        }
+
+        if (!$conditions)
+        {
+            throw new \LogicException("No primary key defined for entity " . get_class($this));
+        }
+
+        $condition = implode(' AND ', $conditions);
+
+        $this->db()->update($entity->structure()->table, $updates, $condition);
+    }
+
+    /**
+     * @param string|null $addonId
+     */
     public function rebuildCaches(/** @noinspection PhpUnusedParameterInspection */
         $addonId = null)
     {

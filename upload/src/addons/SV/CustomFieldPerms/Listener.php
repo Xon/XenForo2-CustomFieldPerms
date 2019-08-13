@@ -48,6 +48,7 @@ class Listener
         /** @var \SV\CustomFieldPerms\Repository\Field $repo */
         $repo = \XF::repository('SV\CustomFieldPerms:Field');
         $repo->applyCustomFieldSchemaChanges($addOn->getAddOnId());
+        $repo->applyPostInstallChanges($addOn->getAddOnId());
         $repo->rebuildCaches($addOn->getAddOnId());
     }
 }
