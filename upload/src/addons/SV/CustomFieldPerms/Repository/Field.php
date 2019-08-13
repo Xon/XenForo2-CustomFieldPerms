@@ -129,49 +129,57 @@ class Field extends Repository
                 foreach ($fields AS $field)
                 {
                     $updates = [];
-                    if (isset($field->usable_user_group_ids[0]) && $field->usable_user_group_ids[0] === '-1')
+                    if (isset($field->structure()->columns['usable_user_group_ids']))
                     {
-                        $updates = array_merge($updates, [
-                            'cfp_v_input_enable' => 0,
-                            'cfp_v_input_val'    => []
-                        ]);
+                        if (isset($field->usable_user_group_ids[0]) && $field->usable_user_group_ids[0] === '-1')
+                        {
+                            $updates = array_merge($updates, [
+                                'cfp_v_input_enable' => 0,
+                                'cfp_v_input_val'    => \serialize([]),
+                            ]);
+                        }
+                        else
+                        {
+                            $updates = array_merge($updates, [
+                                'cfp_v_input_enable' => 1,
+                                'cfp_v_input_val'    => $field->getValueSourceEncoded('usable_user_group_ids')
+                            ]);
+                        }
                     }
-                    else
+                    if (isset($field->structure()->columns['viewable_user_group_ids']))
                     {
-                        $updates = array_merge($updates, [
-                            'cfp_v_input_enable' => 1,
-                            'cfp_v_input_val'    => $field->usable_user_group_ids_
-                        ]);
+                        if (isset($field->viewable_user_group_ids[0]) && $field->viewable_user_group_ids[0] === '-1')
+                        {
+                            $updates = array_merge($updates, [
+                                'cfp_v_output_ui_enable' => 0,
+                                'cfp_v_output_ui_val'    => \serialize([]),
+                            ]);
+                        }
+                        else
+                        {
+                            $updates = array_merge($updates, [
+                                'cfp_v_output_ui_enable' => 1,
+                                'cfp_v_output_ui_val'    => $field->getValueSourceEncoded('viewable_user_group_ids')
+                            ]);
+                        }
                     }
 
-                    if (isset($field->viewable_user_group_ids[0]) && $field->viewable_user_group_ids[0] === '-1')
+                    if (isset($field->structure()->columns['viewable_owner_user_group_ids']))
                     {
-                        $updates = array_merge($updates, [
-                            'cfp_v_output_ui_enable' => 0,
-                            'cfp_v_output_ui_val'    => []
-                        ]);
-                    }
-                    else
-                    {
-                        $updates = array_merge($updates, [
-                            'cfp_v_output_ui_enable' => 1,
-                            'cfp_v_output_ui_val'    => $field->viewable_user_group_ids_
-                        ]);
-                    }
-
-                    if (isset($field->viewable_owner_user_group_ids[0]) && $field->viewable_owner_user_group_ids[0] === '-1')
-                    {
-                        $updates = array_merge($updates, [
-                            'cfp_c_output_ui_enable' => 0,
-                            'cfp_c_output_ui_val'    => []
-                        ]);
-                    }
-                    else
-                    {
-                        $updates = array_merge($updates, [
-                            'cfp_c_output_ui_enable' => 1,
-                            'cfp_c_output_ui_val'    => $field->viewable_owner_user_group_ids_
-                        ]);
+                        if (isset($field->viewable_owner_user_group_ids[0]) && $field->viewable_owner_user_group_ids[0] === '-1')
+                        {
+                            $updates = array_merge($updates, [
+                                'cfp_c_output_ui_enable' => 0,
+                                'cfp_c_output_ui_val'    => \serialize([]),
+                            ]);
+                        }
+                        else
+                        {
+                            $updates = array_merge($updates, [
+                                'cfp_c_output_ui_enable' => 1,
+                                'cfp_c_output_ui_val'    => $field->getValueSourceEncoded('viewable_owner_user_group_ids')
+                            ]);
+                        }
                     }
 
                     // do not use entity to update, as this may be running in a process without the entity fully extended yet
