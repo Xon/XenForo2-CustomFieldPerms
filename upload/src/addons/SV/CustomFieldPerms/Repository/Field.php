@@ -119,7 +119,10 @@ class Field extends Repository
      */
     public function applyPostInstallChanges($addonId = null)
     {
-        if (($addonId === null || $addonId === 'NF/Tickets') && \class_exists('NF\Tickets\Entity\TicketField'))
+        $sm = \XF::db()->getSchemaManager();
+        if (($addonId === null || $addonId === 'NF/Tickets') &&
+            $sm->tableExists('xf_nf_tickets_ticket_field') &&
+            \class_exists('NF\Tickets\Entity\TicketField'))
         {
             $fields = $this->app()->finder('NF\Tickets:TicketField')->fetch();
 
