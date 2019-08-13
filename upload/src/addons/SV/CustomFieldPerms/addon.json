@@ -2,15 +2,18 @@
     "legacy_addon_id": "sedo_cuf_perms",
     "title": "Custom Fields Permissions",
     "description": "Input and output permissions for custom fields",
-    "version_id": 2030100,
-    "version_string": "2.3.1",
+    "version_id": 2030200,
+    "version_string": "2.3.2",
     "dev": "Xon",
     "dev_url": "https://atelieraphelion.com",
     "faq_url": "",
     "support_url": "https://xenforo.com/community/resources/custom-user-fields-permissions.6108/",
     "extra_urls": [],
-    "require" : {
-        "php": ["5.6.0", "PHP 5.6.0+"]
+    "require": {
+        "php": [
+            "5.6.0",
+            "PHP 5.6.0+"
+        ]
     },
     "icon": "icon.png"
 }
