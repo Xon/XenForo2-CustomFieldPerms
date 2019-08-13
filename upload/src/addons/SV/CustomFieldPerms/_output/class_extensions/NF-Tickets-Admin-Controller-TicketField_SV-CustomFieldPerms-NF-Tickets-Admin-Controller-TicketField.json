@@ -1,6 +1,6 @@
 {
     "from_class": "NF\\Tickets\\Admin\\Controller\\TicketField",
     "to_class": "SV\\CustomFieldPerms\\NF\\Tickets\\Admin\\Controller\\TicketField",
-    "execute_order": 10,
+    "execute_order": 6108,
     "active": true
 }

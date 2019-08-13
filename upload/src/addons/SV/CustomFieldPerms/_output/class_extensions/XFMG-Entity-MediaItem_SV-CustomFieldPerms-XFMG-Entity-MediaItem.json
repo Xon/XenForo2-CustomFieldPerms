@@ -1,6 +1,6 @@
 {
     "from_class": "XFMG\\Entity\\MediaItem",
     "to_class": "SV\\CustomFieldPerms\\XFMG\\Entity\\MediaItem",
-    "execute_order": 10,
+    "execute_order": 6108,
     "active": true
 }
