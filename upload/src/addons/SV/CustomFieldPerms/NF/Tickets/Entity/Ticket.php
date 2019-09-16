@@ -16,6 +16,7 @@ class Ticket extends XFCP_Ticket implements IFieldEntityPerm
     use CustomFieldFilterTrait;
 
     protected $customFieldRepo = 'NF\Tickets:TicketField';
+    protected $customFieldContainerKey = 'customFields.tickets';
 
     /**
      * @return null|User
