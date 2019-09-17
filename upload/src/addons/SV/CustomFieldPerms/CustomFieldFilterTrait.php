@@ -35,7 +35,8 @@ trait CustomFieldFilterTrait
             }
         }
 
-        $set->getDefinitionSet()->addFilter(
+        $definitionSet = $set->getDefinitionSet();
+        $definitionSet->addFilter(
             'check_visitor_usergroup_perms', function (array $field, $usergroups, $keyWithPerms) {
             if (!empty($field['cfp_v_' . $keyWithPerms . '_enable']))
             {
@@ -48,7 +49,7 @@ trait CustomFieldFilterTrait
             return true;
         });
 
-        $set->getDefinitionSet()->addFilter(
+        $definitionSet->addFilter(
             'check_content_usergroup_perms', function (array $field, $usergroups, $keyWithPerms) {
             if (!empty($field['cfp_c_' . $keyWithPerms . '_enable']))
             {
@@ -59,6 +60,28 @@ trait CustomFieldFilterTrait
             }
 
             return true;
+        });
+
+        $filters = DefinitionSetAccess::getFilters($definitionSet);
+        /** @var \Closure $editableCallback */
+        $editableCallback = isset($filters['editable']) ? $filters['editable'] : null;
+        $definitionSet->addFilter('editable', function(array $field, \XF\CustomField\Set $set, $editMode) use ($editableCallback)
+        {
+            if ($editMode === 'user')
+            {
+                if (!empty($field['cfp_v_input_enable']))
+                {
+                    $user = \XF::visitor();
+                    $usergroups = array_merge([$user->user_group_id], array_map('\intval', $user->secondary_group_ids));
+
+                    $permittedUserGroups = $field['cfp_v_input_val'];
+
+                    return !empty(array_intersect($usergroups, $permittedUserGroups))
+                           || in_array('all', $permittedUserGroups, true);
+                }
+            }
+
+            return $editableCallback ? $editableCallback($field, $set, $editMode) : false;
         });
 
         return $set;
