@@ -65,8 +65,14 @@ trait CustomFieldFilterTrait
         $filters = DefinitionSetAccess::getFilters($definitionSet);
         /** @var \Closure $editableCallback */
         $editableCallback = isset($filters['editable']) ? $filters['editable'] : null;
-        $definitionSet->addFilter('editable', function(array $field, \XF\CustomField\Set $set, $editMode) use ($editableCallback)
+        $definitionSet->addFilter('editable', function(array $field, Set $set, $editMode) use ($editableCallback)
         {
+            $editable = $editableCallback ? $editableCallback($field, $set, $editMode) : true;
+            if (!$editable)
+            {
+                return false;
+            }
+
             if ($editMode === 'user')
             {
                 if (!empty($field['cfp_v_input_enable']))
@@ -81,7 +87,7 @@ trait CustomFieldFilterTrait
                 }
             }
 
-            return $editableCallback ? $editableCallback($field, $set, $editMode) : false;
+            return true;
         });
 
         return $set;
