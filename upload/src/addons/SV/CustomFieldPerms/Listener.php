@@ -11,6 +11,10 @@ class Listener
     public static function customFieldsEdit(/** @noinspection PhpUnusedParameterInspection */
         Templater $templater, &$type, &$template, &$name, array &$arguments, array &$globalVars)
     {
+        if (\XF::app() instanceof \XF\Admin\App && !($templater instanceof \XF\Mail\Templater))
+        {
+            return;
+        }
         /** @var \SV\CustomFieldPerms\Repository\Field $repo */
         $repo = \XF::repository('SV\CustomFieldPerms:Field');
         $repo->applyUsergroupCustomFieldPermissionFilters($arguments, 'input');
@@ -19,6 +23,10 @@ class Listener
     public static function customFieldsView(/** @noinspection PhpUnusedParameterInspection */
         Templater $templater, &$type, &$template, &$name, array &$arguments, array &$globalVars)
     {
+        if (\XF::app() instanceof \XF\Admin\App && !($templater instanceof \XF\Mail\Templater))
+        {
+            return;
+        }
         /** @var \SV\CustomFieldPerms\Repository\Field $repo */
         $repo = \XF::repository('SV\CustomFieldPerms:Field');
         $permType = isset($arguments['group']) && $arguments['group'] === 'about' ? 'output_ui' : 'output_pp';
@@ -28,6 +36,10 @@ class Listener
     public static function customFieldsViewValues(/** @noinspection PhpUnusedParameterInspection */
         Templater $templater, &$type, &$template, &$name, array &$arguments, array &$globalVars)
     {
+        if (\XF::app() instanceof \XF\Admin\App && !($templater instanceof \XF\Mail\Templater))
+        {
+            return;
+        }
         /** @var \SV\CustomFieldPerms\Repository\Field $repo */
         $repo = \XF::repository('SV\CustomFieldPerms:Field');
         $repo->applyUsergroupCustomFieldPermissionFilters($arguments, 'output_ui');
