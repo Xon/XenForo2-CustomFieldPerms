@@ -5,7 +5,6 @@ namespace SV\CustomFieldPerms\Repository;
 use SV\CustomFieldPerms\Globals;
 use SV\CustomFieldPerms\IFieldEntityPerm;
 use SV\CustomFieldPerms\SetEntity;
-use SV\CustomFieldPerms\Setup;
 use XF\Db\Schema\Alter;
 use XF\Entity\User;
 use XF\Mvc\Entity\Repository;
@@ -72,8 +71,7 @@ class Field extends Repository
     /**
      * @param string|null $addonId
      */
-    public function applyCustomFieldSchemaChanges(/** @noinspection PhpUnusedParameterInspection */
-        $addonId = null)
+    public function applyCustomFieldSchemaChanges($addonId = null)
     {
         if ($addonId)
         {

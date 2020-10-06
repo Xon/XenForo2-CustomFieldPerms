@@ -5,8 +5,6 @@ namespace SV\CustomFieldPerms\NF\Tickets\Entity;
 use SV\CustomFieldPerms\CustomFieldFilterTrait;
 use SV\CustomFieldPerms\IFieldEntityPerm;
 use XF\Entity\User;
-use XF\Mvc\Entity\Entity;
-use XF\Mvc\Entity\Structure;
 
 /**
  * Extends \NF\Tickets\Entity\Ticket

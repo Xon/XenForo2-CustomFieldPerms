@@ -10,6 +10,7 @@ trait CustomFieldFilterTrait
      * Insert a new filter type into the DefinitionSet.
      *
      * @return Set
+     * @throws \Exception
      */
     public function getCustomFields()
     {
