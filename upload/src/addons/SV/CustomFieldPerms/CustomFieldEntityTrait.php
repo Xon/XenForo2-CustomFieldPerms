@@ -1,4 +1,7 @@
 <?php
+/**
+ * @noinspection PhpMissingReturnTypeInspection
+ */
 
 namespace SV\CustomFieldPerms;
 
@@ -6,7 +9,7 @@ use XF\Mvc\Entity\Structure;
 
 trait CustomFieldEntityTrait
 {
-    public function hasCustomFieldPerm($column)
+    public function hasCustomFieldPerm($column): bool
     {
         /** @var Structure $structure */
         $structure = $this->structure();

@@ -1,9 +1,13 @@
 <?php
+/**
+ * @noinspection PhpMissingReturnTypeInspection
+ */
 
 namespace SV\CustomFieldPerms;
 
 use XF\Entity\AbstractField;
 use XF\Mvc\FormAction;
+use XF\Mvc\Reply\AbstractReply;
 use XF\Mvc\Reply\View;
 
 trait CustomFieldAdminTrait
@@ -12,7 +16,7 @@ trait CustomFieldAdminTrait
      * Insert additional data into the field regarding permissions.
      *
      * @param AbstractField $field
-     * @return View
+     * @return AbstractReply
      */
     protected function fieldAddEditResponse(AbstractField $field)
     {

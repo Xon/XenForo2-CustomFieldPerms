@@ -1,4 +1,7 @@
 <?php
+/**
+ * @noinspection PhpMissingReturnTypeInspection
+ */
 
 namespace SV\CustomFieldPerms;
 
@@ -10,7 +13,7 @@ class SetEntity extends Set
      * @param Set $set
      * @return \XF\Mvc\Entity\Entity
      */
-    public static function getEntity($set)
+    public static function getEntity(Set $set)
     {
         if ($set instanceof Set)
         {

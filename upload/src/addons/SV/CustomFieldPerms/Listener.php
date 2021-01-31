@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * @noinspection PhpUnusedParameterInspection
+ */
 
 namespace SV\CustomFieldPerms;
 
@@ -8,8 +10,7 @@ use XF\Template\Templater;
 
 class Listener
 {
-    public static function customFieldsEdit(/** @noinspection PhpUnusedParameterInspection */
-        Templater $templater, &$type, &$template, &$name, array &$arguments, array &$globalVars)
+    public static function customFieldsEdit(Templater $templater, &$type, &$template, &$name, array &$arguments, array &$globalVars)
     {
         if (\XF::app() instanceof \XF\Admin\App && !($templater instanceof \XF\Mail\Templater))
         {
@@ -20,8 +21,7 @@ class Listener
         $repo->applyUsergroupCustomFieldPermissionFilters($arguments, 'input');
     }
 
-    public static function customFieldsView(/** @noinspection PhpUnusedParameterInspection */
-        Templater $templater, &$type, &$template, &$name, array &$arguments, array &$globalVars)
+    public static function customFieldsView(Templater $templater, &$type, &$template, &$name, array &$arguments, array &$globalVars)
     {
         if (\XF::app() instanceof \XF\Admin\App && !($templater instanceof \XF\Mail\Templater))
         {
@@ -33,8 +33,7 @@ class Listener
         $repo->applyUsergroupCustomFieldPermissionFilters($arguments, $permType);
     }
 
-    public static function customFieldsViewValues(/** @noinspection PhpUnusedParameterInspection */
-        Templater $templater, &$type, &$template, &$name, array &$arguments, array &$globalVars)
+    public static function customFieldsViewValues(Templater $templater, &$type, &$template, &$name, array &$arguments, array &$globalVars)
     {
         if (\XF::app() instanceof \XF\Admin\App && !($templater instanceof \XF\Mail\Templater))
         {
@@ -45,8 +44,7 @@ class Listener
         $repo->applyUsergroupCustomFieldPermissionFilters($arguments, 'output_ui');
     }
 
-    public static function addonPostRebuild(/** @noinspection PhpUnusedParameterInspection */
-        \XF\AddOn\AddOn $addOn, \XF\Entity\AddOn $installedAddOn, array $json)
+    public static function addonPostRebuild(\XF\AddOn\AddOn $addOn, \XF\Entity\AddOn $installedAddOn, array $json)
     {
         /** @var \SV\CustomFieldPerms\Repository\Field $repo */
         $repo = \XF::repository('SV\CustomFieldPerms:Field');
@@ -54,8 +52,7 @@ class Listener
         $repo->rebuildCaches($addOn->getAddOnId());
     }
 
-    public static function addonPostInstall(/** @noinspection PhpUnusedParameterInspection */
-        \XF\AddOn\AddOn $addOn, \XF\Entity\AddOn $installedAddOn, array $json, array &$stateChanges)
+    public static function addonPostInstall(\XF\AddOn\AddOn $addOn, \XF\Entity\AddOn $installedAddOn, array $json, array &$stateChanges)
     {
         /** @var \SV\CustomFieldPerms\Repository\Field $repo */
         $repo = \XF::repository('SV\CustomFieldPerms:Field');

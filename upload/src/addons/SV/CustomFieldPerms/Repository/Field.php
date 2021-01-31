@@ -11,9 +11,10 @@ use XF\Mvc\Entity\Repository;
 
 class Field extends Repository
 {
+    /** @var int[][] */
     protected $svVisitorGroupIds = [];
 
-    protected function getUserGroups(User $user = null)
+    protected function getUserGroups(User $user = null): array
     {
         if (!$user)
         {
@@ -38,7 +39,7 @@ class Field extends Repository
      * @param array  $arguments
      * @param string $key
      */
-    public function applyUsergroupCustomFieldPermissionFilters(&$arguments, $key)
+    public function applyUsergroupCustomFieldPermissionFilters(array &$arguments, string $key)
     {
         $entity = SetEntity::getEntity($arguments['set']);
         if (!$entity instanceof IFieldEntityPerm)

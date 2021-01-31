@@ -1,4 +1,7 @@
 <?php
+/**
+ * @noinspection DuplicatedCode
+ */
 
 namespace SV\CustomFieldPerms;
 
