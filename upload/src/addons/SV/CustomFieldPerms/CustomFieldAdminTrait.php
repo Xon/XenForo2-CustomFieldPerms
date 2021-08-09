@@ -29,36 +29,36 @@ trait CustomFieldAdminTrait
             /** @var \XF\Repository\UserGroup $ugRepo */
             $ugRepo = $this->repository('XF:UserGroup');
             $userGroups = $ugRepo->findUserGroupsForList()->fetchColumns('user_group_id', 'title');
-            array_unshift($userGroups, ['title' => 'all', 'user_group_id' => 'all']);
+            \array_unshift($userGroups, ['title' => 'all', 'user_group_id' => 'all']);
 
             // get the permission value keys, and associated permissions
             $entityClassName = $this->getClassIdentifier();
             $structure = \XF::em()->getEntityStructure($entityClassName);
             if (isset(Globals::$tables[$structure->table]))
             {
-                $permValKeys = array_filter(
-                    array_keys(Globals::$tables[$structure->table]), function ($a) {
-                    return preg_match('/^cfp_.*_val$/', $a);
+                $permValKeys = \array_filter(
+                    \array_keys(Globals::$tables[$structure->table]), function ($a) {
+                    return \preg_match('/^cfp_.*_val$/', $a);
                 }
                 );
-                $permVals = array_map(
+                $permVals = \array_map(
                     function ($key) use ($reply) {
                         return $reply->getParams()['field'][$key];
                     }, $permValKeys
                 );
 
                 // insert permission sets into the field
-                array_map(
+                \array_map(
                 // permission sets
                     function ($permValKey, $permVal) use ($userGroups, $field) {
                         // usergroups in those permission sets
                         $field->set(
-                            $permValKey, array_map(
+                            $permValKey, \array_map(
                                 function ($userGroup) use ($permVal) {
                                     return [
-                                        'selected' => !empty($permVal) ? in_array($userGroup['user_group_id'], $permVal, true) : null,
+                                        'selected' => !empty($permVal) ? \in_array($userGroup['user_group_id'], $permVal, true) : null,
                                         'value'    => $userGroup['user_group_id'],
-                                        'label'    => filter_var($userGroup['title'], FILTER_SANITIZE_STRING),
+                                        'label'    => \filter_var($userGroup['title'], FILTER_SANITIZE_STRING),
                                     ];
                                 }, $userGroups
                             )

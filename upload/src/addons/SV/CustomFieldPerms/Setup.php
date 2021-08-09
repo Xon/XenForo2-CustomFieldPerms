@@ -91,9 +91,8 @@ class Setup extends AbstractSetup
         {
             if ($sm->tableExists($table))
             {
-                $sm->alterTable(
-                    $table, function (Alter $table) use ($columns) {
-                    $table->dropColumns(array_keys($columns));
+                $sm->alterTable($table, function (Alter $table) use ($columns) {
+                    $table->dropColumns(\array_keys($columns));
                 });
             }
         }

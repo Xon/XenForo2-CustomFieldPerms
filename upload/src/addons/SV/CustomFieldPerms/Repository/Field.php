@@ -24,9 +24,9 @@ class Field extends Repository
         $userId = $user->user_id;
         if (!isset($this->visitorGroupIds[$userId]))
         {
-            $this->svVisitorGroupIds[$userId] = array_merge(
+            $this->svVisitorGroupIds[$userId] = \array_merge(
                 [$user->user_group_id],
-                array_map('intval', $user->secondary_group_ids)
+                \array_map('\intval', $user->secondary_group_ids)
             );
         }
 
@@ -56,7 +56,7 @@ class Field extends Repository
         }
 
         $arguments['additionalFilters'] =
-            array_merge(
+            \array_merge(
                 $arguments['additionalFilters'],
                 [
                     'check_visitor_usergroup_perms' => [
@@ -103,7 +103,7 @@ class Field extends Repository
                         {
                             $col->nullable($details['nullable']);
                         }
-                        if (array_key_exists('default', $details))
+                        if (\array_key_exists('default', $details))
                         {
                             $col->setDefault($details['default']);
                         }
@@ -135,14 +135,14 @@ class Field extends Repository
                     {
                         if (isset($field->usable_user_group_ids[0]) && $field->usable_user_group_ids[0] === '-1')
                         {
-                            $updates = array_merge($updates, [
+                            $updates = \array_merge($updates, [
                                 'cfp_v_input_enable' => 0,
                                 'cfp_v_input_val'    => \serialize([]),
                             ]);
                         }
                         else
                         {
-                            $updates = array_merge($updates, [
+                            $updates = \array_merge($updates, [
                                 'cfp_v_input_enable' => 1,
                                 'cfp_v_input_val'    => $field->getValueSourceEncoded('usable_user_group_ids')
                             ]);
@@ -152,14 +152,14 @@ class Field extends Repository
                     {
                         if (isset($field->viewable_user_group_ids[0]) && $field->viewable_user_group_ids[0] === '-1')
                         {
-                            $updates = array_merge($updates, [
+                            $updates = \array_merge($updates, [
                                 'cfp_v_output_ui_enable' => 0,
                                 'cfp_v_output_ui_val'    => \serialize([]),
                             ]);
                         }
                         else
                         {
-                            $updates = array_merge($updates, [
+                            $updates = \array_merge($updates, [
                                 'cfp_v_output_ui_enable' => 1,
                                 'cfp_v_output_ui_val'    => $field->getValueSourceEncoded('viewable_user_group_ids')
                             ]);
@@ -170,14 +170,14 @@ class Field extends Repository
                     {
                         if (isset($field->viewable_owner_user_group_ids[0]) && $field->viewable_owner_user_group_ids[0] === '-1')
                         {
-                            $updates = array_merge($updates, [
+                            $updates = \array_merge($updates, [
                                 'cfp_c_output_ui_enable' => 0,
                                 'cfp_c_output_ui_val'    => \serialize([]),
                             ]);
                         }
                         else
                         {
-                            $updates = array_merge($updates, [
+                            $updates = \array_merge($updates, [
                                 'cfp_c_output_ui_enable' => 1,
                                 'cfp_c_output_ui_val'    => $field->getValueSourceEncoded('viewable_owner_user_group_ids')
                             ]);
@@ -211,10 +211,10 @@ class Field extends Repository
 
         if (!$conditions)
         {
-            throw new \LogicException("No primary key defined for entity " . get_class($this));
+            throw new \LogicException("No primary key defined for entity " . \get_class($this));
         }
 
-        $condition = implode(' AND ', $conditions);
+        $condition = \implode(' AND ', $conditions);
 
         $this->db()->update($entity->structure()->table, $updates, $condition);
     }

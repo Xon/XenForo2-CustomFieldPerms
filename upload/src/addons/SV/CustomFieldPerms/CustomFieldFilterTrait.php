@@ -46,9 +46,9 @@ trait CustomFieldFilterTrait
             {
                 $permittedUserGroups = $field['cfp_v_' . $keyWithPerms . '_val'];
 
-                return !is_array($permittedUserGroups) ||
-                       !empty(array_intersect($usergroups, $permittedUserGroups))
-                       || in_array('all', $permittedUserGroups, true);
+                return !\is_array($permittedUserGroups) ||
+                       !empty(\array_intersect($usergroups, $permittedUserGroups))
+                       || \in_array('all', $permittedUserGroups, true);
             }
 
             return true;
@@ -60,9 +60,9 @@ trait CustomFieldFilterTrait
             {
                 $permittedUserGroups = $field['cfp_c_' . $keyWithPerms . '_val'];
 
-                return !is_array($permittedUserGroups) ||
-                       !empty(array_intersect($usergroups, $permittedUserGroups))
-                       || in_array('all', $permittedUserGroups, true);
+                return !\is_array($permittedUserGroups) ||
+                       !empty(\array_intersect($usergroups, $permittedUserGroups))
+                       || \in_array('all', $permittedUserGroups, true);
             }
 
             return true;
@@ -84,13 +84,13 @@ trait CustomFieldFilterTrait
                 if (!empty($field['cfp_v_input_enable']))
                 {
                     $user = \XF::visitor();
-                    $usergroups = array_merge([$user->user_group_id], array_map('\intval', $user->secondary_group_ids));
+                    $usergroups = \array_merge([$user->user_group_id], \array_map('\intval', $user->secondary_group_ids));
 
                     $permittedUserGroups = $field['cfp_v_input_val'];
 
-                    return !is_array($permittedUserGroups) ||
-                           !empty(array_intersect($usergroups, $permittedUserGroups))
-                           || in_array('all', $permittedUserGroups, true);
+                    return !\is_array($permittedUserGroups) ||
+                           !empty(\array_intersect($usergroups, $permittedUserGroups))
+                           || \in_array('all', $permittedUserGroups, true);
                 }
             }
 
