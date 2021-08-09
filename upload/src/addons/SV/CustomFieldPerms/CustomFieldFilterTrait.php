@@ -48,7 +48,7 @@ trait CustomFieldFilterTrait
 
                 return !is_array($permittedUserGroups) ||
                        !empty(array_intersect($usergroups, $permittedUserGroups))
-                       || in_array('all', $permittedUserGroups);
+                       || in_array('all', $permittedUserGroups, true);
             }
 
             return true;
@@ -62,7 +62,7 @@ trait CustomFieldFilterTrait
 
                 return !is_array($permittedUserGroups) ||
                        !empty(array_intersect($usergroups, $permittedUserGroups))
-                       || in_array('all', $permittedUserGroups);
+                       || in_array('all', $permittedUserGroups, true);
             }
 
             return true;

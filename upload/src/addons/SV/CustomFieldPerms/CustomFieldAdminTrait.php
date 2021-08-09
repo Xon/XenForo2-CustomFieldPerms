@@ -56,7 +56,7 @@ trait CustomFieldAdminTrait
                             $permValKey, array_map(
                                 function ($userGroup) use ($permVal) {
                                     return [
-                                        'selected' => !empty($permVal) ? in_array($userGroup['user_group_id'], $permVal) : null,
+                                        'selected' => !empty($permVal) ? in_array($userGroup['user_group_id'], $permVal, true) : null,
                                         'value'    => $userGroup['user_group_id'],
                                         'label'    => filter_var($userGroup['title'], FILTER_SANITIZE_STRING),
                                     ];
