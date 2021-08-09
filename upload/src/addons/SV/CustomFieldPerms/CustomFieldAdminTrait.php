@@ -57,7 +57,7 @@ trait CustomFieldAdminTrait
                                     return [
                                         'selected' => \in_array((string)$userGroup['user_group_id'], $permVal, true),
                                         'value'    => $userGroup['user_group_id'],
-                                        'label'    => \filter_var($userGroup['title'], FILTER_SANITIZE_STRING),
+                                        'label'    => $userGroup['title'],
                                     ];
                                 }, $userGroups
                             )
