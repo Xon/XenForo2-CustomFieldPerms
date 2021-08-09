@@ -1,4 +1,7 @@
 <?php
+/**
+ * @noinspection PhpMissingParamTypeInspection
+ */
 
 namespace SV\CustomFieldPerms\Repository;
 

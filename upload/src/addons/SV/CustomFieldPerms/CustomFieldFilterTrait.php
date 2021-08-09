@@ -1,5 +1,6 @@
 <?php
 /**
+ * @noinspection PhpMultipleClassDeclarationsInspection
  * @noinspection PhpMissingReturnTypeInspection
  */
 
@@ -17,7 +18,6 @@ trait CustomFieldFilterTrait
      */
     public function getCustomFields()
     {
-        /** @noinspection PhpUndefinedClassInspection */
         $set = parent::getCustomFields();
 
         if (isset($this->customFieldRepo) && isset($this->customFieldContainerKey))
@@ -31,7 +31,6 @@ trait CustomFieldFilterTrait
                     $customFieldRepo->rebuildFieldCache();
                     \XF::app()->container()->decache($this->customFieldContainerKey);
 
-                    /** @noinspection PhpUndefinedClassInspection */
                     $set = parent::getCustomFields();
 
                     break;
@@ -70,7 +69,7 @@ trait CustomFieldFilterTrait
 
         $filters = DefinitionSetAccess::getFilters($definitionSet);
         /** @var \Closure $editableCallback */
-        $editableCallback = isset($filters['editable']) ? $filters['editable'] : null;
+        $editableCallback = $filters['editable'] ?? null;
         $definitionSet->addFilter('editable', function(array $field, Set $set, $editMode) use ($editableCallback)
         {
             $editable = $editableCallback ? $editableCallback($field, $set, $editMode) : true;

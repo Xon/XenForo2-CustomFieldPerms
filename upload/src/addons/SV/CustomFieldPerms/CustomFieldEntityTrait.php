@@ -1,5 +1,6 @@
 <?php
 /**
+ * @noinspection PhpMultipleClassDeclarationsInspection
  * @noinspection PhpMissingReturnTypeInspection
  */
 
@@ -11,7 +12,6 @@ trait CustomFieldEntityTrait
 {
     public function hasCustomFieldPerm($column): bool
     {
-        /** @var Structure $structure */
         $structure = $this->structure();
 
         return isset($structure->columns['cfp_' . $column . '_enable']);
@@ -25,7 +25,6 @@ trait CustomFieldEntityTrait
      */
     public static function getStructure(Structure $structure)
     {
-        /** @noinspection PhpUndefinedClassInspection */
         $structure = parent::getStructure($structure);
 
         if (isset(Globals::$tables[$structure->table]))

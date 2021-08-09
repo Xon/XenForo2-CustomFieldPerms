@@ -1,5 +1,7 @@
 <?php
+
 /**
+ * @noinspection PhpMultipleClassDeclarationsInspection
  * @noinspection PhpMissingReturnTypeInspection
  */
 
@@ -20,7 +22,6 @@ trait CustomFieldAdminTrait
      */
     protected function fieldAddEditResponse(AbstractField $field)
     {
-        /** @noinspection PhpUndefinedClassInspection */
         $reply = parent::fieldAddEditResponse($field);
 
         if ($reply instanceof View)
@@ -82,7 +83,6 @@ trait CustomFieldAdminTrait
      */
     protected function saveAdditionalData(FormAction $form, AbstractField $field)
     {
-        /** @noinspection PhpUndefinedClassInspection */
         $form = parent::saveAdditionalData($form, $field);
 
         $elements = [];
