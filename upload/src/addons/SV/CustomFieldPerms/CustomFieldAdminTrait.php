@@ -39,13 +39,12 @@ trait CustomFieldAdminTrait
                 $permValKeys = \array_filter(
                     \array_keys(Globals::$tables[$structure->table]), function ($a) {
                     return \preg_match('/^cfp_.*_val$/', $a);
-                }
-                );
-                $permVals = \array_map(
-                    function ($key) use ($reply) {
-                        return $reply->getParams()['field'][$key];
-                    }, $permValKeys
-                );
+                });
+                $field = $reply->getParam('field') ?? [];
+                $permVals = \array_map(function ($key) use ($field) {
+                        return $field[$key] ?? [];
+                }, $permValKeys);
+                // $permVals is an array of group ids, and/or the string 'all
 
                 // insert permission sets into the field
                 \array_map(
@@ -56,7 +55,7 @@ trait CustomFieldAdminTrait
                             $permValKey, \array_map(
                                 function ($userGroup) use ($permVal) {
                                     return [
-                                        'selected' => !empty($permVal) ? \in_array($userGroup['user_group_id'], $permVal, true) : null,
+                                        'selected' => \in_array((string)$userGroup['user_group_id'], $permVal, true),
                                         'value'    => $userGroup['user_group_id'],
                                         'label'    => \filter_var($userGroup['title'], FILTER_SANITIZE_STRING),
                                     ];
