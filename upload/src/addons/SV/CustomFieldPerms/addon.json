@@ -13,5 +13,5 @@
         "XF": [2010070, "XenForo 2.1.0+"],
         "php": ["7.0.0", "PHP 7.0.0+"]
     },
-    "icon": "icon.png"
+    "icon": "fa-shield-alt"
 }
