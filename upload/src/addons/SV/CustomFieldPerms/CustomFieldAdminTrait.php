@@ -56,7 +56,7 @@ trait CustomFieldAdminTrait
                             $permValKey, \array_map(
                                 function ($userGroup) use ($permVal) {
                                     return [
-                                        'selected' => \in_array((string)$userGroup['user_group_id'], $permVal, true),
+                                        'selected' => \is_array($permVal) && \in_array((string)$userGroup['user_group_id'], $permVal, true),
                                         'value'    => $userGroup['user_group_id'],
                                         'label'    => $userGroup['title'],
                                     ];
