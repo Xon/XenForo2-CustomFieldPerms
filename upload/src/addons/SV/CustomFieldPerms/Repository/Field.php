@@ -17,9 +17,13 @@ class Field extends Repository
     /** @var int[][] */
     protected $svVisitorGroupIds = [];
 
+    /**
+     * @param User|null $user
+     * @return int[]
+     */
     protected function getUserGroups(User $user = null): array
     {
-        if (!$user)
+        if ($user === null)
         {
             return [];
         }
@@ -50,8 +54,10 @@ class Field extends Repository
             return;
         }
 
-        $visitorUserGroups = $this->getUserGroups(\XF::visitor());
-        $contentUserGroups = $this->getUserGroups($entity->getContentUser());
+        $visitor = \XF::visitor();
+        $contentUser = $entity->getContentUser();
+        $visitorUserGroups = $this->getUserGroups($visitor);
+        $contentUserGroups = $this->getUserGroups($contentUser);
 
         if (!isset($arguments['additionalFilters']))
         {
@@ -63,11 +69,11 @@ class Field extends Repository
                 $arguments['additionalFilters'],
                 [
                     'check_visitor_usergroup_perms' => [
-                        $visitorUserGroups, $key
+                        $visitorUserGroups, $key, $visitor, $contentUser,
                     ],
                     'check_content_usergroup_perms' => [
-                        $contentUserGroups, $key
-                    ]
+                        $contentUserGroups, $key, $visitor, $contentUser,
+                    ],
                 ]
             );
     }

@@ -40,13 +40,28 @@ trait CustomFieldFilterTrait
 
         $definitionSet = $set->getDefinitionSet();
         $definitionSet->addFilter(
-            'check_visitor_usergroup_perms', function (array $field, $usergroups, $keyWithPerms) {
+            'check_visitor_usergroup_perms', function (array $field, array $userGroups, string $keyWithPerms, \XF\Entity\User $visitor = null, \XF\Entity\User $contentUser = null) {
+            $bypassValue = $field['cfp_o_' . $keyWithPerms . '_bypass'] ?? null;
+            if ($bypassValue !== null)
+            {
+                $value = (int)$bypassValue;
+                if ($value !== 0)
+                {
+                    $visitorUserId = $visitor->user_id ?? 0;
+
+                    if ($visitorUserId !== 0 && $visitorUserId === ($contentUser->user_id ?? 0))
+                    {
+                        return true;
+                    }
+                }
+            }
+
             if (!empty($field['cfp_v_' . $keyWithPerms . '_enable']))
             {
                 $permittedUserGroups = $field['cfp_v_' . $keyWithPerms . '_val'];
 
                 return !\is_array($permittedUserGroups) ||
-                       !empty(\array_intersect($usergroups, $permittedUserGroups))
+                       !empty(\array_intersect($userGroups, $permittedUserGroups))
                        || \in_array('all', $permittedUserGroups, true);
             }
 
@@ -54,13 +69,28 @@ trait CustomFieldFilterTrait
         });
 
         $definitionSet->addFilter(
-            'check_content_usergroup_perms', function (array $field, $usergroups, $keyWithPerms) {
+            'check_content_usergroup_perms', function (array $field, array $userGroups, string $keyWithPerms, \XF\Entity\User $visitor = null, \XF\Entity\User $contentUser = null) {
+            $bypassValue = $field['cfp_o_' . $keyWithPerms . '_bypass'] ?? null;
+            if ($bypassValue !== null)
+            {
+                $value = (int)$bypassValue;
+                if ($value !== 0)
+                {
+                    $visitorUserId = $visitor->user_id ?? 0;
+
+                    if ($visitorUserId !== 0 && $visitorUserId === ($contentUser->user_id ?? 0))
+                    {
+                        return true;
+                    }
+                }
+            }
+
             if (!empty($field['cfp_c_' . $keyWithPerms . '_enable']))
             {
                 $permittedUserGroups = $field['cfp_c_' . $keyWithPerms . '_val'];
 
                 return !\is_array($permittedUserGroups) ||
-                       !empty(\array_intersect($usergroups, $permittedUserGroups))
+                       !empty(\array_intersect($userGroups, $permittedUserGroups))
                        || \in_array('all', $permittedUserGroups, true);
             }
 

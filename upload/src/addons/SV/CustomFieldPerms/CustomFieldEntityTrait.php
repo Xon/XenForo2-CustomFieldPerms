@@ -10,11 +10,16 @@ use XF\Mvc\Entity\Structure;
 
 trait CustomFieldEntityTrait
 {
-    public function hasCustomFieldPerm($column): bool
+    public function hasCustomFieldPerm(string $column, bool $raw = false): bool
     {
         $structure = $this->structure();
 
-        return isset($structure->columns['cfp_' . $column . '_enable']);
+        if ($raw)
+        {
+            return isset($structure->columns['cfp_' . $column]);
+        }
+
+        return isset($structure->columns['cfp_' . $column . '_enable']) && isset($structure->columns['cfp_' . $column . '_val']);
     }
 
     /**

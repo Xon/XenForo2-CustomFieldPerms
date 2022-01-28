@@ -1,36 +1,33 @@
 <xf:if is="$field instanceof '\SV\CustomFieldPerms\IFieldPerm'">
-	<xf:if is="$field.hasCustomFieldPerm('v_input')">
-		<xf:macro name="permission"
-				  arg-field="{{ $field }}"
-				  arg-fieldName="v_input"
-				  arg-headerPhrase="{{ phrase('sedo_cuf_perms_input') }}"
-				  arg-headerDescPhrase="{{ phrase('sedo_cuf_perms_input_desc') }}"
-				  />
-	</xf:if>
-	<xf:if is="$field.hasCustomFieldPerm('v_output_pp')">
-		<xf:macro name="permission"
-				  arg-field="{{ $field }}"
-				  arg-fieldName="v_output_pp"
-				  arg-headerPhrase="{{ phrase('sedo_cuf_perms_output_pp') }}"
-				  arg-headerDescPhrase="{{ phrase('sedo_cuf_perms_output_pp_desc') }}"
-				  />
-	</xf:if>
-	<xf:if is="$field.hasCustomFieldPerm('v_output_ui')">
-		<xf:macro name="permission"
-				  arg-field="{{ $field }}"
-				  arg-fieldName="v_output_ui"
-				  arg-headerPhrase="{{ ($field instanceof '\XF\Entity\UserField') ? phrase('sedo_cuf_perms_output_ui') : phrase('sedo_cuf_perms_output') }}"
-				  arg-headerDescPhrase="{{ ($field instanceof '\XF\Entity\UserField') ? phrase('sedo_cuf_perms_output_ui_desc') : phrase('sedo_cuf_perms_output_desc') }}"
-				  />
-	</xf:if>
-	<xf:if is="$field.hasCustomFieldPerm('c_output_ui')">
-		<xf:macro name="permission"
-				  arg-field="{{ $field }}"
-				  arg-fieldName="c_output_ui"
-				  arg-headerPhrase="{{ phrase('sedo_cuf_perms_c_output') }}"
-				  arg-headerDescPhrase="{{ phrase('sedo_cuf_perms_c_output_desc') }}"
-				  />
-	</xf:if>
+	<xf:macro name="permission"
+			  arg-field="{{ $field }}"
+			  arg-fieldName="v_input"
+			  arg-headerPhrase="{{ phrase('sedo_cuf_perms_input') }}"
+			  arg-headerDescPhrase="{{ phrase('sedo_cuf_perms_input_desc') }}"
+			  arg-bypassPermission="o_input_bypass"
+			  arg-bypassPermPhrase="{{ phrase('svCustomFieldPerms_input_content_owner_bypass_explain') }}"
+			  />
+	<xf:macro name="permission"
+			  arg-field="{{ $field }}"
+			  arg-fieldName="v_output_pp"
+			  arg-headerPhrase="{{ phrase('sedo_cuf_perms_output_pp') }}"
+			  arg-headerDescPhrase="{{ phrase('sedo_cuf_perms_output_pp_desc') }}"
+			  />
+
+	<xf:macro name="permission"
+			  arg-field="{{ $field }}"
+			  arg-fieldName="v_output_ui"
+			  arg-headerPhrase="{{ ($field instanceof '\XF\Entity\UserField') ? phrase('sedo_cuf_perms_output_ui') : phrase('sedo_cuf_perms_output') }}"
+			  arg-headerDescPhrase="{{ ($field instanceof '\XF\Entity\UserField') ? phrase('sedo_cuf_perms_output_ui_desc') : phrase('sedo_cuf_perms_output_desc') }}"
+			  arg-bypassPermission="o_output_ui_bypass"
+			  arg-bypassPermPhrase="{{ phrase('svCustomFieldPerms_ouput_content_owner_bypass_explain') }}"
+			  />
+	<xf:macro name="permission"
+			  arg-field="{{ $field }}"
+			  arg-fieldName="c_output_ui"
+			  arg-headerPhrase="{{ phrase('sedo_cuf_perms_c_output') }}"
+			  arg-headerDescPhrase="{{ phrase('sedo_cuf_perms_c_output_desc') }}"
+			  />
 </xf:if>
 
 <xf:macro name="permission"
@@ -38,7 +35,10 @@
 		  arg-fieldName="!"
 		  arg-headerPhrase="!"
 		  arg-headerDescPhrase="!"
+		  arg-bypassPermission=""
+		  arg-bypassPermPhrase=""
 		  >
+	<xf:if is="$field.hasCustomFieldPerm($fieldName)">
 	<h3 class="block-formSectionHeader">
 		<span class="collapseTrigger collapseTrigger--block" data-xf-click="toggle" data-target="< :up:next">
 			<span class="block-formSectionHeader-aligner">{$headerPhrase}</span>
@@ -56,6 +56,18 @@
 			<xf:option label="{{ phrase('yes') }}" value="1" />
 		</xf:selectrow>
 
+		<xf:if is="$bypassPermission && $field.hasCustomFieldPerm($bypassPermission, true)">
+			<xf:set var="$bypassField" value="{{ 'cfp_' . $bypassPermission }}" />
+			<xf:selectrow name="{$bypassField}"
+						  value="{{ $field.{$bypassField} }}"
+						  label="{{ phrase('svCustomFieldPerms_content_owner_bypass') }}"
+						  explain="{$bypassPermPhrase}"
+						  >
+				<xf:option label="{{ phrase('no') }}" value="0" />
+				<xf:option label="{{ phrase('yes') }}" value="1" />
+			</xf:selectrow>
+		</xf:if>
+
 		<xf:checkboxrow
 						label="{{ phrase('sedo_cuf_perms_select_usergroups') }}"
 						explain="{{ phrase('sedo_cuf_perms_select_usergroups_desc') }}"
@@ -69,4 +81,5 @@
 			</xf:foreach>
 		</xf:checkboxrow>
 	</div>
+	</xf:if>
 </xf:macro>
