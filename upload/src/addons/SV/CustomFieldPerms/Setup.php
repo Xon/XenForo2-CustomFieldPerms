@@ -115,4 +115,15 @@ class Setup extends AbstractSetup
         $repo = \XF::repository('SV\CustomFieldPerms:Field');
         $repo->rebuildCaches();
     }
+
+    public function postRebuild()
+    {
+        /** @var \SV\CustomFieldPerms\Repository\Field $repo */
+        $repo = \XF::repository('SV\CustomFieldPerms:Field');
+        $repo->applyCustomFieldSchemaChanges();
+
+        /** @var \SV\CustomFieldPerms\Repository\Field $repo */
+        $repo = \XF::repository('SV\CustomFieldPerms:Field');
+        $repo->rebuildCaches();
+    }
 }
