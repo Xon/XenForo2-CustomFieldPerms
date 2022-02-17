@@ -109,6 +109,10 @@ class Setup extends AbstractSetup
     {
         /** @var \SV\CustomFieldPerms\Repository\Field $repo */
         $repo = \XF::repository('SV\CustomFieldPerms:Field');
+        $repo->applyCustomFieldSchemaChanges();
+
+        /** @var \SV\CustomFieldPerms\Repository\Field $repo */
+        $repo = \XF::repository('SV\CustomFieldPerms:Field');
         $repo->rebuildCaches();
     }
 }
