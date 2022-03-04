@@ -4,6 +4,7 @@ Contenet Types:
 - Users
 - Threads
 - XFMG Media items
+- NF/Tickets
 
 This addon allows you to set permissions for Custom Fields:
 - Input permissions: select which usergroups can access and edit the custom field (supports the 3 original locations)
