@@ -21,7 +21,7 @@ class Field extends Repository
      * @param User|null $user
      * @return int[]
      */
-    protected function getUserGroups(User $user = null): array
+    protected function getUserGroups(?User $user = null): array
     {
         if ($user === null)
         {

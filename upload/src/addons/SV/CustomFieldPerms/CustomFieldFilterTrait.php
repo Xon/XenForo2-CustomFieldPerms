@@ -40,7 +40,7 @@ trait CustomFieldFilterTrait
 
         $definitionSet = $set->getDefinitionSet();
         $definitionSet->addFilter(
-            'check_visitor_usergroup_perms', function (array $field, array $userGroups, string $keyWithPerms, \XF\Entity\User $visitor = null, \XF\Entity\User $contentUser = null) {
+            'check_visitor_usergroup_perms', function (array $field, array $userGroups, string $keyWithPerms, ?\XF\Entity\User $visitor = null, ?\XF\Entity\User $contentUser = null) {
             $bypassValue = $field['cfp_o_' . $keyWithPerms . '_bypass'] ?? null;
             if ($bypassValue !== null)
             {
@@ -69,7 +69,7 @@ trait CustomFieldFilterTrait
         });
 
         $definitionSet->addFilter(
-            'check_content_usergroup_perms', function (array $field, array $userGroups, string $keyWithPerms, \XF\Entity\User $visitor = null, \XF\Entity\User $contentUser = null) {
+            'check_content_usergroup_perms', function (array $field, array $userGroups, string $keyWithPerms, ?\XF\Entity\User $visitor = null, ?\XF\Entity\User $contentUser = null) {
             $bypassValue = $field['cfp_o_' . $keyWithPerms . '_bypass'] ?? null;
             if ($bypassValue !== null)
             {
