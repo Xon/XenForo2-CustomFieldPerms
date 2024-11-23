@@ -7,10 +7,19 @@
 
 namespace SV\CustomFieldPerms;
 
+use SV\StandardLib\Helper;
 use XF\Entity\AbstractField;
 use XF\Mvc\FormAction;
 use XF\Mvc\Reply\AbstractReply;
-use XF\Mvc\Reply\View;
+use XF\Mvc\Reply\View as ViewReply;
+use XF\Repository\UserGroup as UserGroupRepo;
+use function array_filter;
+use function array_keys;
+use function array_map;
+use function array_unshift;
+use function in_array;
+use function is_array;
+use function preg_match;
 
 trait CustomFieldAdminTrait
 {
@@ -24,39 +33,38 @@ trait CustomFieldAdminTrait
     {
         $reply = parent::fieldAddEditResponse($field);
 
-        if ($reply instanceof View)
+        if ($reply instanceof ViewReply)
         {
             // get list of usergroups including an "all"
-            /** @var \XF\Repository\UserGroup $ugRepo */
-            $ugRepo = $this->repository('XF:UserGroup');
+            $ugRepo = Helper::repository(UserGroupRepo::class);
             $userGroups = $ugRepo->findUserGroupsForList()->fetchColumns('user_group_id', 'title');
-            \array_unshift($userGroups, ['title' => 'all', 'user_group_id' => 'all']);
+            array_unshift($userGroups, ['title' => 'all', 'user_group_id' => 'all']);
 
             // get the permission value keys, and associated permissions
             $entityClassName = $this->getClassIdentifier();
-            $structure = \XF::em()->getEntityStructure($entityClassName);
+            $structure = Helper::getEntityStructure($entityClassName);
             if (isset(Globals::$tables[$structure->table]))
             {
-                $permValKeys = \array_filter(
-                    \array_keys(Globals::$tables[$structure->table]), function ($a) {
-                    return \preg_match('/^cfp_.*_val$/', $a);
+                $permValKeys = array_filter(
+                    array_keys(Globals::$tables[$structure->table]), function ($a) {
+                    return preg_match('/^cfp_.*_val$/', $a);
                 });
                 $field = $reply->getParam('field') ?? [];
-                $permVals = \array_map(function ($key) use ($field) {
-                        return $field[$key] ?? [];
+                $permVals = array_map(function ($key) use ($field) {
+                    return $field[$key] ?? [];
                 }, $permValKeys);
                 // $permVals is an array of group ids, and/or the string 'all
 
                 // insert permission sets into the field
-                \array_map(
+                array_map(
                 // permission sets
                     function ($permValKey, $permVal) use ($userGroups, $field) {
                         // usergroups in those permission sets
                         $field->set(
-                            $permValKey, \array_map(
+                            $permValKey, array_map(
                                 function ($userGroup) use ($permVal) {
                                     return [
-                                        'selected' => \is_array($permVal) && \in_array((string)$userGroup['user_group_id'], $permVal, true),
+                                        'selected' => is_array($permVal) && in_array((string)$userGroup['user_group_id'], $permVal, true),
                                         'value'    => $userGroup['user_group_id'],
                                         'label'    => $userGroup['title'],
                                     ];
@@ -87,7 +95,7 @@ trait CustomFieldAdminTrait
 
         $elements = [];
         $entityClassName = $this->getClassIdentifier();
-        $structure = \XF::em()->getEntityStructure($entityClassName);
+        $structure = Helper::getEntityStructure($entityClassName);
         if (isset(Globals::$tables[$structure->table]))
         {
             foreach (Globals::$tables[$structure->table] as $column => $details)

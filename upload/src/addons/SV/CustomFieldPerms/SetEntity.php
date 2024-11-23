@@ -2,17 +2,18 @@
 
 namespace SV\CustomFieldPerms;
 
-use XF\CustomField\Set;
+use XF\CustomField\Set as CustomFieldSet;
+use XF\Mvc\Entity\Entity;
 
-class SetEntity extends Set
+abstract class SetEntity extends CustomFieldSet
 {
     /**
      * @param mixed $set
-     * @return \XF\Mvc\Entity\Entity
+     * @return Entity
      */
-    public static function getEntity($set)
+    public static function getEntity($set): ?Entity
     {
-        if ($set instanceof Set)
+        if ($set instanceof CustomFieldSet)
         {
             return $set->entity;
         }

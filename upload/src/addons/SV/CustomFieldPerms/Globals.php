@@ -9,11 +9,12 @@ use XF\Mvc\Entity\Entity;
 
 class Globals
 {
+    /** @noinspection PhpFullyQualifiedNameUsageInspection */
     public static $repos = [
-        'XF:UserField'   => 'XF',
-        'XF:ThreadField' => 'XF',
-        'XFMG:MediaField'  => 'XFMG',
-        'NF\Tickets:TicketField' => 'NF\Tickets'
+        \XF\Repository\UserField::class   => 'XF',
+        \XF\Repository\ThreadField::class => 'XF',
+        \XFMG\Repository\MediaField::class  => 'XFMG',
+        \NF\Tickets\Repository\TicketField::class => 'NF\Tickets'
     ];
 
     // note; CustomFieldFilterTrait expected that cfp_v_input_enable is always in each entity

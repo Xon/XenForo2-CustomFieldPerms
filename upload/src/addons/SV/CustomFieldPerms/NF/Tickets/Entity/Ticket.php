@@ -2,24 +2,26 @@
 
 namespace SV\CustomFieldPerms\NF\Tickets\Entity;
 
+use NF\Tickets\Repository\TicketField as TicketFieldRepo;
 use SV\CustomFieldPerms\CustomFieldFilterTrait;
 use SV\CustomFieldPerms\IFieldEntityPerm;
-use XF\Entity\User;
+use XF\Entity\User as UserEntity;
 
 /**
- * Extends \NF\Tickets\Entity\Ticket
+ * @extends \NF\Tickets\Entity\Ticket
  */
 class Ticket extends XFCP_Ticket implements IFieldEntityPerm
 {
     use CustomFieldFilterTrait;
 
-    protected $customFieldRepo = 'NF\Tickets:TicketField';
+    protected $customFieldRepo         = TicketFieldRepo::class;
     protected $customFieldContainerKey = 'customFields.tickets';
 
     /**
-     * @return null|User
+     * @return null|UserEntity
+     * @noinspection PhpMissingReturnTypeInspection
      */
-    function getContentUser()
+    public function getContentUser()
     {
         return $this->User;
     }

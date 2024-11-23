@@ -2,7 +2,6 @@
 
 namespace SV\CustomFieldPerms;
 
-
 /**
  * used to tag a Field entity as supported custom fields
  *

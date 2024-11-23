@@ -2,7 +2,7 @@
 
 namespace SV\CustomFieldPerms;
 
-use XF\Entity\User;
+use XF\Entity\User as UserEntity;
 
 /**
  * used to tag an entity as supported custom fields
@@ -12,7 +12,8 @@ use XF\Entity\User;
 interface IFieldEntityPerm
 {
     /**
-     * @return null|User
+     * @return null|UserEntity
+     * @noinspection PhpMissingReturnTypeInspection
      */
-    function getContentUser();
+    public function getContentUser();
 }

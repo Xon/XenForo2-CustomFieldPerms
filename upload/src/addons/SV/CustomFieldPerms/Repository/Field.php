@@ -1,27 +1,52 @@
 <?php
-/**
- * @noinspection PhpMissingParamTypeInspection
- */
 
 namespace SV\CustomFieldPerms\Repository;
 
+use LogicException;
+use NF\Tickets\Entity\TicketField as TicketFieldEntity;
+use NF\Tickets\Finder\TicketField as TicketFieldFinder;
 use SV\CustomFieldPerms\Globals;
 use SV\CustomFieldPerms\IFieldEntityPerm;
 use SV\CustomFieldPerms\SetEntity;
+use SV\StandardLib\Helper;
+use XF\Admin\App as AdminApp;
 use XF\Db\Schema\Alter;
-use XF\Entity\User;
+use XF\Entity\User as UserEntity;
+use XF\Mvc\Entity\Entity;
 use XF\Mvc\Entity\Repository;
+use XF\Repository\AbstractField;
+use XF\Template\Templater;
+use function array_fill_keys;
+use function array_key_exists;
+use function array_map;
+use function array_merge;
+use function array_values;
+use function class_exists;
+use function count;
+use function get_class;
+use function implode;
+use function serialize;
 
 class Field extends Repository
 {
-    /** @var int[][] */
+    public static function get(): self
+    {
+        return Helper::repository(self::class);
+    }
+
+    public function applyCustomFieldFilters(Templater $templater): bool
+    {
+        return !(\XF::app() instanceof AdminApp) || ($templater instanceof \XF\Mail\Templater);
+    }
+
+    /** @var array<int,array<int,int>> */
     protected $svVisitorGroupIds = [];
 
     /**
-     * @param User|null $user
+     * @param UserEntity|null $user
      * @return int[]
      */
-    protected function getUserGroups(?User $user = null): array
+    protected function getUserGroups(?UserEntity $user = null): array
     {
         if ($user === null)
         {
@@ -29,11 +54,11 @@ class Field extends Repository
         }
 
         $userId = $user->user_id;
-        if (!isset($this->visitorGroupIds[$userId]))
+        if (!array_key_exists($userId, $this->svVisitorGroupIds))
         {
-            $this->svVisitorGroupIds[$userId] = \array_merge(
+            $this->svVisitorGroupIds[$userId] = array_merge(
                 [$user->user_group_id],
-                \array_map('\intval', $user->secondary_group_ids)
+                array_map('\intval', $user->secondary_group_ids)
             );
         }
 
@@ -42,11 +67,8 @@ class Field extends Repository
 
     /**
      * Insert additionalFilters for various custom_fields_macro arguments
-     *
-     * @param array  $arguments
-     * @param string $key
      */
-    public function applyUsergroupCustomFieldPermissionFilters(array &$arguments, string $key)
+    public function applyUsergroupCustomFieldPermissionFilters(array &$arguments, string $key): void
     {
         $entity = SetEntity::getEntity($arguments['set']);
         if (!$entity instanceof IFieldEntityPerm)
@@ -59,33 +81,24 @@ class Field extends Repository
         $visitorUserGroups = $this->getUserGroups($visitor);
         $contentUserGroups = $this->getUserGroups($contentUser);
 
-        if (!isset($arguments['additionalFilters']))
-        {
-            $arguments['additionalFilters'] = [];
-        }
-
-        $arguments['additionalFilters'] =
-            \array_merge(
-                $arguments['additionalFilters'],
-                [
-                    'check_visitor_usergroup_perms' => [
-                        $visitorUserGroups, $key, $visitor, $contentUser,
-                    ],
-                    'check_content_usergroup_perms' => [
-                        $contentUserGroups, $key, $visitor, $contentUser,
-                    ],
-                ]
-            );
+        $arguments['additionalFilters'] = array_merge(
+            $arguments['additionalFilters'] ?? [],
+            [
+                'check_visitor_usergroup_perms' => [
+                    $visitorUserGroups, $key, $visitor, $contentUser,
+                ],
+                'check_content_usergroup_perms' => [
+                    $contentUserGroups, $key, $visitor, $contentUser,
+                ],
+            ]
+        );
     }
 
-    /**
-     * @param string|null $addonId
-     */
-    public function applyCustomFieldSchemaChanges($addonId = null)
+    public function applyCustomFieldSchemaChanges(?string $addonId = null): void
     {
         if ($addonId)
         {
-            $addOns = \array_fill_keys(\array_values(Globals::$repos), true);
+            $addOns = array_fill_keys(array_values(Globals::$repos), true);
             if (empty($addOns[$addonId]))
             {
                 return;
@@ -112,7 +125,7 @@ class Field extends Repository
                         {
                             $col->nullable($details['nullable']);
                         }
-                        if (\array_key_exists('default', $details))
+                        if (array_key_exists('default', $details))
                         {
                             $col->setDefault($details['default']);
                         }
@@ -122,21 +135,18 @@ class Field extends Repository
         }
     }
 
-    /**
-     * @param string|null $addonId
-     */
-    public function applyPostInstallChanges($addonId = null)
+    public function applyPostInstallChanges(?string $addonId = null): void
     {
         $sm = \XF::db()->getSchemaManager();
         if (($addonId === null || $addonId === 'NF/Tickets') &&
             $sm->tableExists('xf_nf_tickets_ticket_field') &&
-            \class_exists('NF\Tickets\Entity\TicketField'))
+            class_exists(TicketFieldEntity::class))
         {
-            $fields = $this->app()->finder('NF\Tickets:TicketField')->fetch();
+            $fields = Helper::finder(TicketFieldFinder::class)->fetch();
 
             if ($fields->count())
             {
-                /** @var \NF\Tickets\Entity\TicketField $field */
+                /** @var TicketFieldEntity $field */
                 foreach ($fields AS $field)
                 {
                     $updates = [];
@@ -144,14 +154,14 @@ class Field extends Repository
                     {
                         if (isset($field->usable_user_group_ids[0]) && $field->usable_user_group_ids[0] === '-1')
                         {
-                            $updates = \array_merge($updates, [
+                            $updates = array_merge($updates, [
                                 'cfp_v_input_enable' => 0,
-                                'cfp_v_input_val'    => \serialize([]),
+                                'cfp_v_input_val'    => serialize([]),
                             ]);
                         }
                         else
                         {
-                            $updates = \array_merge($updates, [
+                            $updates = array_merge($updates, [
                                 'cfp_v_input_enable' => 1,
                                 'cfp_v_input_val'    => $field->getValueSourceEncoded('usable_user_group_ids')
                             ]);
@@ -161,14 +171,14 @@ class Field extends Repository
                     {
                         if (isset($field->viewable_user_group_ids[0]) && $field->viewable_user_group_ids[0] === '-1')
                         {
-                            $updates = \array_merge($updates, [
+                            $updates = array_merge($updates, [
                                 'cfp_v_output_ui_enable' => 0,
-                                'cfp_v_output_ui_val'    => \serialize([]),
+                                'cfp_v_output_ui_val'    => serialize([]),
                             ]);
                         }
                         else
                         {
-                            $updates = \array_merge($updates, [
+                            $updates = array_merge($updates, [
                                 'cfp_v_output_ui_enable' => 1,
                                 'cfp_v_output_ui_val'    => $field->getValueSourceEncoded('viewable_user_group_ids')
                             ]);
@@ -179,14 +189,14 @@ class Field extends Repository
                     {
                         if (isset($field->viewable_owner_user_group_ids[0]) && $field->viewable_owner_user_group_ids[0] === '-1')
                         {
-                            $updates = \array_merge($updates, [
+                            $updates = array_merge($updates, [
                                 'cfp_c_output_ui_enable' => 0,
-                                'cfp_c_output_ui_val'    => \serialize([]),
+                                'cfp_c_output_ui_val'    => serialize([]),
                             ]);
                         }
                         else
                         {
-                            $updates = \array_merge($updates, [
+                            $updates = array_merge($updates, [
                                 'cfp_c_output_ui_enable' => 1,
                                 'cfp_c_output_ui_val'    => $field->getValueSourceEncoded('viewable_owner_user_group_ids')
                             ]);
@@ -200,9 +210,9 @@ class Field extends Repository
         }
     }
 
-    protected function updateEntity(\XF\Mvc\Entity\Entity $entity, $updates)
+    protected function updateEntity(Entity $entity, array $updates): void
     {
-        if (!$updates)
+        if (count($updates) === 0)
         {
             return;
         }
@@ -213,35 +223,34 @@ class Field extends Repository
             $value = $entity->getValue($key);
             if ($value === null)
             {
-                throw new \LogicException("Found null in primary key for entity. Was this called before saving?");
+                throw new LogicException('Found null in primary key for entity. Was this called before saving?');
             }
             $conditions[] = "`$key` = " . $db->quote($value);
         }
 
         if (!$conditions)
         {
-            throw new \LogicException("No primary key defined for entity " . \get_class($this));
+            throw new LogicException('No primary key defined for entity ' . get_class($this));
         }
 
-        $condition = \implode(' AND ', $conditions);
+        $condition = implode(' AND ', $conditions);
 
         $this->db()->update($entity->structure()->table, $updates, $condition);
     }
 
-    /**
-     * @param string|null $addonId
-     */
-    public function rebuildCaches(/** @noinspection PhpUnusedParameterInspection */
-        $addonId = null)
+    /** @noinspection PhpUnusedParameterInspection */
+    public function rebuildCaches(?string $addonId = null)
     {
         $addOns = \XF::app()->container('addon.cache');
         foreach(Globals::$repos as $repoName => $addOn)
         {
             if (isset($addOns[$addOn]))
             {
-                /** @var \XF\Repository\AbstractField $repo */
-                $repo = \XF::app()->repository($repoName);
-                $repo->rebuildFieldCache();
+                $repo = Helper::repository($repoName);
+                if ($repo instanceof AbstractField)
+                {
+                    $repo->rebuildFieldCache();
+                }
             }
         }
     }

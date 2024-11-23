@@ -6,14 +6,22 @@
 
 namespace SV\CustomFieldPerms;
 
-use XF\CustomField\Set;
+use SV\StandardLib\Helper;
+use XF\CustomField\Set as CustomFieldSet;
+use XF\Entity\User as UserEntity;
+use XF\Repository\AbstractField as AbstractFieldRepo;
+use function array_intersect;
+use function array_map;
+use function array_merge;
+use function in_array;
+use function is_array;
 
 trait CustomFieldFilterTrait
 {
     /**
      * Insert a new filter type into the DefinitionSet.
      *
-     * @return Set
+     * @return CustomFieldSet
      * @throws \Exception
      */
     public function getCustomFields()
@@ -26,9 +34,11 @@ trait CustomFieldFilterTrait
             {
                 if (!isset($field['cfp_v_input_enable']))
                 {
-                    /** @var \XF\Repository\AbstractField $customFieldRepo */
-                    $customFieldRepo = $this->repository($this->customFieldRepo);
-                    $customFieldRepo->rebuildFieldCache();
+                    $customFieldRepo = Helper::repository($this->customFieldRepo);
+                    if ($customFieldRepo instanceof AbstractFieldRepo)
+                    {
+                        $customFieldRepo->rebuildFieldCache();
+                    }
                     \XF::app()->container()->decache($this->customFieldContainerKey);
 
                     $set = parent::getCustomFields();
@@ -40,7 +50,7 @@ trait CustomFieldFilterTrait
 
         $definitionSet = $set->getDefinitionSet();
         $definitionSet->addFilter(
-            'check_visitor_usergroup_perms', function (array $field, array $userGroups, string $keyWithPerms, ?\XF\Entity\User $visitor = null, ?\XF\Entity\User $contentUser = null) {
+            'check_visitor_usergroup_perms', function (array $field, array $userGroups, string $keyWithPerms, ?UserEntity $visitor = null, ?UserEntity $contentUser = null) {
             $bypassValue = $field['cfp_o_' . $keyWithPerms . '_bypass'] ?? null;
             if ($bypassValue !== null)
             {
@@ -60,16 +70,16 @@ trait CustomFieldFilterTrait
             {
                 $permittedUserGroups = $field['cfp_v_' . $keyWithPerms . '_val'];
 
-                return !\is_array($permittedUserGroups) ||
-                       !empty(\array_intersect($userGroups, $permittedUserGroups))
-                       || \in_array('all', $permittedUserGroups, true);
+                return !is_array($permittedUserGroups) ||
+                       !empty(array_intersect($userGroups, $permittedUserGroups))
+                       || in_array('all', $permittedUserGroups, true);
             }
 
             return true;
         });
 
         $definitionSet->addFilter(
-            'check_content_usergroup_perms', function (array $field, array $userGroups, string $keyWithPerms, ?\XF\Entity\User $visitor = null, ?\XF\Entity\User $contentUser = null) {
+            'check_content_usergroup_perms', function (array $field, array $userGroups, string $keyWithPerms, ?UserEntity $visitor = null, ?UserEntity $contentUser = null) {
             $bypassValue = $field['cfp_o_' . $keyWithPerms . '_bypass'] ?? null;
             if ($bypassValue !== null)
             {
@@ -89,18 +99,18 @@ trait CustomFieldFilterTrait
             {
                 $permittedUserGroups = $field['cfp_c_' . $keyWithPerms . '_val'];
 
-                return !\is_array($permittedUserGroups) ||
-                       !empty(\array_intersect($userGroups, $permittedUserGroups))
-                       || \in_array('all', $permittedUserGroups, true);
+                return !is_array($permittedUserGroups) ||
+                       !empty(array_intersect($userGroups, $permittedUserGroups))
+                       || in_array('all', $permittedUserGroups, true);
             }
 
             return true;
         });
 
         $filters = DefinitionSetAccess::getFilters($definitionSet);
-        /** @var \Closure $editableCallback */
+        /** @var null|\Closure(array, CustomFieldSet, bool): bool $editableCallback */
         $editableCallback = $filters['editable'] ?? null;
-        $definitionSet->addFilter('editable', function(array $field, Set $set, $editMode) use ($editableCallback)
+        $definitionSet->addFilter('editable', function(array $field, CustomFieldSet $set, $editMode) use ($editableCallback)
         {
             $editable = $editableCallback ? $editableCallback($field, $set, $editMode) : true;
             if (!$editable)
@@ -113,13 +123,13 @@ trait CustomFieldFilterTrait
                 if (!empty($field['cfp_v_input_enable']))
                 {
                     $user = \XF::visitor();
-                    $usergroups = \array_merge([$user->user_group_id], \array_map('\intval', $user->secondary_group_ids));
+                    $userGroups = array_merge([$user->user_group_id], array_map('\intval', $user->secondary_group_ids));
 
                     $permittedUserGroups = $field['cfp_v_input_val'];
 
-                    return !\is_array($permittedUserGroups) ||
-                           !empty(\array_intersect($usergroups, $permittedUserGroups))
-                           || \in_array('all', $permittedUserGroups, true);
+                    return !is_array($permittedUserGroups) ||
+                           !empty(array_intersect($userGroups, $permittedUserGroups))
+                           || in_array('all', $permittedUserGroups, true);
                 }
             }
 

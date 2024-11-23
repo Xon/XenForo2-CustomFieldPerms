@@ -1,12 +1,17 @@
 <?php
+/**
+ * @noinspection PhpMissingParentCallCommonInspection
+ */
 
 namespace SV\CustomFieldPerms;
 
+use SV\CustomFieldPerms\Repository\Field as FieldRepo;
 use XF\AddOn\AbstractSetup;
 use XF\AddOn\StepRunnerInstallTrait;
 use XF\AddOn\StepRunnerUninstallTrait;
 use XF\AddOn\StepRunnerUpgradeTrait;
 use XF\Db\Schema\Alter;
+use function array_keys;
 
 class Setup extends AbstractSetup
 {
@@ -14,21 +19,19 @@ class Setup extends AbstractSetup
     use StepRunnerUpgradeTrait;
     use StepRunnerUninstallTrait;
 
-    public function installStep1()
+    public function installStep1(): void
     {
-        /** @var \SV\CustomFieldPerms\Repository\Field $repo */
-        $repo = \XF::repository('SV\CustomFieldPerms:Field');
+        $repo = FieldRepo::get();
         $repo->applyCustomFieldSchemaChanges();
     }
 
-    public function installStep2()
+    public function installStep2(): void
     {
-        /** @var \SV\CustomFieldPerms\Repository\Field $repo */
-        $repo = \XF::repository('SV\CustomFieldPerms:Field');
+        $repo = FieldRepo::get();
         $repo->applyPostInstallChanges();
     }
 
-    public function upgrade2020000Step1()
+    public function upgrade2020000Step1(): void
     {
         $sm = $this->schemaManager();
         foreach (Globals::$tables as $table => $columns)
@@ -58,7 +61,7 @@ class Setup extends AbstractSetup
         }
     }
 
-    public function upgrade2020000Step2()
+    public function upgrade2020000Step2(): void
     {
         $sm = $this->schemaManager();
         $sm->alterTable(
@@ -74,17 +77,17 @@ class Setup extends AbstractSetup
         }
     }
 
-    public function upgrade2040000Step1()
+    public function upgrade2040000Step1(): void
     {
         $this->installStep1();
     }
 
-    public function upgrade2040000Step2()
+    public function upgrade2040000Step2(): void
     {
         $this->installStep2();
     }
 
-    public function uninstallStep1()
+    public function uninstallStep1(): void
     {
         $sm = $this->schemaManager();
         foreach (Globals::$tables as $table => $columns)
@@ -92,38 +95,29 @@ class Setup extends AbstractSetup
             if ($sm->tableExists($table))
             {
                 $sm->alterTable($table, function (Alter $table) use ($columns) {
-                    $table->dropColumns(\array_keys($columns));
+                    $table->dropColumns(array_keys($columns));
                 });
             }
         }
     }
 
-    public function postInstall(array &$stateChanges)
+    public function postInstall(array &$stateChanges): void
     {
-        /** @var \SV\CustomFieldPerms\Repository\Field $repo */
-        $repo = \XF::repository('SV\CustomFieldPerms:Field');
+        $repo = FieldRepo::get();
         $repo->rebuildCaches();
     }
 
-    public function postUpgrade($previousVersion, array &$stateChanges)
+    public function postUpgrade($previousVersion, array &$stateChanges): void
     {
-        /** @var \SV\CustomFieldPerms\Repository\Field $repo */
-        $repo = \XF::repository('SV\CustomFieldPerms:Field');
+        $repo = FieldRepo::get();
         $repo->applyCustomFieldSchemaChanges();
-
-        /** @var \SV\CustomFieldPerms\Repository\Field $repo */
-        $repo = \XF::repository('SV\CustomFieldPerms:Field');
         $repo->rebuildCaches();
     }
 
-    public function postRebuild()
+    public function postRebuild(): void
     {
-        /** @var \SV\CustomFieldPerms\Repository\Field $repo */
-        $repo = \XF::repository('SV\CustomFieldPerms:Field');
+        $repo = FieldRepo::get();
         $repo->applyCustomFieldSchemaChanges();
-
-        /** @var \SV\CustomFieldPerms\Repository\Field $repo */
-        $repo = \XF::repository('SV\CustomFieldPerms:Field');
         $repo->rebuildCaches();
     }
 }
