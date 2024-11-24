@@ -104,11 +104,12 @@ class Field extends Repository
             }
         }
         $sm = \XF::db()->getSchemaManager();
-        foreach (Globals::$tables as $table => $columns)
+        foreach (Globals::$entities as $entity => $columns)
         {
-            if ($sm->tableExists($table))
+            $entityStructure = Helper::getEntityStructure($entity);
+            if ($entityStructure !== null && $sm->tableExists($entityStructure->table))
             {
-                $sm->alterTable($table, function (Alter $table) use ($columns) {
+                $sm->alterTable($entityStructure->table, function (Alter $table) use ($columns) {
                     foreach ($columns as $column => $columnDefinition)
                     {
                         $details = $columnDefinition['sql'];

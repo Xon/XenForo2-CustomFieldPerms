@@ -1,7 +1,4 @@
 <?php
-/**
- * @noinspection DuplicatedCode
- */
 
 namespace SV\CustomFieldPerms;
 
@@ -29,8 +26,9 @@ class Globals
     ];
 
     // note; CustomFieldFilterTrait expected that cfp_v_input_enable is always in each entity
-    public static $tables = [
-        'xf_user_field'     => [
+    /** @noinspection PhpFullyQualifiedNameUsageInspection */
+    public static $entities = [
+        \XF\Entity\UserField::class     => [
             'cfp_v_input_enable'     => self::COLUMN_FLAG_VALUE,
             'cfp_v_input_val'        => self::COLUMN_GROUP_LIST,
 
@@ -40,7 +38,7 @@ class Globals
             'cfp_v_output_pp_enable' => self::COLUMN_FLAG_VALUE,
             'cfp_v_output_pp_val'    => self::COLUMN_GROUP_LIST,
         ],
-        'xf_thread_field'   => [
+        \XF\Entity\ThreadField::class   => [
             'cfp_o_input_bypass'       => self::COLUMN_FLAG_VALUE,
             'cfp_o_output_ui_bypass'   => self::COLUMN_FLAG_VALUE,
 
@@ -53,7 +51,7 @@ class Globals
             'cfp_c_output_ui_enable' => self::COLUMN_FLAG_VALUE,
             'cfp_c_output_ui_val'    => self::COLUMN_GROUP_LIST,
         ],
-        'xf_mg_media_field' => [
+        \XFMG\Entity\MediaField::class => [
             'cfp_o_input_bypass'       => self::COLUMN_FLAG_VALUE,
             'cfp_o_output_ui_bypass'   => self::COLUMN_FLAG_VALUE,
 
@@ -66,7 +64,7 @@ class Globals
             'cfp_c_output_ui_enable' => self::COLUMN_FLAG_VALUE,
             'cfp_c_output_ui_val'    => self::COLUMN_GROUP_LIST,
         ],
-        'xf_nf_tickets_ticket_field' => [
+        \NF\Tickets\Entity\TicketField::class => [
             'cfp_o_input_bypass'       => self::COLUMN_FLAG_VALUE,
             'cfp_o_output_ui_bypass'   => self::COLUMN_FLAG_VALUE,
 

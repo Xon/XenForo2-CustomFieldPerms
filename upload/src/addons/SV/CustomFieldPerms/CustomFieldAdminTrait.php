@@ -41,13 +41,12 @@ trait CustomFieldAdminTrait
             array_unshift($userGroups, ['title' => 'all', 'user_group_id' => 'all']);
 
             // get the permission value keys, and associated permissions
-            $entityClassName = $this->getClassIdentifier();
-            $structure = Helper::getEntityStructure($entityClassName);
-            $table = Globals::$tables[$structure->table] ?? null;
-            if ($table !== null)
+            $entityClassName = \XF::stringToClass($this->getClassIdentifier(), '%s\Entity\%s');
+            $entity = Globals::$entities[$entityClassName] ?? null;
+            if ($entity !== null)
             {
                 $permValKeys = array_filter(
-                    array_keys($table), function ($a) {
+                    array_keys($entity), function ($a) {
                     return preg_match('/^cfp_.*_val$/', $a);
                 });
                 $field = $reply->getParam('field') ?? [];
@@ -95,12 +94,11 @@ trait CustomFieldAdminTrait
         $form = parent::saveAdditionalData($form, $field);
 
         $elements = [];
-        $entityClassName = $this->getClassIdentifier();
-        $structure = Helper::getEntityStructure($entityClassName);
-        $table = Globals::$tables[$structure->table] ?? null;
-        if (is_array($table))
+        $entityClassName = \XF::stringToClass($this->getClassIdentifier(), '%s\Entity\%s');
+        $entity = Globals::$entities[$entityClassName] ?? null;
+        if (is_array($entity))
         {
-            foreach ($table as $column => $details)
+            foreach ($entity as $column => $details)
             {
                 $elements[$column] = $details['field_type'];
             }
