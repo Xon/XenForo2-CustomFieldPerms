@@ -43,17 +43,18 @@ trait CustomFieldAdminTrait
             // get the permission value keys, and associated permissions
             $entityClassName = $this->getClassIdentifier();
             $structure = Helper::getEntityStructure($entityClassName);
-            if (isset(Globals::$tables[$structure->table]))
+            $table = Globals::$tables[$structure->table] ?? null;
+            if ($table !== null)
             {
                 $permValKeys = array_filter(
-                    array_keys(Globals::$tables[$structure->table]), function ($a) {
+                    array_keys($table), function ($a) {
                     return preg_match('/^cfp_.*_val$/', $a);
                 });
                 $field = $reply->getParam('field') ?? [];
                 $permVals = array_map(function ($key) use ($field) {
                     return $field[$key] ?? [];
                 }, $permValKeys);
-                // $permVals is an array of group ids, and/or the string 'all
+                // $permVals is an array of group ids, and/or the string 'all'
 
                 // insert permission sets into the field
                 array_map(
@@ -96,9 +97,10 @@ trait CustomFieldAdminTrait
         $elements = [];
         $entityClassName = $this->getClassIdentifier();
         $structure = Helper::getEntityStructure($entityClassName);
-        if (isset(Globals::$tables[$structure->table]))
+        $table = Globals::$tables[$structure->table] ?? null;
+        if (is_array($table))
         {
-            foreach (Globals::$tables[$structure->table] as $column => $details)
+            foreach ($table as $column => $details)
             {
                 $elements[$column] = $details['field_type'];
             }

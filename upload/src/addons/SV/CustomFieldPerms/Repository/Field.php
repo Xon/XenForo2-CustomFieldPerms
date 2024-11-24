@@ -110,8 +110,9 @@ class Field extends Repository
             if ($sm->tableExists($table))
             {
                 $sm->alterTable($table, function (Alter $table) use ($columns) {
-                    foreach ($columns as $column => $details)
+                    foreach ($columns as $column => $columnDefinition)
                     {
+                        $details = $columnDefinition['sql'];
                         if ($table->getColumnDefinition($column))
                         {
                             $col = $table->changeColumn($column, $details['type']);

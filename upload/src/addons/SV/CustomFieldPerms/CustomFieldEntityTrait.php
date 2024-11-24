@@ -32,11 +32,12 @@ trait CustomFieldEntityTrait
     {
         $structure = parent::getStructure($structure);
 
-        if (isset(Globals::$tables[$structure->table]))
+        $table = Globals::$tables[$structure->table] ?? null;
+        if (is_array($table))
         {
-            foreach (Globals::$tables[$structure->table] as $column => $details)
+            foreach ($table as $column => $details)
             {
-                $structure->columns[$column] = ['type' => $details['entity_type'], 'default' => $details['entity_default']];
+                $structure->columns[$column] = $details['entity'];
             }
         }
 
