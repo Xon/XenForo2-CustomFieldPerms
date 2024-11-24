@@ -13,6 +13,7 @@ use XF\AddOn\StepRunnerInstallTrait;
 use XF\AddOn\StepRunnerUninstallTrait;
 use XF\AddOn\StepRunnerUpgradeTrait;
 use XF\Db\Schema\Alter;
+use XF\Util\Json;
 use function array_keys;
 
 class Setup extends AbstractSetup
@@ -111,6 +112,95 @@ class Setup extends AbstractSetup
             // fix typo
             'svCustomFieldPerms_ouput_content_owner_bypass_explain' => 'svCustomFieldPerms_output_content_owner_bypass_explain',
         ]);
+    }
+
+    public function upgrade2080000Step2(): void
+    {
+        // migrate serialize encoded values to a list of integers
+        // also patches ['all'] => [-1] to use native XF usergroup selection widget
+        $sm = $this->schemaManager();
+        $db = $this->db();
+        $db->beginTransaction();
+
+        foreach (Globals::$entities as $entity => $columns)
+        {
+            $entityStructure = Helper::getEntityStructure($entity);
+            if ($entityStructure !== null && $sm->tableExists($entityStructure->table))
+            {
+                $table = $entityStructure->table;
+                $primaryId = $entityStructure->primaryKey;
+                if (!is_string($primaryId))
+                {
+                    if (\XF::$developmentMode)
+                    {
+                        throw new \LogicException("Only simple primaryKeys are supported for $entity");
+                    }
+                    continue;
+                }
+                $updates = [];
+
+                $rows = $db->fetchAll("select * from `$table`");
+                if (count($rows) === 0)
+                {
+                    continue;
+                }
+                foreach ($rows as $row)
+                {
+                    $primaryKey = $row[$primaryId] ?? null;
+                    if ($primaryKey === null)
+                    {
+                        if (\XF::$developmentMode)
+                        {
+                            throw new \LogicException("Unknown primaryKey $primaryId for $entity");
+                        }
+                        continue;
+                    }
+
+                    foreach ($columns as $column => $details)
+                    {
+                        if (!($details['isGroupList'] ?? false))
+                        {
+                            continue;
+                        }
+
+                        $oldValue = $row[$column] ?? null;
+                        if (!is_string($oldValue))
+                        {
+                            continue;
+                        }
+                        // check if value has already been migrated
+                        if (stripos($oldValue, ',') !== false)
+                        {
+                            continue;
+                        }
+                        $newValue = Json::decodeJsonOrSerialized($oldValue);
+                        if ($newValue === null || $newValue === '')
+                        {
+                            $updates[$column] = null;
+                        }
+                        else if (is_array($newValue))
+                        {
+                            if ($newValue === ['all'])
+                            {
+                                $newValue = [-1];
+                            }
+                            $newValue = array_filter(array_map('\intval', $newValue));
+
+                            $updates[$column] = implode(',', $newValue);
+                        }
+                    }
+
+                    if (count($updates) !== 0)
+                    {
+                        $db->update($table, $updates, "`$primaryId` = ?", $primaryKey);
+                    }
+                }
+            }
+        }
+
+        $db->commit();
+
+        FieldRepo::get()->rebuildCaches();
     }
 
     public function uninstallStep1(): void

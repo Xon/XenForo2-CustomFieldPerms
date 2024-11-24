@@ -16,13 +16,13 @@ class Globals
 
     public const COLUMN_FLAG_VALUE = [
         'sql' => ['type' => 'tinyint', 'default' => 0],
-        'entity' => ['type' => Entity::UINT, 'default' => 0],
-        'field_type' => 'uint',
+        'entity' => ['type' => Entity::UINT, 'default' => 0, 'api' => true],
+        'filter_type' => 'uint',
     ];
     public const COLUMN_GROUP_LIST = [
         'sql' => ['type' => 'blob', 'default' => null, 'nullable' => true],
-        'entity' => ['type' => Entity::SERIALIZED, 'default' => ''],
-        'field_type' => 'array',
+        'entity' => ['type' => Entity::LIST_COMMA, 'default' => null, 'api' => true, 'list' => ['type' => 'int', 'unique' => true, 'sort' => SORT_NUMERIC]],
+        'isGroupList' => true,
     ];
 
     // note; CustomFieldFilterTrait expected that cfp_v_input_enable is always in each entity

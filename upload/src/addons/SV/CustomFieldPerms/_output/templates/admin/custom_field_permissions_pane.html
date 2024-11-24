@@ -68,18 +68,11 @@
 			</xf:selectrow>
 		</xf:if>
 
-		<xf:checkboxrow
-						label="{{ phrase('svCustomFieldPerms_select_usergroups') }}"
-						explain="{{ phrase('sedo_cuf_perms_select_usergroups_desc') }}"
-						>
-			<xf:foreach loop="{{ $field.{$fieldVal} }}" value="$list">
-				<xf:option name="{$fieldVal}[]"
-						   value="{$list.value}"
-						   selected="{$list.selected}"
-						   label="{$list.label}"
-						   hint="" />
-			</xf:foreach>
-		</xf:checkboxrow>
+		<xf:set var="$groups" value="{{ $field.field_id ? $field.{$fieldVal} : [-1] }}" />
+		<xf:macro name="helper_user_group_edit::checkboxes"
+				  arg-id="userGroup_{$fieldVal}"
+				  arg-selectedUserGroups="{$groups}"
+		/>
 	</div>
 	</xf:if>
 </xf:macro>

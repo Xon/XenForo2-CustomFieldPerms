@@ -72,7 +72,7 @@ trait CustomFieldFilterTrait
 
                 return !is_array($permittedUserGroups) ||
                        !empty(array_intersect($userGroups, $permittedUserGroups))
-                       || in_array('all', $permittedUserGroups, true);
+                       || $permittedUserGroups === [-1];
             }
 
             return true;
@@ -101,7 +101,7 @@ trait CustomFieldFilterTrait
 
                 return !is_array($permittedUserGroups) ||
                        !empty(array_intersect($userGroups, $permittedUserGroups))
-                       || in_array('all', $permittedUserGroups, true);
+                       || $permittedUserGroups === [-1];
             }
 
             return true;
@@ -129,7 +129,7 @@ trait CustomFieldFilterTrait
 
                     return !is_array($permittedUserGroups) ||
                            !empty(array_intersect($userGroups, $permittedUserGroups))
-                           || in_array('all', $permittedUserGroups, true);
+                           || $permittedUserGroups === [-1];
                 }
             }
 

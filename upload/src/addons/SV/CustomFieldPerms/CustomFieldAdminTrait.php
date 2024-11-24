@@ -10,78 +10,9 @@ namespace SV\CustomFieldPerms;
 use SV\StandardLib\Helper;
 use XF\Entity\AbstractField;
 use XF\Mvc\FormAction;
-use XF\Mvc\Reply\AbstractReply;
-use XF\Mvc\Reply\View as ViewReply;
-use XF\Repository\UserGroup as UserGroupRepo;
-use function array_filter;
-use function array_keys;
-use function array_map;
-use function array_unshift;
-use function in_array;
-use function is_array;
-use function preg_match;
 
 trait CustomFieldAdminTrait
 {
-    /**
-     * Insert additional data into the field regarding permissions.
-     *
-     * @param AbstractField $field
-     * @return AbstractReply
-     */
-    protected function fieldAddEditResponse(AbstractField $field)
-    {
-        $reply = parent::fieldAddEditResponse($field);
-
-        if ($reply instanceof ViewReply)
-        {
-            // get list of usergroups including an "all"
-            $ugRepo = Helper::repository(UserGroupRepo::class);
-            $userGroups = $ugRepo->findUserGroupsForList()->fetchColumns('user_group_id', 'title');
-            array_unshift($userGroups, ['title' => 'all', 'user_group_id' => 'all']);
-
-            // get the permission value keys, and associated permissions
-            $entityClassName = \XF::stringToClass($this->getClassIdentifier(), '%s\Entity\%s');
-            $entity = Globals::$entities[$entityClassName] ?? null;
-            if ($entity !== null)
-            {
-                $permValKeys = array_filter(
-                    array_keys($entity), function ($a) {
-                    return preg_match('/^cfp_.*_val$/', $a);
-                });
-                $field = $reply->getParam('field') ?? [];
-                $permVals = array_map(function ($key) use ($field) {
-                    return $field[$key] ?? [];
-                }, $permValKeys);
-                // $permVals is an array of group ids, and/or the string 'all'
-
-                // insert permission sets into the field
-                array_map(
-                // permission sets
-                    function ($permValKey, $permVal) use ($userGroups, $field) {
-                        // usergroups in those permission sets
-                        $field->set(
-                            $permValKey, array_map(
-                                function ($userGroup) use ($permVal) {
-                                    return [
-                                        'selected' => is_array($permVal) && in_array((string)$userGroup['user_group_id'], $permVal, true),
-                                        'value'    => $userGroup['user_group_id'],
-                                        'label'    => $userGroup['title'],
-                                    ];
-                                }, $userGroups
-                            )
-                        );
-                    },
-                    $permValKeys, $permVals
-                );
-
-                $reply->setParam('field', $field);
-            }
-        }
-
-        return $reply;
-    }
-
     /**
      * Save the new permission fields that are included in the form.
      *
@@ -96,14 +27,36 @@ trait CustomFieldAdminTrait
         $elements = [];
         $entityClassName = \XF::stringToClass($this->getClassIdentifier(), '%s\Entity\%s');
         $entity = Globals::$entities[$entityClassName] ?? null;
-        if (is_array($entity))
+        if ($entity !== null)
         {
             foreach ($entity as $column => $details)
             {
-                $elements[$column] = $details['field_type'];
+                $fieldType = $details['filter_type'] ?? null;
+                if ($fieldType !== null)
+                {
+                    $elements[$column] = $fieldType;
+                }
             }
 
-            $input = $this->filter($elements);
+            $input = count($elements) !== 0 ? $this->filter($elements) : [];
+
+            foreach ($entity as $column => $details)
+            {
+                if (!($details['isGroupList'] ?? false))
+                {
+                    continue;
+                }
+
+                $groupList = $this->filter('userGroup_'.$column, 'str');
+                if ($groupList === 'all')
+                {
+                    $input[$column] = [-1];
+                }
+                else
+                {
+                    $input[$column] = $this->filter('userGroup_'.$column.'_ids', 'array-uint');
+                }
+            }
 
             $form->basicEntitySave($field, $input);
         }
