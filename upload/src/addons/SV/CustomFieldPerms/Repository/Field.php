@@ -25,7 +25,6 @@ use function class_exists;
 use function count;
 use function get_class;
 use function implode;
-use function serialize;
 
 class Field extends Repository
 {
@@ -157,7 +156,7 @@ class Field extends Repository
                         {
                             $updates = array_merge($updates, [
                                 'cfp_v_input_enable' => 0,
-                                'cfp_v_input_val'    => serialize([]),
+                                'cfp_v_input_val'    => null,
                             ]);
                         }
                         else
@@ -174,7 +173,7 @@ class Field extends Repository
                         {
                             $updates = array_merge($updates, [
                                 'cfp_v_output_ui_enable' => 0,
-                                'cfp_v_output_ui_val'    => serialize([]),
+                                'cfp_v_output_ui_val'    => null,
                             ]);
                         }
                         else
@@ -192,7 +191,7 @@ class Field extends Repository
                         {
                             $updates = array_merge($updates, [
                                 'cfp_c_output_ui_enable' => 0,
-                                'cfp_c_output_ui_val'    => serialize([]),
+                                'cfp_c_output_ui_val'    => null,
                             ]);
                         }
                         else
