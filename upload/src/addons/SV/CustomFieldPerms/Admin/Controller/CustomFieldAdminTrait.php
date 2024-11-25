@@ -6,6 +6,7 @@
 
 namespace SV\CustomFieldPerms\Admin\Controller;
 
+use SV\CustomFieldPerms\Entity\IFieldPerm;
 use SV\CustomFieldPerms\Repository\Field as FieldRepo;
 use XF\Entity\AbstractField;
 use XF\Mvc\FormAction;
@@ -22,6 +23,11 @@ trait CustomFieldAdminTrait
     protected function saveAdditionalData(FormAction $form, AbstractField $field)
     {
         $form = parent::saveAdditionalData($form, $field);
+
+        if (!($field instanceof IFieldPerm))
+        {
+            return $form;
+        }
 
         $elements = [];
         $entity = FieldRepo::get()->getExtendedEntity($this->getClassIdentifier());
