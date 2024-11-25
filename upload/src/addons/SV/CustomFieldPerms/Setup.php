@@ -38,7 +38,7 @@ class Setup extends AbstractSetup
     public function upgrade2020000Step1(): void
     {
         $sm = $this->schemaManager();
-        foreach (Globals::$entities as $entity => $columns)
+        foreach (FieldRepo::get()->getExtendedEntities() as $entity => $columns)
         {
             $entityStructure = Helper::getEntityStructure($entity);
             if ($entityStructure !== null && $sm->tableExists($entityStructure->table))
@@ -122,7 +122,7 @@ class Setup extends AbstractSetup
         $db = $this->db();
         $db->beginTransaction();
 
-        foreach (Globals::$entities as $entity => $columns)
+        foreach (FieldRepo::get()->getExtendedEntities() as $entity => $columns)
         {
             $entityStructure = Helper::getEntityStructure($entity);
             if ($entityStructure !== null && $sm->tableExists($entityStructure->table))
@@ -206,7 +206,7 @@ class Setup extends AbstractSetup
     public function uninstallStep1(): void
     {
         $sm = $this->schemaManager();
-        foreach (Globals::$entities as $entity => $columns)
+        foreach (FieldRepo::get()->getExtendedEntities() as $entity => $columns)
         {
             $entityStructure = Helper::getEntityStructure($entity);
             if ($entityStructure !== null && $sm->tableExists($entityStructure->table))

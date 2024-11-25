@@ -2,7 +2,7 @@
 
 namespace SV\CustomFieldPerms\XF\Admin\Controller;
 
-use SV\CustomFieldPerms\CustomFieldAdminTrait;
+use SV\CustomFieldPerms\Admin\Controller\CustomFieldAdminTrait;
 
 class UserField extends XFCP_UserField
 {

@@ -1,13 +1,12 @@
 <?php
-
 /**
  * @noinspection PhpMultipleClassDeclarationsInspection
  * @noinspection PhpMissingReturnTypeInspection
  */
 
-namespace SV\CustomFieldPerms;
+namespace SV\CustomFieldPerms\Admin\Controller;
 
-use SV\StandardLib\Helper;
+use SV\CustomFieldPerms\Repository\Field as FieldRepo;
 use XF\Entity\AbstractField;
 use XF\Mvc\FormAction;
 
@@ -25,8 +24,7 @@ trait CustomFieldAdminTrait
         $form = parent::saveAdditionalData($form, $field);
 
         $elements = [];
-        $entityClassName = \XF::stringToClass($this->getClassIdentifier(), '%s\Entity\%s');
-        $entity = Globals::$entities[$entityClassName] ?? null;
+        $entity = FieldRepo::get()->getExtendedEntity($this->getClassIdentifier());
         if ($entity !== null)
         {
             foreach ($entity as $column => $details)

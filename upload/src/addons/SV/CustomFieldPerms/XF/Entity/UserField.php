@@ -2,8 +2,8 @@
 
 namespace SV\CustomFieldPerms\XF\Entity;
 
-use SV\CustomFieldPerms\CustomFieldEntityTrait;
-use SV\CustomFieldPerms\IFieldPerm;
+use SV\CustomFieldPerms\Entity\CustomFieldEntityTrait;
+use SV\CustomFieldPerms\Entity\IFieldPerm;
 
 class UserField extends XFCP_UserField implements IFieldPerm
 {

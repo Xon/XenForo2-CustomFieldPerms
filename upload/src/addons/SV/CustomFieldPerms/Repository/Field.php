@@ -5,17 +5,19 @@ namespace SV\CustomFieldPerms\Repository;
 use LogicException;
 use NF\Tickets\Entity\TicketField as TicketFieldEntity;
 use NF\Tickets\Finder\TicketField as TicketFieldFinder;
-use SV\CustomFieldPerms\Globals;
-use SV\CustomFieldPerms\IFieldEntityPerm;
-use SV\CustomFieldPerms\SetEntity;
+use SV\CustomFieldPerms\Entity\IFieldEntityPerm;
+use SV\CustomFieldPerms\Entity\SetEntity;
 use SV\StandardLib\Helper;
 use XF\Admin\App as AdminApp;
 use XF\Db\Schema\Alter;
+use XF\Entity\ThreadField as ThreadFieldEntity;
 use XF\Entity\User as UserEntity;
+use XF\Entity\UserField as UserFieldEntity;
 use XF\Mvc\Entity\Entity;
 use XF\Mvc\Entity\Repository;
 use XF\Repository\AbstractField;
 use XF\Template\Templater;
+use XFMG\Entity\MediaField as MediaFieldEntity;
 use function array_fill_keys;
 use function array_key_exists;
 use function array_map;
@@ -36,6 +38,90 @@ class Field extends Repository
     public function applyCustomFieldFilters(Templater $templater): bool
     {
         return !(\XF::app() instanceof AdminApp) || ($templater instanceof \XF\Mail\Templater);
+    }
+
+    /** @noinspection PhpFullyQualifiedNameUsageInspection */
+    public $repos = [
+        \XF\Repository\UserField::class   => 'XF',
+        \XF\Repository\ThreadField::class => 'XF',
+        \XFMG\Repository\MediaField::class  => 'XFMG',
+        \NF\Tickets\Repository\TicketField::class => 'NF\Tickets'
+    ];
+
+    public const COLUMN_FLAG_VALUE = [
+        'sql' => ['type' => 'tinyint', 'default' => 0],
+        'entity' => ['type' => Entity::UINT, 'default' => 0, 'api' => true],
+        'filter_type' => 'uint',
+    ];
+    public const COLUMN_GROUP_LIST = [
+        'sql' => ['type' => 'blob', 'default' => null, 'nullable' => true],
+        'entity' => ['type' => Entity::LIST_COMMA, 'default' => null, 'api' => true, 'list' => ['type' => 'int', 'unique' => true, 'sort' => SORT_NUMERIC]],
+        'isGroupList' => true,
+    ];
+
+    // note; CustomFieldFilterTrait expected that cfp_v_input_enable is always in each entity
+    public $entities = [
+        UserFieldEntity::class => [
+            'cfp_v_input_enable'     => self::COLUMN_FLAG_VALUE,
+            'cfp_v_input_val'        => self::COLUMN_GROUP_LIST,
+
+            'cfp_v_output_ui_enable' => self::COLUMN_FLAG_VALUE,
+            'cfp_v_output_ui_val'    => self::COLUMN_GROUP_LIST,
+
+            'cfp_v_output_pp_enable' => self::COLUMN_FLAG_VALUE,
+            'cfp_v_output_pp_val'    => self::COLUMN_GROUP_LIST,
+        ],
+        ThreadFieldEntity::class => [
+            'cfp_o_input_bypass'       => self::COLUMN_FLAG_VALUE,
+            'cfp_o_output_ui_bypass'   => self::COLUMN_FLAG_VALUE,
+
+            'cfp_v_input_enable'       => self::COLUMN_FLAG_VALUE,
+            'cfp_v_input_val'          => self::COLUMN_GROUP_LIST,
+
+            'cfp_v_output_ui_enable'   => self::COLUMN_FLAG_VALUE,
+            'cfp_v_output_ui_val'      => self::COLUMN_GROUP_LIST,
+
+            'cfp_c_output_ui_enable' => self::COLUMN_FLAG_VALUE,
+            'cfp_c_output_ui_val'    => self::COLUMN_GROUP_LIST,
+        ],
+        MediaFieldEntity::class => [
+            'cfp_o_input_bypass'       => self::COLUMN_FLAG_VALUE,
+            'cfp_o_output_ui_bypass'   => self::COLUMN_FLAG_VALUE,
+
+            'cfp_v_input_enable'       => self::COLUMN_FLAG_VALUE,
+            'cfp_v_input_val'          => self::COLUMN_GROUP_LIST,
+
+            'cfp_v_output_ui_enable'   => self::COLUMN_FLAG_VALUE,
+            'cfp_v_output_ui_val'      => self::COLUMN_GROUP_LIST,
+
+            'cfp_c_output_ui_enable' => self::COLUMN_FLAG_VALUE,
+            'cfp_c_output_ui_val'    => self::COLUMN_GROUP_LIST,
+        ],
+        TicketFieldEntity::class => [
+            'cfp_o_input_bypass'       => self::COLUMN_FLAG_VALUE,
+            'cfp_o_output_ui_bypass'   => self::COLUMN_FLAG_VALUE,
+
+            'cfp_v_input_enable'       => self::COLUMN_FLAG_VALUE,
+            'cfp_v_input_val'          => self::COLUMN_GROUP_LIST,
+
+            'cfp_v_output_ui_enable'   => self::COLUMN_FLAG_VALUE,
+            'cfp_v_output_ui_val'      => self::COLUMN_GROUP_LIST,
+
+            'cfp_c_output_ui_enable' => self::COLUMN_FLAG_VALUE,
+            'cfp_c_output_ui_val'    => self::COLUMN_GROUP_LIST,
+        ],
+    ];
+
+    public function getExtendedEntities(): array
+    {
+        return $this->entities;
+    }
+
+    public function getExtendedEntity(string $class): ?array
+    {
+        $entityClassName = \XF::stringToClass($class, '%s\Entity\%s');
+        $entities = $this->getExtendedEntities();
+        return $entities[$entityClassName] ?? null;
     }
 
     /** @var array<int,array<int,int>> */
@@ -97,14 +183,14 @@ class Field extends Repository
     {
         if ($addonId)
         {
-            $addOns = array_fill_keys(array_values(Globals::$repos), true);
+            $addOns = array_fill_keys(array_values($this->repos), true);
             if (empty($addOns[$addonId]))
             {
                 return;
             }
         }
         $sm = \XF::db()->getSchemaManager();
-        foreach (Globals::$entities as $entity => $columns)
+        foreach ($this->getExtendedEntities() as $entity => $columns)
         {
             $entityStructure = Helper::getEntityStructure($entity);
             if ($entityStructure !== null && $sm->tableExists($entityStructure->table))
@@ -243,7 +329,7 @@ class Field extends Repository
     public function rebuildCaches(?string $addonId = null)
     {
         $addOns = \XF::app()->container('addon.cache');
-        foreach(Globals::$repos as $repoName => $addOn)
+        foreach($this->repos as $repoName => $addOn)
         {
             if (isset($addOns[$addOn]))
             {

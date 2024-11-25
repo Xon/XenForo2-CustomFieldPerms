@@ -1,7 +1,7 @@
 {
     "event_id": "addon_post_install",
     "execute_order": 10,
-    "callback_class": "SV\\CustomFieldPerms\\Listener\\AddOns",
+    "callback_class": "SV\\CustomFieldPerms\\Listener\\Installer",
     "callback_method": "addonPostInstall",
     "active": true,
     "hint": "",

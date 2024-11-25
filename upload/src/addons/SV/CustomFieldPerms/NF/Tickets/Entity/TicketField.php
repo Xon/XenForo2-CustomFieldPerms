@@ -2,8 +2,8 @@
 
 namespace SV\CustomFieldPerms\NF\Tickets\Entity;
 
-use SV\CustomFieldPerms\CustomFieldEntityTrait;
-use SV\CustomFieldPerms\IFieldPerm;
+use SV\CustomFieldPerms\Entity\CustomFieldEntityTrait;
+use SV\CustomFieldPerms\Entity\IFieldPerm;
 
 /**
  * @extends \NF\Tickets\Entity\TicketField

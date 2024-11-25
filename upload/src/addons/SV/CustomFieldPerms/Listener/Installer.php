@@ -9,7 +9,7 @@ use SV\CustomFieldPerms\Repository\Field as FieldRepo;
 use XF\AddOn\AddOn;
 use XF\Entity\AddOn as AddOnEntity;
 
-abstract class AddOns
+abstract class Installer
 {
     public static function addonPostRebuild(AddOn $addOn, AddOnEntity $installedAddOn, array $json): void
     {

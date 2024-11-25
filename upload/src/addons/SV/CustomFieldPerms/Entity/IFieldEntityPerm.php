@@ -1,6 +1,6 @@
 <?php
 
-namespace SV\CustomFieldPerms;
+namespace SV\CustomFieldPerms\Entity;
 
 use XF\Entity\User as UserEntity;
 

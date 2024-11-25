@@ -2,8 +2,8 @@
 
 namespace SV\CustomFieldPerms\XF\Entity;
 
-use SV\CustomFieldPerms\CustomFieldFilterTrait;
-use SV\CustomFieldPerms\IFieldEntityPerm;
+use SV\CustomFieldPerms\Entity\CustomFieldFilterTrait;
+use SV\CustomFieldPerms\Entity\IFieldEntityPerm;
 use XF\Entity\User as UserEntity;
 use XF\Repository\ThreadField as ThreadFieldRepo;
 

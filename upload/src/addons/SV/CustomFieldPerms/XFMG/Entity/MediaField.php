@@ -2,8 +2,8 @@
 
 namespace SV\CustomFieldPerms\XFMG\Entity;
 
-use SV\CustomFieldPerms\CustomFieldEntityTrait;
-use SV\CustomFieldPerms\IFieldPerm;
+use SV\CustomFieldPerms\Entity\CustomFieldEntityTrait;
+use SV\CustomFieldPerms\Entity\IFieldPerm;
 
 class MediaField extends XFCP_MediaField implements IFieldPerm
 {

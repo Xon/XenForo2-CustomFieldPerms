@@ -4,7 +4,7 @@
  * @noinspection PhpMissingReturnTypeInspection
  */
 
-namespace SV\CustomFieldPerms;
+namespace SV\CustomFieldPerms\Entity;
 
 use SV\StandardLib\Helper;
 use XF\CustomField\Set as CustomFieldSet;
@@ -13,7 +13,6 @@ use XF\Repository\AbstractField as AbstractFieldRepo;
 use function array_intersect;
 use function array_map;
 use function array_merge;
-use function in_array;
 use function is_array;
 
 trait CustomFieldFilterTrait

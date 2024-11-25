@@ -2,7 +2,7 @@
 
 namespace SV\CustomFieldPerms\NF\Tickets\Admin\Controller;
 
-use SV\CustomFieldPerms\CustomFieldAdminTrait;
+use SV\CustomFieldPerms\Admin\Controller\CustomFieldAdminTrait;
 
 /**
  * @extends \NF\Tickets\Admin\Controller\TicketField

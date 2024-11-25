@@ -4,8 +4,9 @@
  * @noinspection PhpMissingReturnTypeInspection
  */
 
-namespace SV\CustomFieldPerms;
+namespace SV\CustomFieldPerms\Entity;
 
+use SV\CustomFieldPerms\Repository\Field as FieldRepo;
 use XF\Mvc\Entity\Structure;
 
 trait CustomFieldEntityTrait
@@ -32,8 +33,7 @@ trait CustomFieldEntityTrait
     {
         $structure = parent::getStructure($structure);
 
-        $entityClassName = \XF::stringToClass($structure->shortName, '%s\Entity\%s');
-        $entity = Globals::$entities[$entityClassName] ?? null;
+        $entity = FieldRepo::get()->getExtendedEntity($structure->shortName);
         if ($entity !== null)
         {
             foreach ($entity as $column => $details)

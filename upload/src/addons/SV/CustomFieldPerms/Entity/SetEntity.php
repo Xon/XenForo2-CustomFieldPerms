@@ -1,6 +1,6 @@
 <?php
 
-namespace SV\CustomFieldPerms;
+namespace SV\CustomFieldPerms\Entity;
 
 use XF\CustomField\Set as CustomFieldSet;
 use XF\Mvc\Entity\Entity;

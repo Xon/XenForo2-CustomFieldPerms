@@ -2,7 +2,7 @@
 
 namespace SV\CustomFieldPerms\XFMG\Admin\Controller;
 
-use SV\CustomFieldPerms\CustomFieldAdminTrait;
+use SV\CustomFieldPerms\Admin\Controller\CustomFieldAdminTrait;
 
 class MediaField extends XFCP_MediaField
 {

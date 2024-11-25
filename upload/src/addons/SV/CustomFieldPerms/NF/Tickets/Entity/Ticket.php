@@ -3,8 +3,8 @@
 namespace SV\CustomFieldPerms\NF\Tickets\Entity;
 
 use NF\Tickets\Repository\TicketField as TicketFieldRepo;
-use SV\CustomFieldPerms\CustomFieldFilterTrait;
-use SV\CustomFieldPerms\IFieldEntityPerm;
+use SV\CustomFieldPerms\Entity\CustomFieldFilterTrait;
+use SV\CustomFieldPerms\Entity\IFieldEntityPerm;
 use XF\Entity\User as UserEntity;
 
 /**
