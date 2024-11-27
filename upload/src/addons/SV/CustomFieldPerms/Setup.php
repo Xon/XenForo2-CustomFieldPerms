@@ -137,7 +137,6 @@ class Setup extends AbstractSetup
                     }
                     continue;
                 }
-                $updates = [];
 
                 $rows = $db->fetchAll("select * from `$table`");
                 if (count($rows) === 0)
@@ -155,7 +154,7 @@ class Setup extends AbstractSetup
                         }
                         continue;
                     }
-
+                    $updates = [];
                     foreach ($columns as $column => $details)
                     {
                         if (!($details['isGroupList'] ?? false))
